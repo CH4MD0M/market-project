@@ -1,7 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -33,16 +34,20 @@ module.exports = {
       template: 'public/index.html',
       favicon: 'public/favicon.ico',
     }),
-    new FaviconsWebpackPlugin({
-      logo: 'public/favicon.ico',
-      manifest: 'public/manifest.json',
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'public',
+          globOptions: {
+            ignore: ['**/index.html', '**/favicon.ico'],
+          },
+        },
+      ],
     }),
     new ForkTsCheckerWebpackPlugin(),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
+    plugins: [new TsconfigPathsPlugin()],
   },
 };
