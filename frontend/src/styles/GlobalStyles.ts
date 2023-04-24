@@ -15,13 +15,11 @@ const GlobalStyles = styled.createGlobalStyle`
     font-family: sans-serif; /* 1 */
     -ms-text-size-adjust: 100%; /* 2 */
     -webkit-text-size-adjust: 100%; /* 2 */
-    font-size: 62.5%;
+    /* font-size: 62.5%; */
   }
 
   body {
-    background: hsl(218, 27%, 14%);
     font-family: 'Noto Sans KR';
-    color: hsl(0, 0%, 100%);
     margin: 0;
   }
 
