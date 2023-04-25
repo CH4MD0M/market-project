@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ProductList from '@/pages/ProductListPage/components/ProductList';
+import ProductList from './components/ProductList';
 
 const ProductListPage = () => {
   return <ProductList />;
