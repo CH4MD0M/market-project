@@ -1,19 +1,18 @@
 import React from 'react';
 import { Alert, Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+
 import CartItem from './components/CartItem';
 
 const CartPage = () => {
   return (
-    <Container fluid>
+    <Container>
       <Row className="mt-4">
+        <h1>장바구니</h1>
         <Col md={8}>
-          <h1>장바구니</h1>
           <ListGroup variant="flush">
             {Array.from({ length: 2 }).map((item, idx) => (
-              <>
-                <CartItem key={idx} />
-              </>
+              <CartItem key={idx} />
             ))}
 
             <Alert variant="info">장바구니가 비어있습니다.</Alert>
