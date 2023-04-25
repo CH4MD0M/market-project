@@ -39,7 +39,6 @@ const GlobalStyles = styled.createGlobalStyle`
     display: block;
   }
   a {
-    color: inherit;
     text-decoration: none;
     transition: 0.2s;
     :focus {
