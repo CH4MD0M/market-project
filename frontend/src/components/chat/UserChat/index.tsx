@@ -21,11 +21,11 @@ const UserChat = () => {
             {Array.from({ length: 20 }).map((_, idx) => (
               <div key={idx}>
                 <p className="user-msg">
-                  <b>You wrote:</b> Hello, World!
+                  <b>나:</b> Hello, World!
                 </p>
 
                 <p className="bg-primary p-3 me-4 text-light">
-                  <b>Support wrote:</b> Hello, World!!
+                  <b>관리자:</b> Hello, World!!
                 </p>
               </div>
             ))}
