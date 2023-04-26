@@ -15,7 +15,7 @@ const AdminUsersPage = React.lazy(() => import('@pages/admin/AdminUsersPage'));
 export const adminProtectedRoutes: IRoute[] = [
   { path: '/admin', element: <AdminAnalyticsPage /> },
   { path: '/admin/chats', element: <AdminChatsPage /> },
-  { path: '/admin/create-product', element: <AdminCreateProductPage /> },
+  { path: '/admin/create-new-product', element: <AdminCreateProductPage /> },
   { path: '/admin/edit-product', element: <AdminEditProductPage /> },
   { path: '/admin/edit-user', element: <AdminEditUserPage /> },
   { path: '/admin/order-details', element: <AdminOrderDetailsPage /> },
