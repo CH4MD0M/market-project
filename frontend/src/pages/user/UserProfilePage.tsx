@@ -4,7 +4,16 @@ import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 const UserProfilePage = () => {
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const form = e.currentTarget;
+
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    setValidated(true);
+  };
 
   return (
     <Container>
