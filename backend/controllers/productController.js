@@ -40,8 +40,6 @@ const getProducts = async (req, res, next) => {
     // Get Products by Attributes (filtering page)
     let attrsQueryCondition = [];
     if (req.query.attrs) {
-      // attrs=RAM-1TB-2TB-4TB,color-blue-red
-      // [ 'RAM-1TB-4TB', 'color-blue', '' ]
       attrsQueryCondition = req.query.attrs.split(',').reduce((acc, item) => {
         if (item) {
           let a = item.split('-');
@@ -51,23 +49,10 @@ const getProducts = async (req, res, next) => {
             attrs: { $elemMatch: { key: a[0], value: { $in: values } } },
           };
           acc.push(a1);
-          // console.dir(acc, { depth: null });
           return acc;
         } else return acc;
       }, []);
-      // console.dir(attrsQueryCondition, { depth: null });
       queryCondition = true;
-    }
-
-    if (queryCondition) {
-      query = {
-        $and: [
-          priceQueryCondition,
-          ratingQueryCondition,
-          categoryQueryCondition,
-          ...attrsQueryCondition,
-        ],
-      };
     }
 
     //pagination
@@ -79,6 +64,29 @@ const getProducts = async (req, res, next) => {
     if (sortOption) {
       let sortOpt = sortOption.split('_');
       sort = { [sortOpt[0]]: Number(sortOpt[1]) };
+    }
+
+    // Get Products through Search Box
+    const searchQuery = req.params.searchQuery || '';
+    let searchQueryCondition = {};
+    let select = {};
+    if (searchQuery) {
+      queryCondition = true;
+      searchQueryCondition = { $text: { $search: searchQuery } };
+      select = { score: { $meta: 'textScore' } };
+      sort = { score: { $meta: 'textScore' } };
+    }
+
+    if (queryCondition) {
+      query = {
+        $and: [
+          priceQueryCondition,
+          ratingQueryCondition,
+          categoryQueryCondition,
+          searchQueryCondition,
+          ...attrsQueryCondition,
+        ],
+      };
     }
 
     const totalProducts = await Product.countDocuments(query);
@@ -96,4 +104,5 @@ const getProducts = async (req, res, next) => {
     next(error);
   }
 };
+
 module.exports = getProducts;
