@@ -6,20 +6,67 @@ const getProducts = async (req, res, next) => {
     let query = {};
     let queryCondition = false;
 
+    // Get Products by Price (filtering page)
     let priceQueryCondition = {};
     if (req.query.price) {
       queryCondition = true;
       priceQueryCondition = { price: { $lte: Number(req.query.price) } };
     }
+    // Get Products by Rating (filtering page)
     let ratingQueryCondition = {};
     if (req.query.rating) {
       queryCondition = true;
       ratingQueryCondition = { rating: { $in: req.query.rating.split(',') } };
     }
+    // Get Products by Category (search bar)
+    let categoryQueryCondition = {};
+    const categoryName = req.params.categoryName || '';
+    if (categoryName) {
+      queryCondition = true;
+      let a = categoryName.replaceAll(',', '/');
+      let regEx = new RegExp('^' + a);
+      categoryQueryCondition = { category: regEx };
+    }
+    // Get Products by Category (filtering page)
+    if (req.query.category) {
+      queryCondition = true;
+      let a = req.query.category.split(',').map(item => {
+        if (item) return new RegExp('^' + item);
+      });
+      categoryQueryCondition = {
+        category: { $in: a },
+      };
+    }
+    // Get Products by Attributes (filtering page)
+    let attrsQueryCondition = [];
+    if (req.query.attrs) {
+      // attrs=RAM-1TB-2TB-4TB,color-blue-red
+      // [ 'RAM-1TB-4TB', 'color-blue', '' ]
+      attrsQueryCondition = req.query.attrs.split(',').reduce((acc, item) => {
+        if (item) {
+          let a = item.split('-');
+          let values = [...a];
+          values.shift(); // removes first item
+          let a1 = {
+            attrs: { $elemMatch: { key: a[0], value: { $in: values } } },
+          };
+          acc.push(a1);
+          // console.dir(acc, { depth: null });
+          return acc;
+        } else return acc;
+      }, []);
+      // console.dir(attrsQueryCondition, { depth: null });
+      queryCondition = true;
+    }
 
     if (queryCondition) {
       query = {
-        $and: [priceQueryCondition, ratingQueryCondition],
+        $and: [
+          priceQueryCondition,
+          ratingQueryCondition,
+          categoryQueryCondition,
+          ...attrsQueryCondition,
+        ],
       };
     }
 
