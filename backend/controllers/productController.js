@@ -1,5 +1,6 @@
 const Product = require('../models/ProductModel');
 const recordsPerPage = require('../config/pagination');
+const imageValidate = require('../utils/imageValidate');
 
 const getProducts = async (req, res, next) => {
   try {
@@ -27,6 +28,7 @@ const getProducts = async (req, res, next) => {
       let regEx = new RegExp('^' + a);
       categoryQueryCondition = { category: regEx };
     }
+
     // Get Products by Category (filtering page)
     if (req.query.category) {
       queryCondition = true;
@@ -37,6 +39,7 @@ const getProducts = async (req, res, next) => {
         category: { $in: a },
       };
     }
+
     // Get Products by Attributes (filtering page)
     let attrsQueryCondition = [];
     if (req.query.attrs) {
@@ -137,4 +140,91 @@ const getBestsellers = async (req, res, next) => {
   }
 };
 
-module.exports = { getProducts, getProductById, getBestsellers };
+// *Admin
+// Get All Products
+const adminGetProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find({})
+      .sort({ category: 1 })
+      .select('name price category');
+    return res.json(products);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Delete Product
+const adminDeleteProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id).orFail();
+    await product.remove();
+    res.json({ message: 'product removed' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Create Product
+const adminCreateProduct = async (req, res, next) => {
+  try {
+    const product = new Product();
+    const { name, description, count, price, category, attributesTable } =
+      req.body;
+    product.name = name;
+    product.description = description;
+    product.count = count;
+    product.price = price;
+    product.category = category;
+    if (attributesTable.length > 0) {
+      attributesTable.map(item => {
+        product.attrs.push(item);
+      });
+    }
+    await product.save();
+
+    res.json({
+      message: 'product created',
+      productId: product._id,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Update Product
+const adminUpdateProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id).orFail();
+    const { name, description, count, price, category, attributesTable } =
+      req.body;
+    product.name = name || product.name;
+    product.description = description || product.description;
+    product.count = count || product.count;
+    product.price = price || product.price;
+    product.category = category || product.category;
+    if (attributesTable.length > 0) {
+      product.attrs = [];
+      attributesTable.map(item => {
+        product.attrs.push(item);
+      });
+    } else {
+      product.attrs = [];
+    }
+    await product.save();
+    res.json({
+      message: 'product updated',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = {
+  getProducts,
+  getProductById,
+  getBestsellers,
+  adminGetProducts,
+  adminDeleteProduct,
+  adminCreateProduct,
+  adminUpdateProduct,
+};
