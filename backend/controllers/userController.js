@@ -101,4 +101,50 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, registerUser, loginUser };
+// Update user profile
+const updateUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id).orFail();
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.phoneNumber = req.body.phoneNumber;
+    user.address = req.body.address;
+    user.country = req.body.country;
+    user.zipCode = req.body.zipCode;
+    user.city = req.body.city;
+    if (req.body.password !== user.password) {
+      user.password = hashPassword(req.body.password);
+    }
+    await user.save();
+
+    res.json({
+      success: 'user updated',
+      userUpdated: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Get user profile
+const getUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).orFail();
+    return res.send(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = {
+  getUsers,
+  registerUser,
+  loginUser,
+  updateUserProfile,
+  getUserProfile,
+};
