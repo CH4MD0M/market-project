@@ -143,6 +143,7 @@ const getBestsellers = async (req, res, next) => {
 // *Admin
 // Get All Products
 const adminGetProducts = async (req, res, next) => {
+  console.log(req.user);
   try {
     const products = await Product.find({})
       .sort({ category: 1 })
