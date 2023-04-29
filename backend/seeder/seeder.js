@@ -24,18 +24,23 @@ const importData = async () => {
     await User.collection.deleteMany({});
     await Order.collection.deleteMany({});
 
-    await Category.insertMany(categoryData);
-    const reviews = await Review.insertMany(reviewData);
-    const sampleProducts = productData.map(product => {
-      reviews.map(review => {
-        product.reviews.push(review._id);
+    if (process.argv[2] !== '-d') {
+      await Category.insertMany(categoryData);
+      const reviews = await Review.insertMany(reviewData);
+      const sampleProducts = productData.map(product => {
+        reviews.map(review => {
+          product.reviews.push(review._id);
+        });
+        return { ...product };
       });
-      return { ...product };
-    });
-    await Product.insertMany(sampleProducts);
-    await User.insertMany(userData);
-    await Order.insertMany(orderData);
+      await Product.insertMany(sampleProducts);
+      await User.insertMany(userData);
+      await Order.insertMany(orderData);
 
+      console.log('Seeder data imported successfully');
+      process.exit();
+      return;
+    }
     console.log('Seeder data proceeded successfully');
     process.exit();
   } catch (error) {
