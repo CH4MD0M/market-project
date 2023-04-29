@@ -15,7 +15,7 @@ const AttributesFilter = () => {
             <b>{Object.keys(item)}</b>
           </Form.Label>
           {Object.values(item)[0].map((value, idx) => (
-            <Form.Check type="checkbox" id="default-checkbox" label={value} />
+            <Form.Check key={idx} type="checkbox" id="default-checkbox" label={value} />
           ))}
         </div>
       ))}
