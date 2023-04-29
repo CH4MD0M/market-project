@@ -1,4 +1,7 @@
 const User = require('../models/UserModel');
+const Review = require('../models/ReviewModel');
+const Product = require('../models/ProductModel');
+
 const { hashPassword, comparePasswords } = require('../utils/hashPassword');
 const generateAuthToken = require('../utils/generateAuthToken');
 
@@ -141,10 +144,81 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
+// Write review
+const writeReview = async (req, res, next) => {
+  try {
+    const session = await Review.startSession();
+
+    // get comment, rating from req.body
+    const { comment, rating } = req.body;
+    // validate request
+    if (!(comment && rating)) {
+      return res.status(400).send('All inputs are required');
+    }
+
+    // Product Collection에 저장해야 하기 때문에 리뷰 id를 수동으로 생성함.
+    const ObjectId = require('mongodb').ObjectId;
+    let reviewId = ObjectId();
+
+    session.startTransaction();
+    await Review.create(
+      [
+        {
+          _id: reviewId,
+          comment: comment,
+          rating: Number(rating),
+          user: {
+            _id: req.user._id,
+            name: req.user.name,
+          },
+        },
+      ],
+      { session: session }
+    );
+
+    const product = await Product.findById(req.params.productId)
+      .populate('reviews')
+      .session(session);
+
+    // 이미 리뷰를 작성했는지 확인
+    const alreadyReviewed = product.reviews.find(
+      r => r.user._id.toString() === req.user._id.toString()
+    );
+    if (alreadyReviewed) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(400).send('product already reviewed');
+    }
+
+    let prc = [...product.reviews];
+    prc.push({ rating: rating });
+    product.reviews.push(reviewId);
+    if (product.reviews.length === 1) {
+      product.rating = Number(rating);
+      product.reviewsNumber = 1;
+    } else {
+      product.reviewsNumber = product.reviews.length;
+      product.rating =
+        prc
+          .map(item => Number(item.rating))
+          .reduce((sum, item) => sum + item, 0) / product.reviews.length;
+    }
+    await product.save();
+
+    await session.commitTransaction();
+    session.endSession();
+    res.send('review created');
+  } catch (err) {
+    await session.abortTransaction();
+    next(err);
+  }
+};
+
 module.exports = {
   getUsers,
   registerUser,
   loginUser,
   updateUserProfile,
   getUserProfile,
+  writeReview,
 };
