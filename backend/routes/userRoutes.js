@@ -6,12 +6,15 @@ const {
 } = require('../middleware/verifyAuthToken');
 
 const {
-  getUsers,
+  getAllUsers,
   registerUser,
   loginUser,
   updateUserProfile,
   getUserProfile,
   writeReview,
+  getSingleUser,
+  updateUser,
+  deleteUser,
 } = require('../controllers/userController');
 
 router.post('/register', registerUser);
@@ -25,6 +28,9 @@ router.post('/review/:productId', writeReview);
 
 // Admin routes
 router.use(verifyIsAdmin);
-router.get('/', getUsers);
+router.get('/', getAllUsers);
+router.get('/:id', getSingleUser);
+router.put('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;
