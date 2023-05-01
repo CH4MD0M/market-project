@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const AdminEditUserPage = () => {
+const EditUser = () => {
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,4 +51,4 @@ const AdminEditUserPage = () => {
   );
 };
 
-export default AdminEditUserPage;
+export default EditUser;

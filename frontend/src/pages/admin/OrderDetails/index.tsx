@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Row, Col, ListGroup, Alert, Form, Button } from 'react-bootstrap';
 
-import CartItem from '../CartPage/components/CartItem';
+import CartItem from '@pages/CartPage/components/CartItem';
 
-const AdminOrderDetailsPage = () => {
+const OrderDetails = () => {
   return (
     <Container>
       <Row className="mt-4">
@@ -77,4 +77,4 @@ const AdminOrderDetailsPage = () => {
   );
 };
 
-export default AdminOrderDetailsPage;
+export default OrderDetails;

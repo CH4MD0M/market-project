@@ -7,7 +7,7 @@ type ProtectedRoutesProps = {
   admin: boolean;
 };
 
-const ProtectedRoutes = ({ admin }: ProtectedRoutesProps): React.ReactElement => {
+const ProtectedRoutes = ({ admin }: ProtectedRoutesProps) => {
   if (admin) {
     let adminAuth = true;
     return adminAuth ? <Outlet /> : <Navigate to="/login" />;
