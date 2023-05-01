@@ -6,7 +6,6 @@ import UserChat from '@/components/chat/UserChat';
 const UserChatRoutes = () => {
   return (
     <>
-      <UserChat />
       <Outlet />
     </>
   );

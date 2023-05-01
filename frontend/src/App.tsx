@@ -1,18 +1,18 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import PublicRoutes from '@routes/PublicRoutes';
+import Layout from '@layout/index';
+
 import { userProtectedRoutes } from '@routes/userProtectedRoutes';
-import { adminProtectedRoutes } from '@routes/adminProtectedRoutes';
-
-import { generateRoutes } from '@utils/generateRoutes';
-import ProtectedRoutes from '@utils/ProtectedRoutes';
-import UserChatRoutes from '@utils/UserChatRoutes';
-
-import Layout from './layout';
+import { adminProtectedRoutes } from '@/routes/adminProtectedRoutes';
 
 // Util
 import ScrollToTop from '@utils/ScrollToTop';
+import { generateRoutes } from '@utils/routes/generateRoutes';
+import ProtectedRoutes from '@utils/routes/ProtectedRoutes';
+import UserChatRoutes from '@utils/routes/UserChatRoutes';
+import AdminPage from './pages/Admin';
+import PublicRoutes from './routes/PublicRoutes';
 
 const App = () => {
   return (
@@ -20,19 +20,31 @@ const App = () => {
       <ScrollToTop />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            {/* public routes */}
-            <Route element={<UserChatRoutes />}>{generateRoutes(PublicRoutes)}</Route>
+          {/* public routes */}
+          <Route
+            element={
+              <Layout>
+                <UserChatRoutes />
+              </Layout>
+            }
+          >
+            {generateRoutes(PublicRoutes)}
+          </Route>
 
-            {/* user protected routes */}
-            <Route element={<ProtectedRoutes admin={false} />}>
-              {generateRoutes(userProtectedRoutes)}
-            </Route>
+          {/* user protected routes */}
+          <Route
+            element={
+              <Layout>
+                <ProtectedRoutes admin={false} />
+              </Layout>
+            }
+          >
+            {generateRoutes(userProtectedRoutes)}
+          </Route>
 
-            {/* admin protected routes */}
-            <Route element={<ProtectedRoutes admin={true} />}>
-              {generateRoutes(adminProtectedRoutes)}
-            </Route>
+          {/* admin protected routes */}
+          <Route element={<ProtectedRoutes admin={true} />}>
+            <Route path="admin/*" element={<AdminPage />} />
           </Route>
         </Routes>
       </Suspense>

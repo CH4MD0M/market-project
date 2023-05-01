@@ -2,24 +2,24 @@ import React from 'react';
 
 import { IRoute } from '@/types/route';
 
-const AdminAnalyticsPage = React.lazy(() => import('@pages/admin/AdminAnalyticsPage'));
-const AdminChatsPage = React.lazy(() => import('@pages/admin/AdminChatsPage'));
-const AdminCreateProductPage = React.lazy(() => import('@pages/admin/AdminCreateProductPage'));
-const AdminEditProductPage = React.lazy(() => import('@pages/admin/AdminEditProductPage'));
-const AdminEditUserPage = React.lazy(() => import('@pages/admin/AdminEditUserPage'));
-const AdminOrderDetailsPage = React.lazy(() => import('@pages/admin/AdminOrderDetailsPage'));
-const AdminOrdersPage = React.lazy(() => import('@pages/admin/AdminOrdersPage'));
-const AdminProductsPage = React.lazy(() => import('@pages/admin/AdminProductsPage'));
-const AdminUsersPage = React.lazy(() => import('@pages/admin/AdminUsersPage'));
+const AdminAnalytics = React.lazy(() => import('@pages/Admin/Analytics'));
+const AdminChats = React.lazy(() => import('@pages/Admin/Chat'));
+const AdminCreateProduct = React.lazy(() => import('@pages/Admin/CreateProduct'));
+const AdminEditProduct = React.lazy(() => import('@pages/Admin/EditProduct'));
+const AdminEditUser = React.lazy(() => import('@pages/Admin/EditUser'));
+const AdminOrderDetails = React.lazy(() => import('@pages/Admin/OrderDetails'));
+const AdminOrders = React.lazy(() => import('@pages/Admin/Orders'));
+const AdminProducts = React.lazy(() => import('@pages/Admin/Products'));
+const AdminUsers = React.lazy(() => import('@/pages/Admin/Users'));
 
 export const adminProtectedRoutes: IRoute[] = [
-  { path: '/admin', element: <AdminAnalyticsPage /> },
-  { path: '/admin/chats', element: <AdminChatsPage /> },
-  { path: '/admin/create-new-product', element: <AdminCreateProductPage /> },
-  { path: '/admin/edit-product', element: <AdminEditProductPage /> },
-  { path: '/admin/edit-user', element: <AdminEditUserPage /> },
-  { path: '/admin/order-details', element: <AdminOrderDetailsPage /> },
-  { path: '/admin/orders', element: <AdminOrdersPage /> },
-  { path: '/admin/products', element: <AdminProductsPage /> },
-  { path: '/admin/users', element: <AdminUsersPage /> },
+  { path: '', element: <AdminAnalytics /> },
+  { path: 'chats', element: <AdminChats /> },
+  { path: 'create-new-product', element: <AdminCreateProduct /> },
+  { path: 'edit-product/:id', element: <AdminEditProduct /> },
+  { path: 'edit-user', element: <AdminEditUser /> },
+  { path: 'order-details', element: <AdminOrderDetails /> },
+  { path: 'orders', element: <AdminOrders /> },
+  { path: 'products', element: <AdminProducts /> },
+  { path: 'users', element: <AdminUsers /> },
 ];

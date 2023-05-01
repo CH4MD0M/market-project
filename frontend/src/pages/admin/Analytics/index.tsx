@@ -12,9 +12,10 @@ import {
   YAxis,
 } from 'recharts';
 
-import AdminLinks from './components/AdminLinks';
+import AdminLinks from '@components/AdminLinks';
+import Layout from '@/layout';
 
-const AdminAnalyticsPage = () => {
+const Analytics = () => {
   const data = [
     {
       name: '12:00 AM',
@@ -137,70 +138,65 @@ const AdminAnalyticsPage = () => {
   ];
 
   return (
-    <Row className="m-5">
-      <Col md={2}>
-        <AdminLinks />
-      </Col>
-      <Col md={10}>
-        <h1>통계</h1>
-        <Row className="justify-content-md-center mt-5">
-          <Col>
-            <Form.Group controlId="firstDateToCompare">
-              <Form.Label>시작 날짜 선택</Form.Label>
-              <Form.Control
-                type="date"
-                name="firstDateToCompare"
-                placeholder="First Date To Compare"
-              />
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="secondDateToCompare">
-              <Form.Label>끝 날짜 선택</Form.Label>
-              <Form.Control
-                type="date"
-                name="secondDateToCompare"
-                placeholder="Second Date To Compare"
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <br />
+    <Layout adminLinks>
+      <h1>통계</h1>
+      <Row className="justify-content-md-center mt-5">
+        <Col>
+          <Form.Group controlId="firstDateToCompare">
+            <Form.Label>시작 날짜 선택</Form.Label>
+            <Form.Control
+              type="date"
+              name="firstDateToCompare"
+              placeholder="First Date To Compare"
+            />
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="secondDateToCompare">
+            <Form.Label>끝 날짜 선택</Form.Label>
+            <Form.Control
+              type="date"
+              name="secondDateToCompare"
+              placeholder="Second Date To Compare"
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+      <br />
 
-        <ResponsiveContainer width="100%" height={500}>
-          <LineChart
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 30,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="name"
-              label={{ value: '시간', offset: 50, position: 'insideBottomRight' }}
-              allowDuplicatedCategory={false}
-            />
-            <YAxis>
-              <Label value="수익 :천원" offset={0} angle={-90} position="insideLeft" />
-            </YAxis>
-            <Tooltip />
-            <Legend verticalAlign="top" height={36} />
-            <Line
-              type="monotone"
-              dataKey="2021 year"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-              strokeWidth={4}
-            />
-            <Line type="monotone" dataKey="2022 year" stroke="#82ca9d" strokeWidth={4} />
-          </LineChart>
-        </ResponsiveContainer>
-      </Col>
-    </Row>
+      <ResponsiveContainer width="100%" height={500}>
+        <LineChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 30,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="name"
+            label={{ value: '시간', offset: 50, position: 'insideBottomRight' }}
+            allowDuplicatedCategory={false}
+          />
+          <YAxis>
+            <Label value="수익 :천원" offset={0} angle={-90} position="insideLeft" />
+          </YAxis>
+          <Tooltip />
+          <Legend verticalAlign="top" height={36} />
+          <Line
+            type="monotone"
+            dataKey="2021 year"
+            stroke="#8884d8"
+            activeDot={{ r: 8 }}
+            strokeWidth={4}
+          />
+          <Line type="monotone" dataKey="2022 year" stroke="#82ca9d" strokeWidth={4} />
+        </LineChart>
+      </ResponsiveContainer>
+    </Layout>
   );
 };
 
-export default AdminAnalyticsPage;
+export default Analytics;

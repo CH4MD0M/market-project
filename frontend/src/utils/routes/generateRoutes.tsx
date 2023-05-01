@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-
 import { IRoute } from '@/types/route';
 
 export const generateRoutes = (routes: IRoute[]): JSX.Element[] => {
