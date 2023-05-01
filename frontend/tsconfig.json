@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "lib": ["ES2020", "DOM"],
     "jsx": "react",
@@ -9,19 +10,7 @@
     "strictNullChecks": false,
     "esModuleInterop": true,
     "sourceMap": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@layout/*": ["src/layout/*"],
-      "@pages/*": ["src/pages/*"],
-      "@routes/*": ["src/routes/*"],
-      "@styles/*": ["src/styles/*"],
-      "@utils/*": ["src/utils/*"]
-    },
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "resolveJsonModule": true
   },
   "include": ["src"]
 }

@@ -5,9 +5,9 @@ import PublicRoutes from '@routes/PublicRoutes';
 import { userProtectedRoutes } from '@routes/userProtectedRoutes';
 import { adminProtectedRoutes } from '@routes/adminProtectedRoutes';
 
-import { generateRoutes } from '@utils/generateRoutes';
-import ProtectedRoutes from '@utils/ProtectedRoutes';
-import UserChatRoutes from '@utils/UserChatRoutes';
+import { generateRoutes } from '@/utils/routes/generateRoutes';
+import ProtectedRoutes from '@/utils/routes/ProtectedRoutes';
+import UserChatRoutes from '@/utils/routes/UserChatRoutes';
 
 import Layout from './layout';
 

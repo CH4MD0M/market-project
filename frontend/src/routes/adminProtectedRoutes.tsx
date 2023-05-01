@@ -10,7 +10,7 @@ const AdminEditUserPage = React.lazy(() => import('@pages/admin/AdminEditUserPag
 const AdminOrderDetailsPage = React.lazy(() => import('@pages/admin/AdminOrderDetailsPage'));
 const AdminOrdersPage = React.lazy(() => import('@pages/admin/AdminOrdersPage'));
 const AdminProductsPage = React.lazy(() => import('@pages/admin/AdminProductsPage'));
-const AdminUsersPage = React.lazy(() => import('@pages/admin/AdminUsersPage'));
+const UsersPage = React.lazy(() => import('@pages/admin/UsersPage'));
 
 export const adminProtectedRoutes: IRoute[] = [
   { path: '/admin', element: <AdminAnalyticsPage /> },
@@ -21,5 +21,5 @@ export const adminProtectedRoutes: IRoute[] = [
   { path: '/admin/order-details', element: <AdminOrderDetailsPage /> },
   { path: '/admin/orders', element: <AdminOrdersPage /> },
   { path: '/admin/products', element: <AdminProductsPage /> },
-  { path: '/admin/users', element: <AdminUsersPage /> },
+  { path: '/admin/users', element: <UsersPage /> },
 ];
