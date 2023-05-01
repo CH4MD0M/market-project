@@ -6,7 +6,10 @@ const API_URL = {
     DELETE_USER: (userId: string) => `/api/users/${userId}`,
   },
   CATEGORY: {},
-  PRODUCT: {},
+  PRODUCT: {
+    ADMIN_GET_PRODUCTS: '/api/products/admin',
+    DELETE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,
+  },
   ORDER: {},
 };
 
