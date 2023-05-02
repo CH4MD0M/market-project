@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import Layout from '@layout/index';
+import { getOrdersForAdmin } from '@/utils/api';
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    getOrdersForAdmin()
+      .then(setOrders)
+      .catch(err =>
+        console.log(err.response.data.message ? err.response.data.message : err.response.data),
+      );
+  }, []);
+
+  console.log(orders);
   return (
-    <Layout adminLinks>
+    <>
       <h1>주문 현황 관리</h1>
       <Table striped bordered hover>
         <thead>
@@ -21,24 +32,28 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {['bi bi-check-lg text-success', 'bi bi-x-lg text-danger'].map((variant, idx) => (
+          {orders.map((order, idx) => (
             <tr key={idx}>
               <td>{idx + 1}</td>
-              <td>사용자 이름</td>
-              <td>2022-02-01</td>
-              <td>₩100,000</td>
+              <td>{order.user?.name}</td>
+              <td>{order.createdAt.substring(0, 10)}</td>
+              <td>{order.orderTotal.cartSubtotal}</td>
               <td>
-                <i className={variant} />
+                {order.isDelivered ? (
+                  <i className="bi bi-check-lg text-success"></i>
+                ) : (
+                  <i className="bi bi-x-lg text-danger"></i>
+                )}
               </td>
-              <td>₩100,000</td>
+              <td>{order.paymentMethod}</td>
               <td>
-                <Link to={`/admin/order-details`}>주문 내역 확인</Link>
+                <Link to={`/admin/order-details/${order._id}`}>주문 내역 확인</Link>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
-    </Layout>
+    </>
   );
 };
 

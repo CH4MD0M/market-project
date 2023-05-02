@@ -30,14 +30,13 @@ const deleteFetchOptions = (): RequestInit => {
   };
 };
 
-const putFetchOptions = (body: Body): RequestInit => {
+const putFetchOptions = (): RequestInit => {
   return {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
-    body: JSON.stringify(body),
   };
 };
 

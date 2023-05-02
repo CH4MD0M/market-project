@@ -18,7 +18,7 @@ const AdminLinks = () => {
         <LinkContainer to="/admin/chats">
           <Nav.Link>메시지</Nav.Link>
         </LinkContainer>
-        <LinkContainer to="/admin">
+        <LinkContainer to="/admin/analytics">
           <Nav.Link>통계</Nav.Link>
         </LinkContainer>
         <Nav.Link>로그아웃</Nav.Link>

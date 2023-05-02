@@ -6,11 +6,11 @@ import AdminChat from '@components/chat/AdminChat';
 
 const AdminChatsPage = () => {
   return (
-    <Layout adminLinks>
+    <>
       <Row>
         <AdminChat />
       </Row>
-    </Layout>
+    </>
   );
 };
 

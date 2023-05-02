@@ -10,7 +10,11 @@ const API_URL = {
     ADMIN_GET_PRODUCTS: '/api/products/admin',
     DELETE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,
   },
-  ORDER: {},
+  ORDER: {
+    ADMIN_GET_ORDERS: '/api/orders/admin',
+    GET_ORDER_DETAILS: (orderId: string) => `/api/orders/user/${orderId}`,
+    MARK_AS_DELIVERED: (orderId: string) => `/api/orders/delivered/${orderId}`,
+  },
 };
 
 export { API_URL };
