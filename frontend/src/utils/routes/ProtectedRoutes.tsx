@@ -1,6 +1,7 @@
-import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
+import UserChatRoutes from './UserChatRoutes';
 import UserChat from '@/components/chat/UserChat';
 
 type ProtectedRoutesProps = {
@@ -8,20 +9,22 @@ type ProtectedRoutesProps = {
 };
 
 const ProtectedRoutes = ({ admin }: ProtectedRoutesProps) => {
-  if (admin) {
-    let adminAuth = true;
-    return adminAuth ? <Outlet /> : <Navigate to="/login" />;
-  } else {
-    let userAuth = true;
-    return userAuth ? (
-      <>
-        <UserChat />
-        <Outlet />
-      </>
-    ) : (
-      <Navigate to="/login" />
-    );
-  }
+  // const [isAuth, setIsAuth] = useState();
+  const isAuth = 'admin';
+
+  if (!isAuth) return <Navigate to="/login" />;
+  return isAuth && admin && isAuth !== 'admin' ? (
+    <Navigate to="/login" />
+  ) : isAuth && admin ? (
+    <Outlet />
+  ) : isAuth && !admin ? (
+    <>
+      <UserChat />
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 export default ProtectedRoutes;

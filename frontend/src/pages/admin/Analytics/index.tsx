@@ -138,7 +138,7 @@ const Analytics = () => {
   ];
 
   return (
-    <Layout adminLinks>
+    <>
       <h1>통계</h1>
       <Row className="justify-content-md-center mt-5">
         <Col>
@@ -195,7 +195,7 @@ const Analytics = () => {
           <Line type="monotone" dataKey="2022 year" stroke="#82ca9d" strokeWidth={4} />
         </LineChart>
       </ResponsiveContainer>
-    </Layout>
+    </>
   );
 };
 

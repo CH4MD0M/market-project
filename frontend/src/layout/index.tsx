@@ -14,10 +14,12 @@ import * as S from './style';
 
 interface LayoutProps {
   children: React.ReactNode;
-  adminLinks?: boolean;
 }
 
-const Layout = ({ children, adminLinks }: LayoutProps) => {
+const Layout = ({ children }: LayoutProps) => {
+  // TODO: remove this
+  const adminLinks = false;
+
   return (
     <ThemeProvider theme={theme}>
       <Header />

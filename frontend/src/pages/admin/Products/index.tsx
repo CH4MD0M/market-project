@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import Layout from '@layout/index';
-
 import { getProductsForAdmin, deleteProduct } from '@/utils/api';
 
 const ProductsPage = () => {
@@ -36,7 +34,7 @@ const ProductsPage = () => {
   }, [productDeleted]);
 
   return (
-    <Layout adminLinks>
+    <>
       <h1>
         상품 관리
         <LinkContainer to="/admin/create-new-product">
@@ -77,7 +75,7 @@ const ProductsPage = () => {
           ))}
         </tbody>
       </Table>
-    </Layout>
+    </>
   );
 };
 
