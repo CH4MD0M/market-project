@@ -11,10 +11,10 @@ const CartPage = () => {
         <h1>장바구니</h1>
         <Col md={8}>
           <ListGroup variant="flush">
-            {Array.from({ length: 2 }).map((item, idx) => (
+            {/* TODO: CartItem 수정 */}
+            {/* {Array.from({ length: 2 }).map((item, idx) => (
               <CartItem key={idx} />
-            ))}
-
+            ))} */}
             <Alert variant="info">장바구니가 비어있습니다.</Alert>
           </ListGroup>
         </Col>

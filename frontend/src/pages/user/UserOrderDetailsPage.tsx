@@ -43,9 +43,10 @@ const UserOrderDetailsPage = () => {
           <hr />
           <h2>주문 상품</h2>
           <ListGroup variant="flush">
-            {Array.from({ length: 3 }).map((_, index) => (
+            {/* TODO: CartItem 수정 */}
+            {/* {Array.from({ length: 3 }).map((_, index) => (
               <CartItem key={index} />
-            ))}
+            ))} */}
           </ListGroup>
         </Col>
         <Col md={4}>
