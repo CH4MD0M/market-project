@@ -1,7 +1,8 @@
-import ProductCarousel from '@/components/common/Carousel';
-import CategoryCard from '@/components/common/CategoryCard';
 import React from 'react';
 import { Container, Row } from 'react-bootstrap';
+
+import ProductCarousel from '@components/common/Carousel';
+import CategoryCard from '@components/common/CategoryCard';
 
 const HomePage = () => {
   const categories = [

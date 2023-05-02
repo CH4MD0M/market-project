@@ -9,7 +9,7 @@ const CartPage = React.lazy(() => import('@pages/CartPage'));
 const LoginPage = React.lazy(() => import('@pages/LoginPage'));
 const RegisterPage = React.lazy(() => import('@pages/RegisterPage'));
 
-const PublicRoutes: IRoute[] = [
+export const PublicRoutes: IRoute[] = [
   { path: '/', element: <HomePage /> },
   { path: '/products', element: <ProductListPage /> },
   { path: '/product-details', element: <ProductDetailPage /> },
@@ -19,5 +19,3 @@ const PublicRoutes: IRoute[] = [
   { path: '/register', element: <RegisterPage /> },
   { path: '*', element: '페이지를 찾을 수 없습니다.' },
 ];
-
-export default PublicRoutes;
