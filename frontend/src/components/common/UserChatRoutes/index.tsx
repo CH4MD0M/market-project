@@ -1,8 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import UserChat from '@/components/chat/UserChat';
-import Layout from '@/layout';
+import UserChat from '@components/chat/UserChat';
 
 const UserChatRoutes = () => {
   return (

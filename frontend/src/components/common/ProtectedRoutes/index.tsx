@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import UserChatRoutes from './UserChatRoutes';
-import UserChat from '@/components/chat/UserChat';
+import UserChat from '@components/chat/UserChat';
 
 type ProtectedRoutesProps = {
   admin: boolean;
 };
 
 const ProtectedRoutes = ({ admin }: ProtectedRoutesProps) => {
-  // const [isAuth, setIsAuth] = useState();
   const isAuth = 'admin';
 
   if (!isAuth) return <Navigate to="/login" />;

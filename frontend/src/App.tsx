@@ -1,23 +1,23 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Layout from '@layout/index';
+import GlobalLayout from '@layout/GlobalLayout';
 
 import { userProtectedRoutes } from '@routes/userProtectedRoutes';
-import { adminProtectedRoutes } from '@/routes/adminProtectedRoutes';
+import { adminProtectedRoutes } from '@routes/adminProtectedRoutes';
 
 // Util
 import ScrollToTop from '@utils/ScrollToTop';
-import { generateRoutes } from '@utils/routes/generateRoutes';
-import ProtectedRoutes from '@utils/routes/ProtectedRoutes';
-import UserChatRoutes from '@utils/routes/UserChatRoutes';
-import PublicRoutes from './routes/PublicRoutes';
+import { generateRoutes } from '@utils/generateRoutes';
+import ProtectedRoutes from '@components/common/ProtectedRoutes';
+import UserChatRoutes from '@components/common/UserChatRoutes';
+import { PublicRoutes } from '@routes/PublicRoutes';
 
 const App = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Layout>
+      <GlobalLayout>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             {/* public routes */}
@@ -34,7 +34,7 @@ const App = () => {
             </Route>
           </Routes>
         </Suspense>
-      </Layout>
+      </GlobalLayout>
     </BrowserRouter>
   );
 };

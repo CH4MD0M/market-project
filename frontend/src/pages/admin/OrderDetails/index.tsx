@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Alert, Form, Button, Container } from 'react-bootstrap';
 
 import CartItem from '@pages/CartPage/components/CartItem';
-import { getOrderDetails, markAsDelivered } from '@/utils/api';
+import { getOrderDetails, markAsDelivered } from '@utils/api';
 
 const UserInformation = ({ userInfo }: any) => (
   <Col md={6}>
@@ -53,38 +53,36 @@ const OrderItems = ({ cartItems }: OrderItemsProps) => (
 );
 
 const OrderSummary = ({ cartSubtotal, buttonDisabled, orderButtonMessage, deliverHandle }: any) => (
-  <>
-    <ListGroup>
-      <ListGroup.Item>
-        <h3>주문 내역</h3>
-      </ListGroup.Item>
-      <ListGroup.Item>
-        상품 가격: <span className="fw-bold">{cartSubtotal}</span>
-      </ListGroup.Item>
-      <ListGroup.Item>
-        배송비: <span className="fw-bold">포함됨</span>
-      </ListGroup.Item>
-      <ListGroup.Item className="text-danger">
-        합계: <span className="fw-bold">{cartSubtotal}</span>
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <div className="d-grid gap-2">
-          <Button
-            size="lg"
-            variant="danger"
-            type="button"
-            disabled={buttonDisabled}
-            onClick={deliverHandle}
-          >
-            {orderButtonMessage}
-          </Button>
-        </div>
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <div id="paypal-container-element"></div>
-        </div>
-      </ListGroup.Item>
-    </ListGroup>
-  </>
+  <ListGroup>
+    <ListGroup.Item>
+      <h3>주문 내역</h3>
+    </ListGroup.Item>
+    <ListGroup.Item>
+      상품 가격: <span className="fw-bold">{cartSubtotal}</span>
+    </ListGroup.Item>
+    <ListGroup.Item>
+      배송비: <span className="fw-bold">포함됨</span>
+    </ListGroup.Item>
+    <ListGroup.Item className="text-danger">
+      합계: <span className="fw-bold">{cartSubtotal}</span>
+    </ListGroup.Item>
+    <ListGroup.Item>
+      <div className="d-grid gap-2">
+        <Button
+          size="lg"
+          variant="danger"
+          type="button"
+          disabled={buttonDisabled}
+          onClick={deliverHandle}
+        >
+          {orderButtonMessage}
+        </Button>
+      </div>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div id="paypal-container-element"></div>
+      </div>
+    </ListGroup.Item>
+  </ListGroup>
 );
 
 const OrderDetails = () => {

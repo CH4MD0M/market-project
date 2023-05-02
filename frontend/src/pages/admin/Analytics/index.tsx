@@ -12,8 +12,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import AdminLinks from '@components/AdminLinks';
-import Layout from '@/layout';
+import AdminLayout from '@layout/AdminLayout';
 
 const Analytics = () => {
   const data = [
@@ -138,7 +137,7 @@ const Analytics = () => {
   ];
 
   return (
-    <>
+    <AdminLayout>
       <h1>통계</h1>
       <Row className="justify-content-md-center mt-5">
         <Col>
@@ -195,7 +194,7 @@ const Analytics = () => {
           <Line type="monotone" dataKey="2022 year" stroke="#82ca9d" strokeWidth={4} />
         </LineChart>
       </ResponsiveContainer>
-    </>
+    </AdminLayout>
   );
 };
 
