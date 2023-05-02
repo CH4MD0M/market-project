@@ -1,27 +1,34 @@
 import React from 'react';
 import { Button, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 
-const CartItem = () => {
+interface CartItemProps {
+  item: CartItem;
+  orderCreated?: boolean;
+}
+
+const CartItem = ({ item, orderCreated = false }: CartItemProps) => {
   return (
     <ListGroup.Item>
       <Row>
         <Col md={2}>
-          <Image crossOrigin="anonymous" src="/images/games-category.png" fluid />
+          <Image crossOrigin="anonymous" src={item.image?.path} fluid />
         </Col>
-        <Col md={2}>상품 이름</Col>
+        <Col md={2}>{item.name}</Col>
         <Col md={2}>
-          <b>₩ 20,000</b>
+          <b>₩ {item.price}</b>
         </Col>
         <Col md={3}>
-          <Form.Select>
-            <option value="1">1개</option>
-            <option value="2">2개</option>
-            <option value="3">3개</option>
+          <Form.Select disabled={orderCreated} value={item.quantity}>
+            {[...Array(item.count).keys()].map(x => (
+              <option key={x + 1} value={x + 1}>
+                {x + 1}
+              </option>
+            ))}
           </Form.Select>
         </Col>
         <Col md={3}>
-          <Button type="button" variant="secondary">
-            <i className="bi bi-trash"></i>
+          <Button type="button" variant="secondary" onClick={() => window.confirm('Are you sure?')}>
+            <i className="bi bi-trash" />
           </Button>
         </Col>
       </Row>
