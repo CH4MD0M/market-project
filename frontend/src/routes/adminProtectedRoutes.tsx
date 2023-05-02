@@ -11,7 +11,7 @@ const AdminEditUser = React.lazy(() => import('@pages/Admin/EditUser'));
 const AdminOrderDetails = React.lazy(() => import('@pages/Admin/OrderDetails'));
 const AdminOrders = React.lazy(() => import('@pages/Admin/Orders'));
 const AdminProducts = React.lazy(() => import('@pages/Admin/Products'));
-const AdminUsers = React.lazy(() => import('@/pages/Admin/Users'));
+const AdminUsers = React.lazy(() => import('@pages/Admin/Users'));
 
 export const adminProtectedRoutes: IRoute[] = [
   { path: '/admin', element: <Navigate to="/admin/orders" /> },

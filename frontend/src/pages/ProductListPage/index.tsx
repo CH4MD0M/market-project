@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 
 import ProductList from './components/ProductList';
 import FilterOptions from './components/FilterOptions';
-import Pagination from '@/components/common/Pagination';
+import Pagination from '@components/common/Pagination';
 
 const ProductListPage = () => {
   return (

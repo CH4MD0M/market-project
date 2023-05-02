@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { getProductsForAdmin, deleteProduct } from '@/utils/api';
+import AdminLayout from '@layout/AdminLayout';
+import { getProductsForAdmin, deleteProduct } from '@utils/api';
 
 const ProductsPage = () => {
-  const [products, setProducts] = React.useState([]);
+  const [products, setProducts] = useState([]);
   const [productDeleted, setProductDeleted] = useState(false);
 
   const deleteHandler = async (productId: string) => {
@@ -34,7 +35,7 @@ const ProductsPage = () => {
   }, [productDeleted]);
 
   return (
-    <>
+    <AdminLayout>
       <h1>
         상품 관리
         <LinkContainer to="/admin/create-new-product">
@@ -75,7 +76,7 @@ const ProductsPage = () => {
           ))}
         </tbody>
       </Table>
-    </>
+    </AdminLayout>
   );
 };
 

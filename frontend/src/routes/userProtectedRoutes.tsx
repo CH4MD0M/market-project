@@ -2,10 +2,10 @@ import React from 'react';
 
 import { IRoute } from '@/types/route';
 
-const UserProfilePage = React.lazy(() => import('@/pages/User/UserProfilePage'));
-const UserCartDetailPage = React.lazy(() => import('@/pages/User/UserCartDetailsPage'));
-const UserOrdersPage = React.lazy(() => import('@/pages/User/UserOrdersPage'));
-const UserOrderDetailPage = React.lazy(() => import('@/pages/User/UserOrderDetailsPage'));
+const UserProfilePage = React.lazy(() => import('@pages/User/UserProfilePage'));
+const UserCartDetailPage = React.lazy(() => import('@pages/User/UserCartDetailsPage'));
+const UserOrdersPage = React.lazy(() => import('@pages/User/UserOrdersPage'));
+const UserOrderDetailPage = React.lazy(() => import('@pages/User/UserOrderDetailsPage'));
 
 export const userProtectedRoutes: IRoute[] = [
   { path: '/user', element: <UserProfilePage /> },

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getOrdersForAdmin } from '@/utils/api';
+import AdminLayout from '@layout/AdminLayout';
+import { getOrdersForAdmin } from '@utils/api';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -15,9 +16,8 @@ const Orders = () => {
       );
   }, []);
 
-  console.log(orders);
   return (
-    <>
+    <AdminLayout>
       <h1>주문 현황 관리</h1>
       <Table striped bordered hover>
         <thead>
@@ -53,7 +53,7 @@ const Orders = () => {
           ))}
         </tbody>
       </Table>
-    </>
+    </AdminLayout>
   );
 };
 
