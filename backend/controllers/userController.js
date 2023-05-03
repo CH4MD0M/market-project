@@ -26,7 +26,7 @@ const registerUser = async (req, res, next) => {
     // check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ error: 'user exists' });
+      return res.status(400).send('user exists');
     } else {
       const hashedPassword = hashPassword(password);
       const user = await User.create({
@@ -68,7 +68,7 @@ const loginUser = async (req, res, next) => {
       return res.status(400).send('All inputs are required');
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).orFail();
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
         httpOnly: true,
@@ -198,10 +198,11 @@ const writeReview = async (req, res, next) => {
       product.reviewsNumber = 1;
     } else {
       product.reviewsNumber = product.reviews.length;
-      product.rating =
+      let ratingCalc =
         prc
           .map(item => Number(item.rating))
           .reduce((sum, item) => sum + item, 0) / product.reviews.length;
+      product.rating = Math.round(ratingCalc);
     }
     await product.save();
 
@@ -217,7 +218,7 @@ const writeReview = async (req, res, next) => {
 const getSingleUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
-      .select('name lastName email isAdmin')
+      .select('name email isAdmin')
       .orFail();
     return res.send(user);
   } catch (err) {

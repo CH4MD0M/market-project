@@ -33,7 +33,6 @@ const newCategory = async (req, res, next) => {
 
 // 카테고리 삭제
 const deleteCategory = async (req, res, next) => {
-  // return res.send(req.params.category)
   try {
     if (req.params.category !== 'Choose category') {
       const categoryExists = await Category.findOne({
