@@ -9,11 +9,12 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    getOrdersForAdmin()
-      .then(setOrders)
-      .catch(err =>
-        console.log(err.response.data.message ? err.response.data.message : err.response.data),
-      );
+    const fetchOrders = async () => {
+      const { data } = await getOrdersForAdmin();
+      setOrders(data);
+    };
+
+    fetchOrders();
   }, []);
 
   return (

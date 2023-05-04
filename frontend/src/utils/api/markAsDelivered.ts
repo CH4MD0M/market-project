@@ -1,5 +1,5 @@
 import { API_URL } from '@utils/constants/API_URL';
-import { putFetchOptions } from '@api/fetchOptions';
+import { instance } from './instance';
 
 export const markAsDelivered = async (orderId: string) =>
-  fetch(API_URL.ORDER.MARK_AS_DELIVERED(orderId), putFetchOptions());
+  instance.put(API_URL.ORDER.MARK_AS_DELIVERED(orderId));

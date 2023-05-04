@@ -25,11 +25,12 @@ const UserLists = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getAllUsers(abortController)
-      .then(setUsers)
-      .catch(err =>
-        console.log(err.response.data.message ? err.response.data.message : err.response.data),
-      );
+    const fetchUsers = async () => {
+      const { data } = await getAllUsers(abortController);
+      setUsers(data);
+    };
+
+    fetchUsers();
 
     return () => abortController.abort();
   }, [userDeleted]);

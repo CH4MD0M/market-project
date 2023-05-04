@@ -25,11 +25,13 @@ const ProductsPage = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    getProductsForAdmin(abortController)
-      .then(setProducts)
-      .catch(err =>
-        console.log(err.response.data.message ? err.response.data.message : err.response.data),
-      );
+
+    const fetchProducts = async () => {
+      const { data } = await getProductsForAdmin(abortController.signal);
+      setProducts(data);
+    };
+
+    fetchProducts();
 
     return () => abortController.abort();
   }, [productDeleted]);

@@ -1,5 +1,4 @@
 import { API_URL } from '@utils/constants/API_URL';
-import { deleteFetchOptions } from '@api/fetchOptions';
+import { instance } from '@api/instance';
 
-export const deleteUser = (userId: string) =>
-  fetch(API_URL.USER.DELETE_USER(userId), deleteFetchOptions());
+export const deleteUser = (userId: string) => instance.delete(API_URL.USER.DELETE_USER(userId));
