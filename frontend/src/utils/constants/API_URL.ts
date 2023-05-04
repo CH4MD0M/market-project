@@ -1,6 +1,6 @@
 const API_URL = {
   USER: {
-    LOGIN: '/api/user/login',
+    LOGIN: '/api/users/login',
     REGISTER: '/api/user/register',
     GET_ALL_USERS: '/api/users',
     DELETE_USER: (userId: string) => `/api/users/${userId}`,
