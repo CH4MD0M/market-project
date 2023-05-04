@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "resolveJsonModule": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "forceConsistentCasingInFileNames": false
   },
   "include": ["src"]
 }
