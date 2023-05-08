@@ -26,7 +26,7 @@ const UserLists = () => {
   useEffect(() => {
     const abortController = new AbortController();
     const fetchUsers = async () => {
-      const { data } = await getAllUsers(abortController);
+      const { data } = await getAllUsers(abortController.signal);
       setUsers(data);
     };
 

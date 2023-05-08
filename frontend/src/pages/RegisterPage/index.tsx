@@ -1,29 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { signup } from '@redux/modules/authSlice';
+import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
+import useInput from '@hooks/useInput';
+import { validateEmail, validatePassword } from '@utils/validation';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const RegisterPage = () => {
-  const [validated, setValidated] = useState(false);
-  const [passwordsMatchState, setPasswordsMatchState] = useState(true);
+  const { loading, error } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleOnChange = () => {
-    const password = document.querySelector<HTMLInputElement>('input[name=password]');
-    const confirmPassword = document.querySelector<HTMLInputElement>('input[name=confirmPassword]');
+  const {
+    value: name,
+    isValid: nameIsValid,
+    hasError: nameHasError,
+    valueChangeHandler: onChangeName,
+    inputBlurHandler: onBlurName,
+  } = useInput(value => value.trim() !== '');
+  const {
+    value: email,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    valueChangeHandler: onChangeEmail,
+    inputBlurHandler: onBlurEmail,
+  } = useInput(validateEmail);
 
-    if (confirmPassword && password) {
-      setPasswordsMatchState(confirmPassword.value === password.value);
-    }
-  };
+  const {
+    value: password,
+    isValid: passwordIsValid,
+    hasError: passwordHasError,
+    valueChangeHandler: onChangePassword,
+    inputBlurHandler: onBlurPassword,
+  } = useInput(validatePassword);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const form = e.currentTarget;
+  const {
+    value: passwordCheck,
+    isValid: passwordCheckIsValid,
+    hasError: passwordCheckHasError,
+    valueChangeHandler: onChangePasswordCheck,
+    inputBlurHandler: onBlurPasswordCheck,
+  } = useInput(value => value === password);
 
-    if (!form.checkValidity()) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+  let formIsValid = emailIsValid && passwordIsValid && passwordCheckIsValid;
 
-    setValidated(true);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!formIsValid) return;
+
+    const data = await dispatch(signup({ name, email, password }));
+    const response = unwrapResult(data);
+    if (response.status === 201) navigate('/login');
   };
 
   return (
@@ -31,21 +62,39 @@ const RegisterPage = () => {
       <Row className="mt-5 justify-content-md-center">
         <Col md={6}>
           <h1>회원가입</h1>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             {/* 이름 */}
             <Form.Group className="mb-3" controlId="validationCustom01">
               <Form.Label>이름</Form.Label>
-              <Form.Control required type="text" placeholder="이름" name="name" />
-              <Form.Control.Feedback type="invalid">이름을 입력해 주세요</Form.Control.Feedback>
+              <Form.Control
+                required
+                type="text"
+                placeholder="이름"
+                name="name"
+                value={name}
+                onChange={onChangeName}
+                onBlur={onBlurName}
+              />
             </Form.Group>
+            <Alert variant="danger" show={nameHasError}>
+              이름을 입력해 주세요.
+            </Alert>
             {/* 이메일 */}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>이메일 주소</Form.Label>
-              <Form.Control name="email" required type="email" placeholder="이메일" />
-              <Form.Control.Feedback type="invalid">
-                이메일 주소를 입력해 주세요
-              </Form.Control.Feedback>
+              <Form.Control
+                name="email"
+                required
+                type="email"
+                placeholder="이메일"
+                value={email}
+                onChange={onChangeEmail}
+                onBlur={onBlurEmail}
+              />
             </Form.Group>
+            <Alert variant="danger" show={emailHasError}>
+              이메일 형식(@포함)을 확인해주세요.
+            </Alert>
             {/* 비밀번호 */}
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>비밀번호</Form.Label>
@@ -55,12 +104,14 @@ const RegisterPage = () => {
                 type="password"
                 placeholder="비밀번호"
                 minLength={6}
-                onChange={handleOnChange}
-                isInvalid={!passwordsMatchState}
+                value={password}
+                onChange={onChangePassword}
+                onBlur={onBlurPassword}
               />
-              <Form.Control.Feedback type="invalid">비밀번호를 입력해 주세요</Form.Control.Feedback>
-              <Form.Text className="text-muted">비밀번호는 6자 이상이어야 합니다.</Form.Text>
             </Form.Group>
+            <Alert variant="danger" show={passwordHasError}>
+              비밀번호를 6자 이상으로 설정해주세요.
+            </Alert>
             {/* 비밀번호 확인 */}
             <Form.Group className="mb-3" controlId="formBasicPasswordRepeat">
               <Form.Label>비밀번호 확인</Form.Label>
@@ -70,29 +121,41 @@ const RegisterPage = () => {
                 type="password"
                 placeholder="비밀번호 확인"
                 minLength={6}
-                onChange={handleOnChange}
-                isInvalid={!passwordsMatchState}
+                value={passwordCheck}
+                onChange={onChangePasswordCheck}
+                onBlur={onBlurPasswordCheck}
               />
-              <Form.Control.Feedback type="invalid">
-                비밀번호가 일치하지 않습니다.
-              </Form.Control.Feedback>
             </Form.Group>
-            <Row className="pb-2">
+            <Alert variant="danger" show={passwordCheckHasError}>
+              비밀번호가 일치하지 않습니다.
+            </Alert>
+
+            <div className="d-grid mt-5 mb-3">
+              <Button variant="outline-primary" type="submit" size="lg" disabled={!formIsValid}>
+                {loading ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  '회원가입'
+                )}
+              </Button>
+            </div>
+            {error && (
+              <Alert show variant="danger">
+                이미 가입된 계정입니다.
+              </Alert>
+            )}
+            <Row>
               <Col>
                 이미 계정이 있으신가요?
                 <Link to={'/login'}> Login </Link>
               </Col>
             </Row>
-            <Button type="submit">
-              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-              회원가입
-            </Button>
-            <Alert show variant="danger">
-              이미 가입된 계정입니다.
-            </Alert>
-            <Alert show variant="info">
-              회원가입 완료
-            </Alert>
           </Form>
         </Col>
       </Row>

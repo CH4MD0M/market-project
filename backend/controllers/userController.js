@@ -26,7 +26,7 @@ const registerUser = async (req, res, next) => {
     // check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ error: 'user exists' });
+      return res.status(400).send('user exists');
     } else {
       const hashedPassword = hashPassword(password);
       const user = await User.create({
@@ -34,26 +34,15 @@ const registerUser = async (req, res, next) => {
         email: email.toLowerCase(),
         password: hashedPassword,
       });
-      res
-        .cookie(
-          'access_token',
-          generateAuthToken(user._id, user.name, user.email, user.isAdmin),
-          {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-          }
-        )
-        .status(201)
-        .json({
-          success: 'User created',
-          userCreated: {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-          },
-        });
+      res.status(201).json({
+        success: 'User created',
+        userInfo: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        },
+      });
     }
   } catch (err) {
     next(err);
@@ -68,7 +57,7 @@ const loginUser = async (req, res, next) => {
       return res.status(400).send('All inputs are required');
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).orFail();
     if (user && comparePasswords(password, user.password)) {
       let cookieParams = {
         httpOnly: true,
@@ -88,7 +77,7 @@ const loginUser = async (req, res, next) => {
         )
         .json({
           success: 'user logged in',
-          userLoggedIn: {
+          userInfo: {
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -198,10 +187,11 @@ const writeReview = async (req, res, next) => {
       product.reviewsNumber = 1;
     } else {
       product.reviewsNumber = product.reviews.length;
-      product.rating =
+      let ratingCalc =
         prc
           .map(item => Number(item.rating))
           .reduce((sum, item) => sum + item, 0) / product.reviews.length;
+      product.rating = Math.round(ratingCalc);
     }
     await product.save();
 
@@ -217,7 +207,7 @@ const writeReview = async (req, res, next) => {
 const getSingleUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
-      .select('name lastName email isAdmin')
+      .select('name email isAdmin')
       .orFail();
     return res.send(user);
   } catch (err) {

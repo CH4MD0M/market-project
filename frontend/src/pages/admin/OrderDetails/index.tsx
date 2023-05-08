@@ -101,9 +101,7 @@ const OrderDetails = () => {
   const deliverHandle = () => {
     markAsDelivered(id)
       .then(res => {
-        if (res) {
-          setIsDelivered(true);
-        }
+        if (res) setIsDelivered(true);
       })
       .catch(er =>
         console.log(er.response.data.message ? er.response.data.message : er.response.data),

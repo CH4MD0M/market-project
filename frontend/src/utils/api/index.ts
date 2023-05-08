@@ -5,3 +5,5 @@ export * from './deleteProduct';
 export * from './getOrders';
 export * from './markAsDelivered';
 export * from './postSignIn';
+export * from './postSignOut';
+export * from './getToken';
