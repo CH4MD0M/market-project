@@ -1,27 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+
+import { loginCheck } from '@redux/modules/authSlice';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 
 import UserChat from '@components/chat/UserChat';
 
 type ProtectedRoutesProps = {
-  admin: boolean;
+  requireAdmin?: boolean;
+  requireAuth?: boolean;
+  blockLogin?: boolean;
 };
 
-const ProtectedRoutes = ({ admin }: ProtectedRoutesProps) => {
-  const isAuth = 'admin';
+const ProtectedRoutes = ({
+  requireAdmin = false,
+  requireAuth = false,
+  blockLogin = false,
+}: ProtectedRoutesProps) => {
+  const { role, isLogin } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
 
-  if (!isAuth) return <Navigate to="/login" />;
-  return isAuth && admin && isAuth !== 'admin' ? (
-    <Navigate to="/login" />
-  ) : isAuth && admin ? (
+  useEffect(() => {
+    dispatch(loginCheck());
+  }, [dispatch]);
+
+  if (blockLogin && isLogin) return <Navigate to="/" />;
+  if (requireAuth && !isLogin) return <Navigate to="/login" />;
+  if (requireAdmin && role !== 'admin') return <Navigate to="/" />;
+
+  return isLogin && requireAdmin && role === 'admin' ? (
     <Outlet />
-  ) : isAuth && !admin ? (
-    <>
-      <UserChat />
-      <Outlet />
-    </>
   ) : (
-    <Navigate to="/login" />
+    <>
+      <Outlet />
+      <UserChat />
+    </>
   );
 };
 
