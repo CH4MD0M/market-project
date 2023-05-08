@@ -1,10 +1,16 @@
-const API_URL = {
+export const API_URL = {
+  TOKEN: {
+    GET_TOKEN: '/api/get-token',
+  },
   USER: {
     LOGIN: '/api/users/login',
+    SIGNUP: '/api/users/register',
+    LOGOUT: '/api/logout',
     REGISTER: '/api/user/register',
     GET_ALL_USERS: '/api/users',
     DELETE_USER: (userId: string) => `/api/users/${userId}`,
   },
+
   CATEGORY: {},
   PRODUCT: {
     ADMIN_GET_PRODUCTS: '/api/products/admin',
@@ -16,5 +22,3 @@ const API_URL = {
     MARK_AS_DELIVERED: (orderId: string) => `/api/orders/delivered/${orderId}`,
   },
 };
-
-export { API_URL };

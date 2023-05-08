@@ -14,7 +14,13 @@ import {
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 
+import { logout } from '@redux/modules/authSlice';
+import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
+
 const Header = () => {
+  const { isLogin, role, user } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -38,29 +44,37 @@ const Header = () => {
           </Nav>
 
           <Nav>
-            <LinkContainer to="/admin">
-              <Nav.Link>
-                Admin
-                <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle" />
-              </Nav.Link>
-            </LinkContainer>
+            {isLogin && role === 'admin' && (
+              <LinkContainer to="/admin">
+                <Nav.Link>
+                  Admin
+                  <span className="position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle" />
+                </Nav.Link>
+              </LinkContainer>
+            )}
+            {isLogin && role !== 'admin' && (
+              <NavDropdown title={user.name} id="collasible-nav-dropdown">
+                <NavDropdown.Item eventKey="/user/my-orders" as={Link} to="/user/my-orders">
+                  내 주문
+                </NavDropdown.Item>
+                <NavDropdown.Item eventKey="/user" as={Link} to="/user">
+                  프로필
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={() => dispatch(logout())}>로그아웃</NavDropdown.Item>
+              </NavDropdown>
+            )}
+            {!isLogin && (
+              <>
+                <LinkContainer to="/login">
+                  <Nav.Link>로그인</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/register">
+                  <Nav.Link>회원가입</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
 
-            <NavDropdown title="홍길동" id="collasible-nav-dropdown">
-              <NavDropdown.Item eventKey="/user/my-orders" as={Link} to="/user/my-orders">
-                내 주문
-              </NavDropdown.Item>
-              <NavDropdown.Item eventKey="/user" as={Link} to="/user">
-                프로필
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item>로그아웃</NavDropdown.Item>
-            </NavDropdown>
-            <LinkContainer to="/login">
-              <Nav.Link>로그인</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/register">
-              <Nav.Link>회원가입</Nav.Link>
-            </LinkContainer>
             <LinkContainer to="/cart">
               <Nav.Link>
                 <Badge pill bg="danger">

@@ -2,7 +2,12 @@ import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+import { useAppDispatch } from '@hooks/reduxHooks';
+import { logout } from '@redux/modules/authSlice';
+
 const AdminLinks = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <Navbar bg="light" variant="light">
       <Nav className="flex-column">
@@ -21,7 +26,7 @@ const AdminLinks = () => {
         <LinkContainer to="/admin/analytics">
           <Nav.Link>통계</Nav.Link>
         </LinkContainer>
-        <Nav.Link>로그아웃</Nav.Link>
+        <Nav.Link onClick={() => dispatch(logout())}>로그아웃</Nav.Link>
       </Nav>
     </Navbar>
   );
