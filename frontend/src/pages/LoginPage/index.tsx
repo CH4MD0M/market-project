@@ -1,19 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { login } from '@redux/modules/authSlice';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import useInput from '@hooks/useInput';
+import { validateEmail, validatePassword } from '@utils/validation';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const LoginPage = () => {
-  const [validated, setValidated] = useState(false);
+  const { loading, error } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const form = e.currentTarget;
+  const {
+    value: email,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    valueChangeHandler: onChangeEmail,
+    inputBlurHandler: onBlurEmail,
+  } = useInput(validateEmail);
 
-    if (!form.checkValidity()) {
-      e.preventDefault();
-      e.stopPropagation();
+  const {
+    value: password,
+    isValid: passwordIsValid,
+    hasError: passwordHasError,
+    valueChangeHandler: onChangePassword,
+    inputBlurHandler: onBlurPassword,
+  } = useInput(validatePassword);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const form = e.currentTarget.elements;
+    const doNotLogoutElement = form.namedItem('doNotLogout') as HTMLInputElement;
+    const doNotLogout = doNotLogoutElement?.checked;
+    const isFormValid = e.currentTarget.checkValidity();
+
+    if (!(isFormValid && email && password)) return;
+
+    const data = await dispatch(login({ email, password, doNotLogout }));
+    const response = unwrapResult(data);
+    if (response.status === 200) {
+      navigate('/');
     }
-
-    setValidated(true);
   };
 
   return (
@@ -21,15 +52,35 @@ const LoginPage = () => {
       <Row className="mt-5 justify-content-md-center">
         <Col md={6}>
           <h1>로그인</h1>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>이메일</Form.Label>
-              <Form.Control name="email" required type="email" />
+              <Form.Control
+                name="email"
+                required
+                type="email"
+                value={email}
+                onChange={onChangeEmail}
+                onBlur={onBlurEmail}
+              />
             </Form.Group>
+            <Alert variant="danger" show={emailHasError}>
+              이메일 형식(@포함)을 확인해주세요.
+            </Alert>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>비밀번호</Form.Label>
-              <Form.Control name="password" required type="password" />
+              <Form.Control
+                name="password"
+                required
+                type="password"
+                value={password}
+                onChange={onChangePassword}
+                onBlur={onBlurPassword}
+              />
             </Form.Group>
+            <Alert variant="danger" show={passwordHasError}>
+              비밀번호를 6자 이상으로 설정해주세요.
+            </Alert>
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check name="doNotLogout" type="checkbox" label="로그인 유지" />
             </Form.Group>
@@ -37,16 +88,31 @@ const LoginPage = () => {
             <Row className="pb-2">
               <Col>
                 아직 회원이 아니신가요?
-                <Link to={'/register'}> Register </Link>
+                <Link to={'/register'}> 회원가입 </Link>
               </Col>
             </Row>
-
-            <Button variant="primary" type="submit">
-              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-              Login
-            </Button>
-            <Alert show variant="danger">
-              등록된 계정이 없습니다.
+            <div className="d-grid mb-2">
+              <Button
+                variant="outline-primary"
+                type="submit"
+                disabled={!(emailIsValid && passwordIsValid)}
+                size="lg"
+              >
+                {loading ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  'Login'
+                )}
+              </Button>
+            </div>
+            <Alert variant="danger" show={error}>
+              오류가 발생했습니다. 이메일과 비밀번호를 확인해주세요.
             </Alert>
           </Form>
         </Col>
