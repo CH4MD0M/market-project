@@ -25,7 +25,6 @@ const ProductsPage = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-
     const fetchProducts = async () => {
       const { data } = await getProductsForAdmin(abortController.signal);
       setProducts(data);
