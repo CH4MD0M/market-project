@@ -28,7 +28,7 @@ const App = () => {
             </Route>
 
             {/* user protected routes */}
-            <Route element={<ProtectedRoutes requireAuth={true} requireAdmin={false} />}>
+            <Route element={<ProtectedRoutes requireAuth={true} />}>
               {generateRoutes(userProtectedRoutes)}
             </Route>
 

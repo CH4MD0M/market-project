@@ -8,7 +8,9 @@ export const API_URL = {
     LOGOUT: '/api/logout',
     REGISTER: '/api/user/register',
     GET_ALL_USERS: '/api/users',
+    GET_SINGLE_USER: (userId: string) => `/api/users/profile/${userId}`,
     DELETE_USER: (userId: string) => `/api/users/${userId}`,
+    UPDATE_USER: '/api/users/profile',
   },
 
   CATEGORY: {},

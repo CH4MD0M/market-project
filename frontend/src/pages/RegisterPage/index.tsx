@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ const RegisterPage = () => {
     inputBlurHandler: onBlurPasswordCheck,
   } = useInput(value => value === password);
 
-  let formIsValid = emailIsValid && passwordIsValid && passwordCheckIsValid;
+  let formIsValid = nameIsValid && emailIsValid && passwordIsValid && passwordCheckIsValid;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

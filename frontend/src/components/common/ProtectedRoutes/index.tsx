@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
 import { loginCheck } from '@redux/modules/authSlice';
@@ -20,11 +20,22 @@ const ProtectedRoutes = ({
   const { role, isLogin } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    dispatch(loginCheck());
+    const checkLogin = async () => {
+      await dispatch(loginCheck());
+      setLoading(false);
+    };
+    checkLogin();
   }, [dispatch]);
 
-  if (blockLogin && isLogin) return <Navigate to="/" />;
+  if (loading) {
+    // TODO: Loading Page 생성
+    return <div>Loading...</div>;
+  }
+
+  if (isLogin && blockLogin) return <Navigate to="/" />;
   if (requireAuth && !isLogin) return <Navigate to="/login" />;
   if (requireAdmin && role !== 'admin') return <Navigate to="/" />;
 

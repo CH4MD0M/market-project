@@ -1,4 +1,5 @@
 import React from 'react';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -6,7 +7,7 @@ import { login } from '@redux/modules/authSlice';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import useInput from '@hooks/useInput';
 import { validateEmail, validatePassword } from '@utils/validation';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { StorageType, setValue } from '@utils/storageUtils';
 
 const LoginPage = () => {
   const { loading, error } = useAppSelector(state => state.auth);
@@ -43,6 +44,13 @@ const LoginPage = () => {
     const data = await dispatch(login({ email, password, doNotLogout }));
     const response = unwrapResult(data);
     if (response.status === 200) {
+      // 로그인 유지 체크 시 로컬스토리지에 저장
+      const { isAdmin, ...rest } = response.data.userInfo;
+      if (doNotLogout) {
+        setValue(StorageType.LOCAL, 'userInfo', { doNotLogout: true, ...rest });
+      } else {
+        setValue(StorageType.SESSION, 'userInfo', { doNotLogout: false, ...rest });
+      }
       navigate('/');
     }
   };

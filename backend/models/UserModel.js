@@ -17,13 +17,7 @@ const userSchema = mongoose.Schema(
     address: {
       type: String,
     },
-    country: {
-      type: String,
-    },
     zipCode: {
-      type: String,
-    },
-    city: {
       type: String,
     },
     password: {
