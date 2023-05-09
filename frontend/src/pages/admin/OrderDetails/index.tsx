@@ -10,7 +10,7 @@ const UserInformation = ({ userInfo }: any) => (
     <h2>주문자 정보</h2>
     <b>이름</b>: {userInfo.name}
     <br />
-    <b>Address</b>: {userInfo.address} {userInfo.city} {userInfo.zipCode}
+    <b>Address</b>: {userInfo.address} {userInfo.zipCode}
     <br />
     <b>Phone</b>: {userInfo.phoneNumber}
   </Col>
