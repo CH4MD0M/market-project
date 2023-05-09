@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { StorageType, getValue, removeValue } from '@utils/storageUtils';
 
 import { postSignIn, postSignOut, getToken } from '@utils/api';
-import { postSignUp } from '@/utils/api/postSignUp';
+import { postSignUp } from '@/utils/api';
 
 // loginCheck
 export const loginCheck = createAsyncThunk('auth/loginCheck', async () => {
@@ -61,13 +61,6 @@ const authSlice = createSlice({
       state.user = userInfo;
       state.role = userInfo.isAdmin ? 'admin' : 'user';
       state.isLogin = true;
-
-      // 로그인 유지 체크 시 로컬스토리지에 저장
-      if (userInfo.doNotLogout) {
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
-      } else {
-        sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-      }
     });
     builder.addCase(login.rejected, state => {
       state.loading = false;
