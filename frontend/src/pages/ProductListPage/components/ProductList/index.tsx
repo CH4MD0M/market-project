@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ProductPreview from '../ProductPreview';
+import { getAllProducts } from '@utils/api';
 
 const ProductList = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getAllProducts()
+      .then(res => setProducts(res.products))
+      .catch(err => console.log(err));
+  }, []);
+
   return (
     <>
-      {Array.from({ length: 5 }).map((_, idx) => (
+      {products.map(product => (
         <ProductPreview
-          key={idx}
-          images={['games', 'monitors', 'tablets', 'games', 'monitors']}
-          idx={idx}
+          key={product._id}
+          images={product.images}
+          name={product.name}
+          description={product.description}
+          price={product.price}
+          rating={product.rating}
+          reviewsNumber={product.reviewsNumber}
+          productId={product._id}
         />
       ))}
     </>

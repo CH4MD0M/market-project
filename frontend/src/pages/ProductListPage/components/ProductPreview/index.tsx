@@ -1,35 +1,44 @@
 import React from 'react';
-
 import { Button, Card, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Rating } from 'react-simple-star-rating';
 
 interface ProductPreviewProps {
-  images: string[];
-  idx: number;
+  images: any[];
+  name: string;
+  description: string;
+  price: number;
+  rating: number;
+  reviewsNumber: number;
+  productId: string;
 }
 
-const ProductPreview = ({ images, idx }: ProductPreviewProps) => {
+const ProductPreview = ({
+  images,
+  name,
+  description,
+  price,
+  rating,
+  reviewsNumber,
+  productId,
+}: ProductPreviewProps) => {
   return (
     <Card style={{ marginTop: '30px', marginBottom: '50px' }}>
       <Row>
         <Col lg={5}>
-          <Card.Img variant="top" src={`/images/${images[idx]}-category.png`} />
+          <Card.Img crossOrigin="anonymous" variant="top" src={images[0] ? images[0].path : ''} />
         </Col>
 
         <Col lg={7}>
           <Card.Body>
-            <Card.Title>상품 이름</Card.Title>
+            <Card.Title>{name}</Card.Title>
+            <Card.Text>{description}</Card.Text>
             <Card.Text>
-              상품 설명 상품 설명 상품 설명 상품 설명 상품 설명 상품 설명 상품 설명 상품 설명 상품
-              설명 상품 설명 상품 설명 상품 설명 상품 설명 상품 설명
-            </Card.Text>
-            <Card.Text>
-              <Rating readonly size={20} initialValue={5} /> (21)
+              <Rating readonly size={20} initialValue={rating} /> ({reviewsNumber})
             </Card.Text>
             <Card.Text className="h4">
-              ₩124,000원
-              <LinkContainer to={`/product-details/`}>
+              ₩{price}
+              <LinkContainer to={`/product-details/${productId}`}>
                 <Button variant="primary">상품보기</Button>
               </LinkContainer>
             </Card.Text>
