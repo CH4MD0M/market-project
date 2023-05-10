@@ -16,6 +16,7 @@ export const API_URL = {
   CATEGORY: {},
   PRODUCT: {
     ADMIN_GET_PRODUCTS: '/api/products/admin',
+    GET_ALL_PRODUCTS: '/api/products',
     DELETE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,
   },
   ORDER: {

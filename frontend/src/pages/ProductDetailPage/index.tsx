@@ -4,8 +4,12 @@ import { Rating } from 'react-simple-star-rating';
 import ImageZoom from 'js-image-zoom';
 
 import CartMessage from './components/CartMessage';
+import { useParams } from 'react-router-dom';
 
 const ProductDetailPage = () => {
+  const { id } = useParams();
+  console.log(id);
+
   const options = {
     offset: { vertical: 0, horizontal: 0 },
   };

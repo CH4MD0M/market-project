@@ -10,4 +10,10 @@ const getProductsForAdmin = async (signal: AbortSignal) => {
   return data;
 };
 
-export { getProductsForAdmin };
+const getAllProducts = async () => {
+  const { data } = await instance.get(API_URL.PRODUCT.GET_ALL_PRODUCTS);
+
+  return data;
+};
+
+export { getProductsForAdmin, getAllProducts };
