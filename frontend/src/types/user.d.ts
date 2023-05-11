@@ -5,3 +5,9 @@ interface UserProfileFormData {
   zipCode: string;
   password: string;
 }
+
+interface UserAddressInfo {
+  address?: string;
+  zipCode?: string;
+  phoneNumber?: string;
+}

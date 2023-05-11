@@ -14,11 +14,12 @@ import {
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { logout } from '@redux/modules/authSlice';
+import { logout } from '@redux/modules/authSlice/thunk';
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
 
 const Header = () => {
   const { isLogin, role, user } = useAppSelector(state => state.auth);
+  const { itemsCount } = useAppSelector(state => state.cart);
   const dispatch = useAppDispatch();
 
   return (
@@ -78,7 +79,7 @@ const Header = () => {
             <LinkContainer to="/cart">
               <Nav.Link>
                 <Badge pill bg="danger">
-                  2
+                  {itemsCount || ''}
                 </Badge>
                 <i className="bi bi-cart-dash" />
                 <span className="ms-1">장바구니</span>

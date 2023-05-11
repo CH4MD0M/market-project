@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Alert, Form, Button, Container } from 'react-bootstrap';
 
-import CartItem from '@pages/CartPage/components/CartItem';
 import { getOrderDetails, markAsDelivered } from '@utils/api';
+import CartPreview from '@components/CartPreview';
 
 const UserInformation = ({ userInfo }: any) => (
   <Col md={6}>
@@ -41,12 +41,12 @@ const OrderStatus = ({ isDelivered, isPaid }: any) => (
   </Row>
 );
 
-const OrderItems = ({ cartItems }: OrderItemsProps) => (
+const OrderItems = ({ cartItems }: { cartItems: CartProduct[] }) => (
   <>
     <h2>주문 상품</h2>
     <ListGroup variant="flush">
-      {cartItems.map((item: CartItem, idx: number) => (
-        <CartItem key={idx} item={item} orderCreated={true} />
+      {cartItems.map((item: CartProduct, idx: number) => (
+        <CartPreview key={idx} item={item} orderCreated={true} />
       ))}
     </ListGroup>
   </>

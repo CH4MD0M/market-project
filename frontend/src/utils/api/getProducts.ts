@@ -16,4 +16,9 @@ const getAllProducts = async () => {
   return data;
 };
 
-export { getProductsForAdmin, getAllProducts };
+const getSingleProduct = async (productId: string) => {
+  const response = await instance.get(API_URL.PRODUCT.GET_SINGLE_PRODUCT(productId));
+  return response;
+};
+
+export { getProductsForAdmin, getAllProducts, getSingleProduct };
