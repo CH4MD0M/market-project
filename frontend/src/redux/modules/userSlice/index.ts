@@ -1,29 +1,13 @@
-import { updateUser } from '@/utils/api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-interface userState {
-  address: string;
-  zipCode: string;
-  loading: boolean;
-  error: boolean;
-  isUpdate: boolean;
-}
+import { createSlice } from '@reduxjs/toolkit';
+import { updateUserProfile } from './thunk';
+import { UserState } from './types';
 
 const initialState = {
-  address: '',
-  zipCode: '',
+  userAddress: {},
   loading: false,
   error: false,
   isUpdate: false,
-} as userState;
-
-export const updateUserProfile = createAsyncThunk(
-  'user/updateUserProfile',
-  async (formData: UserProfileFormData) => {
-    const response = await updateUser(formData);
-    return response;
-  },
-);
+} as UserState;
 
 const userSlice = createSlice({
   name: 'user',
@@ -31,8 +15,8 @@ const userSlice = createSlice({
   reducers: {
     setAddress(state, action) {
       const { address, zipCode } = action.payload;
-      state.address = address;
-      state.zipCode = zipCode;
+      state.userAddress.address = address;
+      state.userAddress.zipCode = zipCode;
     },
   },
   extraReducers: builder => {
