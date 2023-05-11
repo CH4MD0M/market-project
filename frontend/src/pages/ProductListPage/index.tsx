@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import Pagination from '@components/common/Pagination';
+import Pagination from './components/Pagination';
 import ProductList from './components/ProductList';
 import FilterOptions from './components/FilterOptions';
 

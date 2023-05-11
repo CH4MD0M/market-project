@@ -1,42 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { StorageType, getValue, removeValue } from '@utils/storageUtils';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { postSignIn, postSignOut, getToken } from '@utils/api';
-import { postSignUp } from '@/utils/api';
-
-// loginCheck
-export const loginCheck = createAsyncThunk('auth/loginCheck', async () => {
-  const { data } = await getToken();
-  return data;
-});
-
-// login
-export const login = createAsyncThunk('auth/login', async (formData: LoginFormData) => {
-  const response = await postSignIn(formData);
-  return response;
-});
-
-// logout
-export const logout = createAsyncThunk('auth/logout', async () => {
-  await postSignOut();
-  removeValue(StorageType.LOCAL, 'userInfo');
-  removeValue(StorageType.SESSION, 'userInfo');
-  removeValue(StorageType.LOCAL, 'cartItems');
-});
-
-// signup
-export const signup = createAsyncThunk('auth/signup', async (formData: SignupFormData) => {
-  const response = await postSignUp(formData);
-  return response;
-});
-
-interface AuthState {
-  user: UserInfo | null;
-  loading: boolean;
-  error: boolean;
-  isLogin: boolean;
-  role: string;
-}
+import { AuthState } from './types';
+import { login, loginCheck, logout, signup } from './thunk';
+import { StorageType, getValue } from '@utils/storageUtils';
 
 const initialState = {
   user: getValue(StorageType.LOCAL, 'userInfo') || getValue(StorageType.SESSION, 'userInfo'),
@@ -69,12 +35,10 @@ const authSlice = createSlice({
 
     // loginCheck
     builder.addCase(loginCheck.fulfilled, (state, action) => {
-      const { token } = action.payload;
+      const { isAdmin } = action.payload;
 
-      if (token) {
-        state.isLogin = true;
-        state.role = token;
-      }
+      state.isLogin = true;
+      state.role = isAdmin ? 'admin' : 'user';
     });
 
     // logout

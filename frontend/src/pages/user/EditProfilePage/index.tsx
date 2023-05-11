@@ -2,21 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 import { getSingleUser } from '@utils/api';
-import { updateUserProfile } from '@redux/modules/userSlice';
+import { updateUserProfile } from '@redux/modules/userSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 
 import Postcode from '@components/PostCode';
 
 import { unwrapResult } from '@reduxjs/toolkit';
-import { StorageType, setValue } from '@/utils/storageUtils';
+import { StorageType, setValue } from '@utils/storageUtils';
 
 const EditProfilePage = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(state => state.auth);
-  const { address, zipCode, error, isUpdate } = useAppSelector(state => state.user);
+  const { userAddress, error, isUpdate } = useAppSelector(state => state.user);
   const [userInfo, setUserInfo] = useState<any>({});
   const [validated, setValidated] = useState(false);
   const [passwordsMatchState, setPasswordsMatchState] = useState(true);
+
+  const { address, zipCode } = userAddress;
 
   const onChange = () => {
     const password = document.querySelector('input[name=password]') as HTMLInputElement;
@@ -35,7 +37,7 @@ const EditProfilePage = () => {
     const name = (form.namedItem('name') as HTMLInputElement).value;
     const phoneNumber = (form.namedItem('phoneNumber') as HTMLInputElement).value;
     const password = (form.namedItem('password') as HTMLInputElement).value;
-    const detailAddress = (form.namedItem('detailAddress') as HTMLInputElement).value;
+    const detailAddress = (form.namedItem('detailAddress') as HTMLInputElement)?.value;
 
     if (e.currentTarget.checkValidity() && passwordsMatchState) {
       const data = await dispatch(
@@ -67,8 +69,6 @@ const EditProfilePage = () => {
       .then(data => setUserInfo(data))
       .catch(er => console.log(er));
   }, []);
-
-  console.log(userInfo);
 
   return (
     <Container>
@@ -127,7 +127,7 @@ const EditProfilePage = () => {
                 type="text"
                 placeholder="상세 주소"
                 defaultValue={userInfo.address}
-                name="p-detailAddress"
+                name="detailAddress"
               />
             </Form.Group>
 

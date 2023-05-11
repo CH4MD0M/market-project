@@ -1,12 +1,8 @@
-type CartItem = {
-  id: number;
+interface CartProduct {
+  productID: string;
   name: string;
   image: any;
   price: number;
   count: number;
   quantity: number;
-};
-
-interface OrderItemsProps {
-  cartItems: CartItem[];
 }

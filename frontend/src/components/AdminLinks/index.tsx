@@ -3,7 +3,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
-import { logout } from '@redux/modules/authSlice';
+import { logout } from '@redux/modules/authSlice/thunk';
 
 const AdminLinks = () => {
   const dispatch = useAppDispatch();

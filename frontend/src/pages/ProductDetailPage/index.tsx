@@ -1,18 +1,36 @@
-import React, { useEffect } from 'react';
-import { Col, Container, Row, ListGroup, Form, Button, Alert, Image } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
 import ImageZoom from 'js-image-zoom';
+import { Col, Container, Row, ListGroup, Form, Button, Alert, Image } from 'react-bootstrap';
 
 import CartMessage from './components/CartMessage';
-import { useParams } from 'react-router-dom';
+
+import { addToCart } from '@redux/modules/cartSlice';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { getSingleProduct } from '@utils/api';
+import { addToCartAsync } from '@/redux/modules/cartSlice/thunk';
+
+const options = {
+  offset: { vertical: 0, horizontal: 0 },
+};
 
 const ProductDetailPage = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
-  console.log(id);
+  const { cartItems } = useAppSelector(state => state.cart);
+  const [quantity, setQuantity] = useState(1);
+  const [cartMessageShow, setCartMessageShow] = useState<boolean>(false);
 
-  const options = {
-    offset: { vertical: 0, horizontal: 0 },
+  const addToCartHandler = async () => {
+    await dispatch(addToCartAsync({ id, quantity }));
+    setCartMessageShow(true);
   };
+
+  const quantityChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setQuantity(Number(e.target.value));
+  };
+
   useEffect(() => {
     new ImageZoom(document.getElementById('first'), options);
     new ImageZoom(document.getElementById('second'), options);
@@ -21,7 +39,7 @@ const ProductDetailPage = () => {
 
   return (
     <Container>
-      <CartMessage />
+      <CartMessage cartMessageShow={cartMessageShow} setCartMessageShow={setCartMessageShow} />
       <Row className="mt-5">
         <Col style={{ zIndex: 1 }} md={4}>
           <div id="first">
@@ -61,14 +79,21 @@ const ProductDetailPage = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   수량:
-                  <Form.Select size="lg" aria-label="Default select example">
+                  <Form.Select
+                    value={quantity}
+                    onChange={quantityChangeHandler}
+                    size="lg"
+                    aria-label="Default select example"
+                  >
                     <option value="1">1개</option>
                     <option value="2">2개</option>
                     <option value="3">3개</option>
                   </Form.Select>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Button variant="danger">장바구니</Button>
+                  <Button onClick={addToCartHandler} variant="danger">
+                    장바구니
+                  </Button>
                 </ListGroup.Item>
               </ListGroup>
             </Col>

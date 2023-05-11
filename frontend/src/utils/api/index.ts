@@ -3,6 +3,7 @@ export * from './deleteUser';
 export * from './getProducts';
 export * from './deleteProduct';
 export * from './getOrders';
+export * from './postOrder';
 export * from './markAsDelivered';
 export * from './postSignIn';
 export * from './postSignUp';
