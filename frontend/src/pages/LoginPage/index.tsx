@@ -3,7 +3,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { login } from '@redux/modules/authSlice';
+import { login } from '@redux/modules/authSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import useInput from '@hooks/useInput';
 import { validateEmail, validatePassword } from '@utils/validation';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { loginCheck } from '@redux/modules/authSlice';
+import { loginCheck } from '@redux/modules/authSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 
 import UserChat from '@components/chat/UserChat';

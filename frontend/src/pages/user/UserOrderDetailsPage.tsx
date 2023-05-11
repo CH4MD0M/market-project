@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, Button, Col, Container, Form, ListGroup, Row } from 'react-bootstrap';
 
-import CartItem from '../CartPage/components/CartItem';
+import CartPreview from '@components/CartPreview';
 
 const UserOrderDetailsPage = () => {
   const orderHandler = () => {};

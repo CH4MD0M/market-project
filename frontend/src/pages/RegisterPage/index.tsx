@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { signup } from '@redux/modules/authSlice';
+import { signup } from '@redux/modules/authSlice/thunk';
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
 import useInput from '@hooks/useInput';
 import { validateEmail, validatePassword } from '@utils/validation';
