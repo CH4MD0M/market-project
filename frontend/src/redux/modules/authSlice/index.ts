@@ -2,14 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { AuthState } from './types';
 import { login, loginCheck, logout, signup } from './thunk';
-import { StorageType, getValue } from '@utils/storageUtils';
 
 const initialState = {
-  user: getValue(StorageType.LOCAL, 'userInfo') || getValue(StorageType.SESSION, 'userInfo'),
   loading: false,
   error: false,
   isLogin: false,
-  role: '',
 } as AuthState;
 
 const authSlice = createSlice({
@@ -22,10 +19,7 @@ const authSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      const { userInfo } = action.payload.data;
       state.loading = false;
-      state.user = userInfo;
-      state.role = userInfo.isAdmin ? 'admin' : 'user';
       state.isLogin = true;
     });
     builder.addCase(login.rejected, state => {
@@ -35,17 +29,12 @@ const authSlice = createSlice({
 
     // loginCheck
     builder.addCase(loginCheck.fulfilled, (state, action) => {
-      const { isAdmin } = action.payload;
-
       state.isLogin = true;
-      state.role = isAdmin ? 'admin' : 'user';
     });
 
     // logout
     builder.addCase(logout.fulfilled, state => {
       state.isLogin = false;
-      state.role = '';
-      state.user = null;
     });
 
     // signup

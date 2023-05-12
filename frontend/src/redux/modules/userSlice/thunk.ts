@@ -1,10 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { updateUser, getSingleUser } from '@utils/api';
+import { getSingleUser, updateUserAddress, updateUserPassword, updateUserPhone } from '@utils/api';
 
-const updateUserProfile = createAsyncThunk(
-  'user/updateUserProfile',
-  async (formData: UserProfileFormData) => {
-    const response = await updateUser(formData);
+const updateUserPhoneThunk = createAsyncThunk(
+  'user/updateUserPhone',
+  async (phoneNumber: string) => {
+    const response = await updateUserPhone(phoneNumber);
+    return response;
+  },
+);
+
+const updateUserAddressThunk = createAsyncThunk('user/updateUserAddress', async (formData: any) => {
+  const response = await updateUserAddress(formData);
+  return response;
+});
+
+const updateUserPasswordThunk = createAsyncThunk(
+  'user/updateUserPassword',
+  async (password: string) => {
+    const response = await updateUserPassword(password);
     return response;
   },
 );
@@ -14,4 +27,4 @@ const getUserAddress = createAsyncThunk('user/getUserAddress', async (userId: st
   return response;
 });
 
-export { updateUserProfile, getUserAddress };
+export { updateUserAddressThunk, updateUserPhoneThunk, updateUserPasswordThunk, getUserAddress };
