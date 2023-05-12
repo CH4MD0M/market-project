@@ -17,7 +17,8 @@ const ProtectedRoutes = ({
   requireAuth = false,
   blockLogin = false,
 }: ProtectedRoutesProps) => {
-  const { role, isLogin } = useAppSelector(state => state.auth);
+  const { isLogin } = useAppSelector(state => state.auth);
+  const { role } = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
 
   const [loading, setLoading] = useState(true);
@@ -38,15 +39,7 @@ const ProtectedRoutes = ({
   if (isLogin && blockLogin) return <Navigate to="/" />;
   if (requireAuth && !isLogin) return <Navigate to="/login" />;
   if (requireAdmin && role !== 'admin') return <Navigate to="/" />;
-
-  return isLogin && requireAdmin && role === 'admin' ? (
-    <Outlet />
-  ) : (
-    <>
-      <Outlet />
-      <UserChat />
-    </>
-  );
+  return <Outlet />;
 };
 
 export default ProtectedRoutes;

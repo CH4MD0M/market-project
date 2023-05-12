@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Col, Row, Table } from 'react-bootstrap';
+import { Col, Container, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+
+import UserLayout from '@layout/UserLayout';
 
 const UserOrdersPage = () => {
   const [orders, setOrders] = useState([]);
 
   return (
-    <Row className="m-5">
+    <UserLayout>
       <Col md={12}>
         <h1>주문 내역</h1>
         <Table striped bordered hover>
@@ -37,7 +39,7 @@ const UserOrdersPage = () => {
           </tbody>
         </Table>
       </Col>
-    </Row>
+    </UserLayout>
   );
 };
 
