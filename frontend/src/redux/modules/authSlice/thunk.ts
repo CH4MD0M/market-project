@@ -1,20 +1,30 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { setUserInfo, setUserRole } from '../userSlice';
 import { postSignIn, postSignOut, getToken } from '@utils/api';
 import { postSignUp } from '@utils/api';
-import { StorageType, getValue, removeValue } from '@utils/storageUtils';
+import { StorageType, removeValue } from '@utils/storageUtils';
 
 // loginCheck
-export const loginCheck = createAsyncThunk('auth/loginCheck', async () => {
+export const loginCheck = createAsyncThunk('auth/loginCheck', async (_, { dispatch }) => {
   const { data } = await getToken();
+  dispatch(setUserRole(data));
+
   return data;
 });
 
 // login
-export const login = createAsyncThunk('auth/login', async (formData: LoginFormData) => {
-  const response = await postSignIn(formData);
-  return response;
-});
+export const login = createAsyncThunk(
+  'auth/login',
+  async (formData: LoginFormData, { dispatch }) => {
+    const response = await postSignIn(formData);
+
+    dispatch(setUserInfo(response.data));
+    dispatch(setUserRole(response.data.userInfo));
+
+    return response;
+  },
+);
 
 // logout
 export const logout = createAsyncThunk('auth/logout', async () => {
