@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { signup } from '@redux/modules/authSlice/thunk';
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
-import useInput from '@hooks/useInput';
+import { useInput } from '@hooks/useInput';
 import { validateEmail, validatePassword } from '@utils/validation';
 import { unwrapResult } from '@reduxjs/toolkit';
 

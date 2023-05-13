@@ -93,15 +93,10 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-// Update user profile
-const updateUserProfile = async (req, res, next) => {
+// Update user password
+const updateUserPassword = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).orFail();
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.phoneNumber = req.body.phoneNumber;
-    user.address = req.body.address;
-    user.zipCode = req.body.zipCode;
     if (req.body.password !== user.password) {
       user.password = hashPassword(req.body.password);
     }
@@ -114,6 +109,69 @@ const updateUserProfile = async (req, res, next) => {
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Update user Name
+const updateUserName = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id).orFail();
+    user.name = req.body.name || user.name;
+
+    console.log(user);
+    await user.save();
+
+    res.json({
+      success: 'user updated',
+      userUpdated: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Update user address
+const updateUserAddress = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id).orFail();
+    user.address = req.body.address;
+    user.zipCode = req.body.zipCode;
+    await user.save();
+
+    res.json({
+      success: 'user updated',
+      userUpdated: {
+        _id: user._id,
+        address: user.address,
+        zipCode: user.zipCode,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Update user phone
+const updateUserPhone = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id).orFail();
+    user.phoneNumber = req.body.phoneNumber;
+    await user.save();
+
+    res.json({
+      success: 'user updated',
+      userUpdated: {
+        _id: user._id,
+        phoneNumber: user.phoneNumber,
       },
     });
   } catch (err) {
@@ -243,7 +301,10 @@ module.exports = {
   getAllUsers,
   registerUser,
   loginUser,
-  updateUserProfile,
+  updateUserName,
+  updateUserPhone,
+  updateUserAddress,
+  updateUserPassword,
   getUserProfile,
   writeReview,
   getSingleUser,
