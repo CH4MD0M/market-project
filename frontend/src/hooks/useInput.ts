@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 type ValidatorFn = (value: string) => boolean;
 
-const useInput = (validateFunction: ValidatorFn) => {
+export const useInput = (validateFunction: ValidatorFn) => {
   const [enteredValue, setEnteredValue] = useState('');
   const [IsTouched, setIsTouched] = useState(false);
 
@@ -34,5 +34,3 @@ const useInput = (validateFunction: ValidatorFn) => {
     resetHandler,
   };
 };
-
-export default useInput;

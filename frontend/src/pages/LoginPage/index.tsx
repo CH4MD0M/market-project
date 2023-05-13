@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { login } from '@redux/modules/authSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import useInput from '@hooks/useInput';
+import { useInput } from '@hooks/useInput';
 import { validateEmail, validatePassword } from '@utils/validation';
 import { useStoreUserInfo } from '@/hooks/useStoreUserInfo';
 
