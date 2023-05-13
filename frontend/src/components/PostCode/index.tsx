@@ -23,15 +23,15 @@ const Postcode = () => {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
 
-    dispatch(setAddress({ address: fullAddress, zipCode: data.zonecode }));
+    dispatch(setAddress({ newAddress: fullAddress, newZipCode: data.zonecode }));
   };
   const handleClick = () => {
     open({ onComplete: handleComplete });
   };
 
   return (
-    <Button className="text-nowrap ms-2" variant="primary" onClick={handleClick}>
-      주소입력
+    <Button className="text-nowrap ms-2" variant="primary" size="sm" onClick={handleClick}>
+      주소찾기
     </Button>
   );
 };
