@@ -11,3 +11,20 @@ interface UserAddressInfo {
   zipCode?: string;
   phoneNumber?: string;
 }
+
+interface UpdateUserNameFormData {
+  name: string;
+}
+
+interface UpdateUserPhoneFormData {
+  phoneNumber: string;
+}
+
+interface UpdateUserAddressFormData {
+  address: string;
+  zipCode: string;
+}
+
+interface UpdateUserPasswordFormData {
+  password: string;
+}

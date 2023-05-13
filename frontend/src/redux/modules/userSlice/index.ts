@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { UserState } from './types';
+import { updateUserNameThunk } from './thunk';
+import { isFulfilledAction, isPendingAction } from './util';
 import { StorageType, getValue } from '@utils/storageUtils';
 
 const initialState = {
@@ -25,13 +27,29 @@ const userSlice = createSlice({
       state.userData = userInfo;
     },
     setAddress(state, action) {
-      const { address, zipCode } = action.payload;
-      state.userAddress.address = address;
-      state.userAddress.zipCode = zipCode;
+      const { newAddress, newZipCode } = action.payload;
+      state.userAddress.address = newAddress;
+      state.userAddress.zipCode = newZipCode;
+    },
+    resetUpdateSatatus(state) {
+      state.isUpdate = false;
     },
   },
-  extraReducers: builder => {},
+  extraReducers: builder => {
+    builder.addCase(updateUserNameThunk.fulfilled, (state, action) => {
+      state.isUpdate = true;
+      const { userUpdated } = action.payload;
+      state.userData = userUpdated;
+    });
+    builder.addMatcher(isPendingAction, state => {
+      state.loading = true;
+    });
+    builder.addMatcher(isFulfilledAction, (state, action) => {
+      state.isUpdate = true;
+      state.loading = false;
+    });
+  },
 });
 
-export const { setUserInfo, setUserRole, setAddress } = userSlice.actions;
+export const { setUserInfo, setUserRole, setAddress, resetUpdateSatatus } = userSlice.actions;
 export default userSlice.reducer;
