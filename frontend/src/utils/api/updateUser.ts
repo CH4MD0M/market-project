@@ -1,7 +1,25 @@
 import { API_URL } from '../constants';
 import { instance } from './instance';
 
-export const updateUser = async (formData: UserProfileFormData) => {
-  const response = await instance.put(API_URL.USER.UPDATE_USER, formData);
+const updateUserName = async (formData: UpdateUserNameFormData) => {
+  const { data } = await instance.put(API_URL.USER.UPDATE_USER_NAME, formData);
+  return data;
+};
+
+// TODO: UserAddressInfo 타입 수정
+const updateUserAddress = async (formData: UserAddressInfo) => {
+  const { data } = await instance.put(API_URL.USER.UPDATE_USER_ADDRESS, formData);
+  return data;
+};
+
+const updateUserPhone = async (phoneNumber: UpdateUserPhoneFormData) => {
+  const { data } = await instance.put(API_URL.USER.UPDATE_USER_PHONE, phoneNumber);
+  return data;
+};
+
+const updateUserPassword = async (password: UpdateUserPasswordFormData) => {
+  const response = await instance.put(API_URL.USER.UPDATE_USER_PASSWORD, password);
   return response;
 };
+
+export { updateUserName, updateUserAddress, updateUserPhone, updateUserPassword };
