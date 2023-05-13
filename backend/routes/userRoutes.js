@@ -9,7 +9,10 @@ const {
   getAllUsers,
   registerUser,
   loginUser,
-  updateUserProfile,
+  updateUserName,
+  updateUserAddress,
+  updateUserPhone,
+  updateUserPassword,
   getUserProfile,
   writeReview,
   getSingleUser,
@@ -22,7 +25,10 @@ router.post('/login', loginUser);
 
 // User(Logged in) routes
 router.use(verifyIsLoggedIn);
-router.put('/profile', updateUserProfile);
+router.put('/profile/name', updateUserName);
+router.put('/profile/phone', updateUserPhone);
+router.put('/profile/address', updateUserAddress);
+router.put('/profile/password', updateUserPassword);
 router.get('/profile/:id', getUserProfile);
 router.post('/review/:productId', writeReview);
 
