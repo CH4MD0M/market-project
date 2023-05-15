@@ -4,5 +4,4 @@ interface OrderData {
     cartSubtotal: number;
   };
   cartItems: CartProduct[];
-  paymentMethod: string;
 }

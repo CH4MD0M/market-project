@@ -25,8 +25,10 @@ export const API_URL = {
   },
   ORDER: {
     ADMIN_GET_ORDERS: '/api/orders/admin',
+    USER_GET_ORDERS: '/api/orders',
     CREATE_ORDER: '/api/orders',
     GET_ORDER_DETAILS: (orderId: string) => `/api/orders/user/${orderId}`,
     MARK_AS_DELIVERED: (orderId: string) => `/api/orders/delivered/${orderId}`,
+    UPDATE_AS_PAID: (orderId: string) => `/api/orders/paid/${orderId}`,
   },
 };
