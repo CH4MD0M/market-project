@@ -28,14 +28,14 @@ const cartSlice = createSlice({
       const productBeingAddedToCart = action.payload;
 
       const productAlreadyExistsInState = state.cartItems.find(
-        item => item.productID === productBeingAddedToCart.productID,
+        item => item._id === productBeingAddedToCart._id,
       );
 
       if (productAlreadyExistsInState) {
         state.itemsCount = 0;
         state.cartSubtotal = 0;
         state.cartItems = state.cartItems.map(x => {
-          if (x.productID === productAlreadyExistsInState.productID) {
+          if (x._id === productAlreadyExistsInState._id) {
             state.itemsCount += Number(productBeingAddedToCart.quantity);
             const sum =
               Number(productBeingAddedToCart.quantity) * Number(productBeingAddedToCart.price);
@@ -45,9 +45,7 @@ const cartSlice = createSlice({
             const sum = Number(x.quantity) * Number(x.price);
             state.cartSubtotal += sum;
           }
-          return x.productID === productAlreadyExistsInState.productID
-            ? productBeingAddedToCart
-            : x;
+          return x._id === productAlreadyExistsInState._id ? productBeingAddedToCart : x;
         });
       } else {
         state.itemsCount += Number(productBeingAddedToCart.quantity);
@@ -59,8 +57,8 @@ const cartSlice = createSlice({
     },
 
     removeFromCart(state, action: PayloadAction<RemoveFromCartPayload>) {
-      const { productID, quantity, price } = action.payload;
-      state.cartItems = state.cartItems.filter(item => item.productID !== productID);
+      const { _id, quantity, price } = action.payload;
+      state.cartItems = state.cartItems.filter(item => item._id !== _id);
       state.itemsCount -= quantity;
       state.cartSubtotal -= price * quantity;
 

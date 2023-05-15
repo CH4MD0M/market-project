@@ -4,7 +4,9 @@ const ObjectId = require('mongodb').ObjectId;
 
 const getUserOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ user: ObjectId(req.user._id) });
+    const orders = await Order.find({ user: ObjectId(req.user._id) }).sort({
+      createdAt: 'desc',
+    });
     res.send(orders);
   } catch (err) {
     next(error);
@@ -24,8 +26,8 @@ const getOrderDetails = async (req, res, next) => {
 
 const createOrder = async (req, res, next) => {
   try {
-    const { cartItems, orderTotal, paymentMethod } = req.body;
-    if (!cartItems || !orderTotal || !paymentMethod) {
+    const { cartItems, orderTotal } = req.body;
+    if (!cartItems || !orderTotal) {
       return res.status(400).send('All inputs are required');
     }
 
@@ -43,7 +45,6 @@ const createOrder = async (req, res, next) => {
       user: ObjectId(req.user._id),
       orderTotal: orderTotal,
       cartItems: cartItems,
-      paymentMethod: paymentMethod,
     });
     const createdOrder = await order.save();
     res.status(201).send(createdOrder);
@@ -79,9 +80,8 @@ const updateOrderToDelivered = async (req, res, next) => {
 
 const getAdminOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({})
-      .populate('user', '-password')
-      .sort({ paymentMethod: 'desc' });
+    const orders = await Order.find({}).populate('user', '-password');
+
     res.send(orders);
   } catch (err) {
     next(err);

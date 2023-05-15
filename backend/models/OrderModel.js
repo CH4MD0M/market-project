@@ -21,10 +21,6 @@ const orderSchema = mongoose.Schema(
         count: { type: Number, required: true },
       },
     ],
-    paymentMethod: {
-      type: String,
-      required: true,
-    },
     transactionResult: {
       status: { type: String },
       createTime: { type: String },
