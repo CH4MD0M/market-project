@@ -9,7 +9,6 @@ import { validateAddress } from '@/utils/validation';
 import Postcode from '@components/PostCode';
 
 const AddressInfo = ({ userInfo }: { userInfo: any }) => {
-  const { address, zipCode } = userInfo;
   const dispatch = useAppDispatch();
   const { userAddress } = useAppSelector(state => state.user);
   const [addressEdit, toggleAddressEdit] = useToggle(false);
