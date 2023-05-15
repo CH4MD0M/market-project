@@ -1,5 +1,5 @@
 interface CartProduct {
-  productID: string;
+  _id: string;
   name: string;
   image: any;
   price: number;

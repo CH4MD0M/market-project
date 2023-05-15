@@ -13,7 +13,7 @@ export const addToCartAsync = createAsyncThunk<
   const { data } = await getSingleProduct(payload.id);
 
   const cartItem = {
-    productID: data._id,
+    _id: data._id,
     name: data.name,
     price: data.price,
     image: data.images[0] ?? null,
