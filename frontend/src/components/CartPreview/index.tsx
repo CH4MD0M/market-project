@@ -11,15 +11,15 @@ interface CartPreviewProps {
 }
 
 const CartPreview = ({ item, orderCreated = false }: CartPreviewProps) => {
-  const { productID } = item;
+  const { _id } = item;
   const dispatch = useAppDispatch();
 
   const changeCountHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(addToCartAsync({ id: productID, quantity: Number(e.target.value) }));
+    dispatch(addToCartAsync({ id: _id, quantity: Number(e.target.value) }));
   };
 
   const removeCartItemHandler = () => {
-    dispatch(removeFromCart({ productID, quantity: item.quantity, price: item.price }));
+    dispatch(removeFromCart({ _id, quantity: item.quantity, price: item.price }));
   };
 
   return (
@@ -30,7 +30,7 @@ const CartPreview = ({ item, orderCreated = false }: CartPreviewProps) => {
         </Col>
         <Col md={2}>{item.name}</Col>
         <Col md={2}>
-          <b>₩ {item.price}</b>
+          <b>{item.price}원</b>
         </Col>
         <Col md={3}>
           <Form.Select onChange={changeCountHandler} disabled={orderCreated} value={item.quantity}>
@@ -41,11 +41,13 @@ const CartPreview = ({ item, orderCreated = false }: CartPreviewProps) => {
             ))}
           </Form.Select>
         </Col>
-        <Col md={3}>
-          <Button type="button" variant="secondary" onClick={removeCartItemHandler}>
-            <i className="bi bi-trash" />
-          </Button>
-        </Col>
+        {!orderCreated && (
+          <Col md={3}>
+            <Button type="button" variant="secondary" onClick={removeCartItemHandler}>
+              <i className="bi bi-trash" />
+            </Button>
+          </Col>
+        )}
       </Row>
     </ListGroup.Item>
   );
