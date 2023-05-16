@@ -16,12 +16,20 @@ export const API_URL = {
     UPDATE_USER_PASSWORD: '/api/users/profile/password',
   },
 
-  CATEGORY: {},
+  CATEGORY: {
+    GET_ALL_CATEGORIES: '/api/categories',
+  },
   PRODUCT: {
+    UPLOAD_PRODUCT_IMAGE: (productId: string) =>
+      `/api/products/admin/upload?productId=${productId}`,
+    DELETE_PRODUCT_IMAGE: (encoded: string, productId: string) =>
+      `/api/products/admin/image/${encoded}/${productId}`,
+    SAVE_ATTRIBUTES: '/api/categories/attr',
     ADMIN_GET_PRODUCTS: '/api/products/admin',
     GET_ALL_PRODUCTS: '/api/products',
     GET_SINGLE_PRODUCT: (productId: string) => `/api/products/get-one/${productId}`,
     DELETE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,
+    UPDATE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,
   },
   ORDER: {
     ADMIN_GET_ORDERS: '/api/orders/admin',
