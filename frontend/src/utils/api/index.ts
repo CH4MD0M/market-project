@@ -10,3 +10,8 @@ export * from './postSignUp';
 export * from './postSignOut';
 export * from './getToken';
 export * from './updateUser';
+export * from './getCategory';
+export * from './updateProduct';
+export * from './postAttrs';
+export * from './deleteProductImage';
+export * from './uploadProductImage';
