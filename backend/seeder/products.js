@@ -4,8 +4,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 5,
-    price: 100,
-    category: 'Computers/Laptops/Lenovo',
+    price: 700000,
+    category: '노트북',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/monitors-category.png' },
@@ -21,8 +21,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 5,
-    price: 100,
-    category: 'Computers/Laptops/Lenovo',
+    price: 1700000,
+    category: '노트북',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/monitors-category.png' },
@@ -41,8 +41,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 5,
-    price: 100,
-    category: 'Computers/Laptops/Dell',
+    price: 1500000,
+    category: '노트북',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/monitors-category.png' },
@@ -61,8 +61,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 5,
-    price: 100,
-    category: 'Tablets',
+    price: 160000,
+    category: '태블릿',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/monitors-category.png' },
@@ -77,8 +77,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 10,
-    price: 200,
-    category: 'Tablets',
+    price: 200000,
+    category: '태블릿',
     images: [
       { path: '/images/monitors-category.png' },
       { path: '/images/games-category.png' },
@@ -93,8 +93,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 15,
-    price: 300,
-    category: 'Tablets',
+    price: 380000,
+    category: '태블릿',
     images: [
       { path: '/images/tablets-category.png' },
       { path: '/images/monitors-category.png' },
@@ -109,8 +109,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 20,
-    price: 400,
-    category: 'Tablets',
+    price: 450000,
+    category: '태블릿',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/tablets-category.png' },
@@ -125,8 +125,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 25,
-    price: 500,
-    category: 'Tablets',
+    price: 500000,
+    category: '태블릿',
     images: [
       { path: '/images/monitors-category.png' },
       { path: '/images/games-category.png' },
@@ -141,8 +141,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 5,
-    price: 100,
-    category: 'Monitors',
+    price: 120000,
+    category: '모니터',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/monitors-category.png' },
@@ -157,8 +157,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 10,
-    price: 200,
-    category: 'Monitors',
+    price: 250000,
+    category: '모니터',
     images: [
       { path: '/images/monitors-category.png' },
       { path: '/images/games-category.png' },
@@ -173,8 +173,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 15,
-    price: 300,
-    category: 'Monitors',
+    price: 300000,
+    category: '모니터',
     images: [
       { path: '/images/tablets-category.png' },
       { path: '/images/monitors-category.png' },
@@ -189,8 +189,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 20,
-    price: 400,
-    category: 'Monitors',
+    price: 400000,
+    category: '모니터',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/tablets-category.png' },
@@ -205,8 +205,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 25,
-    price: 500,
-    category: 'Monitors',
+    price: 500000,
+    category: '모니터',
     images: [
       { path: '/images/monitors-category.png' },
       { path: '/images/games-category.png' },
@@ -221,8 +221,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 5,
-    price: 100,
-    category: 'Games',
+    price: 15000,
+    category: '게임 타이틀',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/monitors-category.png' },
@@ -237,8 +237,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 10,
-    price: 200,
-    category: 'Games',
+    price: 20000,
+    category: '게임 타이틀',
     images: [
       { path: '/images/monitors-category.png' },
       { path: '/images/games-category.png' },
@@ -253,8 +253,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 15,
-    price: 300,
-    category: 'Games',
+    price: 30000,
+    category: '게임 타이틀',
     images: [
       { path: '/images/tablets-category.png' },
       { path: '/images/monitors-category.png' },
@@ -269,8 +269,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 20,
-    price: 400,
-    category: 'Games',
+    price: 40000,
+    category: '게임 타이틀',
     images: [
       { path: '/images/games-category.png' },
       { path: '/images/tablets-category.png' },
@@ -285,8 +285,8 @@ const products = [
     description:
       'Product Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni ipsa ducimus architecto explicabo id accusantium nihil exercitationem autem porro esse.',
     count: 25,
-    price: 500,
-    category: 'Games',
+    price: 50000,
+    category: '게임 타이틀',
     images: [
       { path: '/images/monitors-category.png' },
       { path: '/images/games-category.png' },

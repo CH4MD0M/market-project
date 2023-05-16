@@ -1,8 +1,8 @@
 const categories = [
   {
-    name: 'Computers',
+    name: '컴퓨터',
     description:
-      'Computers - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '컴퓨터 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/tablets-category.png',
     attrs: [
       { key: 'RAM', value: ['1 TB', '2 TB', '4 TB'] },
@@ -10,70 +10,74 @@ const categories = [
     ],
   },
   {
-    name: 'Computers/Laptops',
+    name: '노트북',
     description:
-      'Computers/Laptops - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '노트북 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+    image: '/images/tablets-category.png',
+    attrs: [
+      { key: 'RAM', value: ['1 TB', '2 TB', '4 TB'] },
+      { key: 'color', value: ['blue', 'red', 'green', 'black'] },
+    ],
+  },
+  // {
+  //   name: 'Computers/Laptops/Lenovo',
+  //   description:
+  //     'Computers/Laptops/Lenovo - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+  //   image: '/images/tablets-category.png',
+  // },
+  // {
+  //   name: 'Computers/Laptops/Dell',
+  //   description:
+  //     'Computers/Laptops/Dell - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+  //   image: '/images/tablets-category.png',
+  // },
+  {
+    name: '태블릿',
+    description:
+      '태블릿 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/tablets-category.png',
   },
   {
-    name: 'Computers/Laptops/Lenovo',
+    name: '모니터',
     description:
-      'Computers/Laptops/Lenovo - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
-    image: '/images/tablets-category.png',
-  },
-  {
-    name: 'Computers/Laptops/Dell',
-    description:
-      'Computers/Laptops/Dell - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
-    image: '/images/tablets-category.png',
-  },
-  {
-    name: 'Tablets',
-    description:
-      'Tablets - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
-    image: '/images/tablets-category.png',
-  },
-  {
-    name: 'Monitors',
-    description:
-      'Monitors - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '모니터 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/monitors-category.png',
   },
   {
-    name: 'Games',
+    name: '게임 타이틀',
     description:
-      'Games - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '게임 타이틀 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/games-category.png',
   },
   {
-    name: 'Printers',
+    name: '프린터',
     description:
-      'Printers - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '프린터 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/tablets-category.png',
   },
   {
-    name: 'Software',
+    name: '소프트웨어',
     description:
-      'Software - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '소프트웨어 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/monitors-category.png',
   },
   {
-    name: 'Cameras',
+    name: '카메라',
     description:
-      'Cameras - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '카메라 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/games-category.png',
   },
   {
-    name: 'Books',
+    name: '책',
     description:
-      'Books - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '책 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/tablets-category.png',
     attrs: [{ key: 'genre', value: ['movie', 'comedy', 'thriller'] }],
   },
   {
-    name: 'Videos',
+    name: '가구',
     description:
-      'Videos - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
+      '가구 - Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, magnam qui. Accusamus similique placeat at nisi autem eaque molestiae velit.',
     image: '/images/monitors-category.png',
   },
 ];
