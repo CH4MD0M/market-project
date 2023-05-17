@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import AdminLayout from '@layout/AdminLayout';
+import { resetAttributesTable } from '@redux/modules/productSlice';
+import { useAppDispatch } from '@hooks/reduxHooks';
 import { getProductsForAdmin, deleteProduct } from '@utils/api';
+import AdminLayout from '@layout/AdminLayout';
 
 const ProductsPage = () => {
+  const dispatch = useAppDispatch();
   const [products, setProducts] = useState([]);
   const [productDeleted, setProductDeleted] = useState(false);
 
@@ -29,11 +32,15 @@ const ProductsPage = () => {
       const { data } = await getProductsForAdmin(abortController.signal);
       setProducts(data);
     };
-
     fetchProducts();
 
     return () => abortController.abort();
   }, [productDeleted]);
+
+  // reset attributes table
+  useEffect(() => {
+    dispatch(resetAttributesTable());
+  }, []);
 
   return (
     <AdminLayout>

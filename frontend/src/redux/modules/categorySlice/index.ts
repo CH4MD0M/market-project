@@ -9,11 +9,7 @@ const initialState = {
 const categorySlice = createSlice({
   name: 'category',
   initialState,
-  reducers: {
-    saveAttrs(state, action) {
-      state.categories = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(getAllCategoriesThunk.fulfilled, (state, action) => {
       state.categories = action.payload;
