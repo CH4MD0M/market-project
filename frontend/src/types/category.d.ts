@@ -5,9 +5,3 @@ interface Category {
   image: any;
   attrs: any;
 }
-
-interface AttrsData {
-  key: string;
-  val: string;
-  categoryChoosen: string;
-}
