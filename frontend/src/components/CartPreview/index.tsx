@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 
-import { useAppDispatch } from '@/hooks/reduxHooks';
-import { addToCartAsync } from '@/redux/modules/cartSlice/thunk';
-import { removeFromCart } from '@/redux/modules/cartSlice';
+import { useAppDispatch } from '@hooks/reduxHooks';
+import { addToCartAsync } from '@redux/modules/cartSlice/thunk';
+import { removeFromCart } from '@redux/modules/cartSlice';
 
 interface CartPreviewProps {
   item: CartProduct;

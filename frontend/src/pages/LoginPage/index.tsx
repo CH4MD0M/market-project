@@ -3,11 +3,11 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { login } from '@redux/modules/authSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { login } from '@redux/modules/authSlice/thunk';
 import { useInput } from '@hooks/useInput';
+import { useStoreUserInfo } from '@hooks/useStoreUserInfo';
 import { validateEmail, validatePassword } from '@utils/validation';
-import { useStoreUserInfo } from '@/hooks/useStoreUserInfo';
 
 const LoginPage = () => {
   const storeUserInfo = useStoreUserInfo();

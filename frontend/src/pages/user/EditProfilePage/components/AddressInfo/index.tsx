@@ -1,11 +1,12 @@
 import React from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 
-import { updateUserAddressThunk } from '@redux/modules/userSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { updateUserAddressThunk } from '@redux/modules/userSlice/thunk';
 import { useInput } from '@hooks/useInput';
 import { useToggle } from '@hooks/useToggle';
-import { validateAddress } from '@/utils/validation';
+import { validateAddress } from '@utils/validation';
+
 import Postcode from '@components/PostCode';
 
 const AddressInfo = ({ userInfo }: { userInfo: any }) => {

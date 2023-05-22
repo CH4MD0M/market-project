@@ -1,6 +1,7 @@
-import { RootState } from '@/redux/store';
-import { addNewCategory, deleteCategory, getAllCategories, postAttrs } from '@/utils/api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
+import { RootState } from '@redux/store';
+import { addNewCategory, deleteCategory, getAllCategories, postAttrs } from '@utils/api';
 
 const getAllCategoriesThunk = createAsyncThunk('category/getAllCategories', async () => {
   const { data } = await getAllCategories();

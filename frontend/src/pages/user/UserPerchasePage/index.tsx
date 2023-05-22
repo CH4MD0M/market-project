@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Container, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
+import { removeFromCart } from '@redux/modules/cartSlice';
 import { getSingleUser, postOrder, updateOrder } from '@utils/api';
+
 import CartPreview from '@components/CartPreview';
-import { removeFromCart } from '@/redux/modules/cartSlice';
 
 const UserPerchasePage = () => {
   const navigate = useNavigate();
