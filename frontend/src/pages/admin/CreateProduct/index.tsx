@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAppSelector } from '@hooks/reduxHooks';
-import { createProduct } from '@utils/api/createProduct';
+import { createProduct } from '@utils/api';
 
 import CreateCatgegory from './components/CreateCategory';
 import CreateAttrs from './components/CreateAttrs';
