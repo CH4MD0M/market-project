@@ -3,12 +3,11 @@ import { Alert, CloseButton, Col, Form, Row, Table } from 'react-bootstrap';
 
 import { saveAttributeThunk } from '@redux/modules/categorySlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { setAttributesTable } from '@redux/modules/productSlice';
+import { setAttributesFromDb, setAttributesTable } from '@redux/modules/productSlice';
 
 const EditAttrs = () => {
-  const { attributesFromDb, attributesTable, categoryChoosen } = useAppSelector(
-    state => state.product,
-  );
+  const { selectedCategory } = useAppSelector(state => state.category);
+  const { attributesFromDb, attributesTable } = useAppSelector(state => state.product);
   const dispatch = useAppDispatch();
   const [newAttrKey, setNewAttrKey] = useState('');
   const [newAttrValue, setNewAttrValue] = useState('');
@@ -43,8 +42,8 @@ const EditAttrs = () => {
 
   const modifyAttributesTable = (key: string, val: string) => {
     if (attributesTable.length !== 0) {
-      var keyExistsInOldTable = false;
-      let modifiedTable = attributesTable.map((item: any) => {
+      let keyExistsInOldTable = false;
+      const modifiedTable = attributesTable.map((item: any) => {
         if (item.key === key) {
           keyExistsInOldTable = true;
           return { ...item, value: val };
@@ -77,19 +76,23 @@ const EditAttrs = () => {
   };
 
   const addNewAttributeManually = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      if (newAttrKey && newAttrValue) {
-        dispatch(saveAttributeThunk({ key: newAttrKey, val: newAttrValue, categoryChoosen }))
-          .unwrap()
-          .then(() => {
-            setAttributesTableWrapper(newAttrKey, newAttrValue);
-            e.currentTarget.value = '';
-            createNewAttrKey.current.value = '';
-            createNewAttrVal.current.value = '';
-            setNewAttrKey('');
-            setNewAttrValue('');
-          });
-      }
+    if (e.key === 'Enter' && newAttrKey && newAttrValue) {
+      dispatch(saveAttributeThunk({ key: newAttrKey, val: newAttrValue }))
+        .unwrap()
+        .then(res => {
+          const { categoriesUpdated } = res;
+          const categoryData = categoriesUpdated.find(
+            (category: any) => category.name === selectedCategory,
+          );
+          dispatch(setAttributesFromDb(categoryData.attrs || []));
+        });
+      setAttributesTableWrapper(newAttrKey, newAttrValue);
+
+      e.currentTarget.value = '';
+      createNewAttrKey.current.value = '';
+      createNewAttrVal.current.value = '';
+      setNewAttrKey('');
+      setNewAttrValue('');
     }
   };
 
@@ -171,13 +174,13 @@ const EditAttrs = () => {
           <Form.Group className="mb-3" controlId="formBasicNewAttribute">
             <Form.Label>새 속성 추가</Form.Label>
             <Form.Control
-              ref={createNewAttrKey}
-              disabled={categoryChoosen === 'Choose category'}
-              placeholder="first choose or create category"
-              name="newAttrValue"
+              name="newAttrKey"
               type="text"
-              onKeyUp={newAttrKeyHandler}
+              placeholder="먼저 카테고리를 선택하거나 생성하세요"
+              ref={createNewAttrKey}
+              disabled={['', 'Choose category'].includes(selectedCategory)}
               required={!!newAttrValue}
+              onKeyUp={newAttrKeyHandler}
             />
           </Form.Group>
         </Col>
@@ -187,10 +190,10 @@ const EditAttrs = () => {
             <Form.Control
               name="newAttrValue"
               type="text"
+              placeholder="먼저 카테고리를 선택하거나 생성하세요"
               ref={createNewAttrVal}
-              disabled={categoryChoosen === 'Choose category'}
+              disabled={['', 'Choose category'].includes(selectedCategory)}
               required={!!newAttrKey}
-              placeholder="first choose or create category"
               onKeyUp={newAttrValueHandler}
             />
           </Form.Group>

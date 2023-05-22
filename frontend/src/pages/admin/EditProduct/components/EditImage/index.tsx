@@ -1,9 +1,9 @@
-import { useAppDispatch } from '@/hooks/reduxHooks';
-import { setImageRemoved } from '@/redux/modules/productSlice';
-import { deleteProductImage, uploadProductImage } from '@/utils/api';
-
 import React, { useState } from 'react';
 import { Col, Form, Image, Row } from 'react-bootstrap';
+
+import { useAppDispatch } from '@hooks/reduxHooks';
+import { setImageRemoved, setImageUpdated } from '@redux/modules/productSlice';
+import { deleteProductImage, uploadProductImage, uploadProductImageToServer } from '@utils/api';
 
 const onHover: React.CSSProperties = {
   cursor: 'pointer',
@@ -21,30 +21,29 @@ interface EditImageProps {
 const EditImage = ({ product, id }: EditImageProps) => {
   const dispatch = useAppDispatch();
 
-  const [isUploading, setIsUploading] = useState('');
-  const [imageUploaded, setImageUploaded] = useState(false);
+  const [errorMessages, setErrorMessages] = useState<string>('');
 
-  const deleteImageHandler = (imagePath: string) => {
-    deleteProductImage(imagePath, id)
-      .then(() => dispatch(setImageRemoved(true)))
-      .then(() => {
-        setTimeout(() => {
-          dispatch(setImageRemoved(false));
-        }, 2500);
-      });
+  // Upload Image Handler
+  const uploadImageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const images = e.target.files;
+    try {
+      const data = await uploadProductImage(images);
+      const response = await uploadProductImageToServer(id, data);
+      if (response.status === 200) {
+        dispatch(setImageUpdated(true));
+      }
+    } catch (error: any) {
+      setErrorMessages(error.message);
+    }
   };
 
-  const uploadImageHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      setIsUploading('Uploading...');
-      const formData = new FormData();
-      formData.append('image', files[0]);
-      const { data } = await uploadProductImage(id, formData);
-      if (data) {
-        setImageUploaded(true);
-        setIsUploading('');
-      }
+  // Delete Image Handler
+  const deleteImageHandler = async (path: string, publicId: string) => {
+    try {
+      const response = await deleteProductImage(path, id, publicId);
+      if (response.status === 200) dispatch(setImageRemoved(true));
+    } catch (error: any) {
+      setErrorMessages(error.message);
     }
   };
 
@@ -58,14 +57,14 @@ const EditImage = ({ product, id }: EditImageProps) => {
               <Image crossOrigin="anonymous" src={image.path ?? null} fluid />
               <i
                 style={onHover}
-                onClick={() => deleteImageHandler(image.path)}
+                onClick={() => deleteImageHandler(image.path, image.publicId)}
                 className="bi bi-x text-danger"
               ></i>
             </Col>
           ))}
       </Row>
-      <Form.Control required type="file" multiple onChange={uploadImageHandler} />
-      {isUploading}
+      <Form.Control type="file" multiple onChange={uploadImageHandler} />
+      {errorMessages && <p className="text-danger">{errorMessages}</p>}
     </Form.Group>
   );
 };

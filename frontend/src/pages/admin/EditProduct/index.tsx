@@ -12,14 +12,11 @@ import EditImage from './components/EditImage';
 const EditProduct = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { imageRemoved } = useAppSelector(state => state.product);
+  const { attributesTable, imageRemoved, imageUpdated } = useAppSelector(state => state.product);
 
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState<boolean>(false);
   const [product, setProduct] = useState<any>({});
-  const [updateProductResponseState, setUpdateProductResponseState] = useState({
-    message: '',
-    error: '',
-  });
+  const [errorMessages, setErrorMessages] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,27 +35,16 @@ const EditProduct = () => {
       count: form.count.value,
       price: form.price.value,
       category: form.category.value,
-      attributesTable: [] as const,
+      attributesTable,
     };
-    // const formInputs = {
-    //   name: (form.namedItem('name') as HTMLInputElement).value,
-    //   description: (form.namedItem('description') as HTMLInputElement).value,
-    //   count: (form.namedItem('count') as HTMLInputElement).value,
-    //   price: (form.namedItem('price') as HTMLInputElement).value,
-    //   category: (form.namedItem('category') as HTMLSelectElement).value,
-    //   attributesTable: [] as const,
-    // };
 
     if (e.currentTarget.checkValidity()) {
       updateProduct(id, formInputs)
         .then(res => {
           if (res.status === 200) navigate('/admin/products');
         })
-        .catch(err => {
-          setUpdateProductResponseState({
-            error: err.response && err.response.data?.message,
-            message: err.response.data?.message,
-          });
+        .catch(error => {
+          setErrorMessages(error.response.data.message);
         });
     }
 
@@ -68,8 +54,8 @@ const EditProduct = () => {
   useEffect(() => {
     getSingleProduct(id)
       .then(res => setProduct(res.data))
-      .catch(er => console.log(er));
-  }, [id, imageRemoved]);
+      .catch(error => console.log(error));
+  }, [id, imageUpdated, imageRemoved]);
 
   const checkKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') e.preventDefault();
@@ -133,7 +119,7 @@ const EditProduct = () => {
             <Button variant="primary" type="submit">
               상품 업데이트
             </Button>
-            {updateProductResponseState.error ?? ''}
+            {errorMessages && <p className="text-danger mt-3">{errorMessages}</p>}
           </Form>
         </Col>
       </Row>
