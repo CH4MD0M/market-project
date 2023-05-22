@@ -3,6 +3,7 @@ const Review = require('./ReviewModel');
 
 const imageSchema = mongoose.Schema({
   path: { type: String, required: true },
+  publicId: { type: String, required: true },
 });
 
 const productSchema = mongoose.Schema(

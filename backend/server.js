@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -12,6 +13,17 @@ const apiRoutes = require('./routes/apiRoutes');
 
 app.get('/', async (req, res, next) => {
   res.json({ message: 'API running...' });
+});
+
+// Require the cloudinary library
+const cloudinary = require('cloudinary').v2;
+
+// Return "https" URLs by setting secure: true
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SEC,
+  secure: true,
 });
 
 // mongodb connection

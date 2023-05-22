@@ -8,8 +8,9 @@ const {
   adminDeleteProduct,
   adminCreateProduct,
   adminUpdateProduct,
-  adminUpload,
+  adminUploadProductImage,
   adminDeleteProductImage,
+  deleteCloudinaryImage,
 } = require('../controllers/productController');
 
 const {
@@ -29,9 +30,13 @@ router.use(verifyIsLoggedIn);
 router.use(verifyIsAdmin);
 router.get('/admin', adminGetProducts);
 router.delete('/admin/:id', adminDeleteProduct);
-router.delete('/admin/image/:imagePath/:productId', adminDeleteProductImage);
+router.delete(
+  '/admin/image/:imagePath/:productId/:publicId',
+  adminDeleteProductImage
+);
+router.delete('/admin/cloudinary/:publicId', deleteCloudinaryImage);
 router.put('/admin/:id', adminUpdateProduct);
-router.post('/admin/upload', adminUpload);
+router.post('/admin/upload', adminUploadProductImage);
 router.post('/admin', adminCreateProduct);
 
 module.exports = router;

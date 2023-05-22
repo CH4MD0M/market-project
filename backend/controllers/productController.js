@@ -1,6 +1,6 @@
 const Product = require('../models/ProductModel');
 const recordsPerPage = require('../config/pagination');
-const imageValidate = require('../utils/imageValidate');
+const cloudinary = require('cloudinary').v2;
 
 const getProducts = async (req, res, next) => {
   try {
@@ -146,7 +146,7 @@ const adminGetProducts = async (req, res, next) => {
   try {
     const products = await Product.find({})
       .sort({ category: 1 })
-      .select('name price category');
+      .select('name price category images');
     return res.json(products);
   } catch (err) {
     next(err);
@@ -168,8 +168,15 @@ const adminDeleteProduct = async (req, res, next) => {
 const adminCreateProduct = async (req, res, next) => {
   try {
     const product = new Product();
-    const { name, description, count, price, category, attributesTable } =
-      req.body;
+    const {
+      name,
+      description,
+      count,
+      price,
+      category,
+      attributesTable,
+      images,
+    } = req.body;
     product.name = name;
     product.description = description;
     product.count = count;
@@ -180,6 +187,7 @@ const adminCreateProduct = async (req, res, next) => {
         product.attrs.push(item);
       });
     }
+    product.images = images;
     await product.save();
 
     res.json({
@@ -202,6 +210,7 @@ const adminUpdateProduct = async (req, res, next) => {
     product.count = count || product.count;
     product.price = price || product.price;
     product.category = category || product.category;
+
     if (attributesTable.length > 0) {
       product.attrs = [];
       attributesTable.map(item => {
@@ -220,97 +229,51 @@ const adminUpdateProduct = async (req, res, next) => {
 };
 
 // Upload Images
-const adminUpload = async (req, res, next) => {
-  if (req.query.cloudinary === 'true') {
-    try {
-      let product = await Product.findById(req.query.productId).orFail();
-      product.images.push({ path: req.body.url });
-      await product.save();
-    } catch (err) {
-      next(err);
-    }
-    return;
-  }
-
+const adminUploadProductImage = async (req, res, next) => {
   try {
-    if (!req.files || !!req.files.images === false) {
-      return res.status(400).send('No files were uploaded.');
-    }
-
-    const validateResult = imageValidate(req.files.images);
-    if (validateResult.error) {
-      return res.status(400).send(validateResult.error);
-    }
-
-    const path = require('path');
-    const { v4: uuidv4 } = require('uuid');
-    const uploadDirectory = path.resolve(
-      __dirname,
-      '../../frontend',
-      'public',
-      'images',
-      'products'
+    let product = await Product.findById(req.query.productId).orFail(
+      new Error('Product not found')
     );
-
-    let product = await Product.findById(req.query.productId).orFail();
-
-    let imagesTable = [];
-    if (Array.isArray(req.files.images)) {
-      imagesTable = req.files.images;
-    } else {
-      imagesTable.push(req.files.images);
-    }
-
-    for (let image of imagesTable) {
-      let fileName = uuidv4() + path.extname(image.name);
-      var uploadPath = uploadDirectory + '/' + fileName;
-      product.images.push({ path: '/images/products/' + fileName });
-      image.mv(uploadPath, function (err) {
-        if (err) {
-          return res.status(500).send(err);
-        }
-      });
-    }
-
+    product.images.push(...req.body.imageData);
     await product.save();
-    return res.send('Files uploaded!');
+    res.status(200).json({ message: 'Product image updated successfully.' });
   } catch (err) {
+    if (err.message === 'Product not found') {
+      res.status(404).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: err.message });
+    }
     next(err);
   }
+  return;
 };
 
+// Delete Product Image
 const adminDeleteProductImage = async (req, res, next) => {
   const imagePath = decodeURIComponent(req.params.imagePath);
-  if (req.query.cloudinary === 'true') {
-    try {
-      await Product.findOneAndUpdate(
-        { _id: req.params.productId },
-        { $pull: { images: { path: imagePath } } }
-      ).orFail();
-      return res.end();
-    } catch (er) {
-      next(er);
-    }
-    return;
-  }
-  try {
-    const path = require('path');
-    const finalPath = path.resolve('../frontend/public') + imagePath;
+  const imageId = req.params.publicId;
 
-    const fs = require('fs');
-    fs.unlink(finalPath, err => {
-      if (err) {
-        res.status(500).send(err);
-      }
-    });
+  try {
+    await cloudinary.uploader.destroy(imageId);
     await Product.findOneAndUpdate(
       { _id: req.params.productId },
-      { $pull: { images: { path: imagePath } } }
+      { $pull: { images: { path: imagePath, publicId: imageId } } }
     ).orFail();
-    return res.end();
-  } catch (err) {
-    next(err);
+    return res.status(200).json({ success: true });
+  } catch (er) {
+    next(er);
   }
+  return;
+};
+
+const deleteCloudinaryImage = async (req, res, next) => {
+  try {
+    await cloudinary.uploader.destroy(req.params.publicId);
+    return res.status(200).json({ success: true });
+  } catch (er) {
+    next(er);
+  }
+  return;
 };
 
 module.exports = {
@@ -321,6 +284,7 @@ module.exports = {
   adminDeleteProduct,
   adminCreateProduct,
   adminUpdateProduct,
-  adminUpload,
+  adminUploadProductImage,
   adminDeleteProductImage,
+  deleteCloudinaryImage,
 };
