@@ -1,20 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
+import { editUser, getSingleUser } from '@utils/api';
 
 const EditUser = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [userInfoData, setUserInfoData] = useState<EditUserFormData>();
+  const [isAdminState, setIsAdminState] = useState(false);
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const form = e.currentTarget;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    if (!form.checkValidity()) {
-      e.preventDefault();
-      e.stopPropagation();
+    const form = e.target as typeof e.target & {
+      name: { value: string };
+      email: { value: string };
+      isAdmin: { checked: boolean };
+    };
+
+    const formInputs = {
+      name: form.name.value,
+      email: form.email.value,
+      isAdmin: form.isAdmin.checked,
+    };
+
+    if (e.currentTarget.checkValidity()) {
+      const response = await editUser(id, formInputs);
+      if (response.status === 200) navigate('/admin/users');
     }
 
     setValidated(true);
   };
+
+  useEffect(() => {
+    getSingleUser(id).then(data => {
+      const { email, name, isAdmin } = data;
+      setUserInfoData({ email, name, isAdmin });
+      setIsAdminState(isAdmin);
+    });
+  }, [id]);
 
   return (
     <Container>
@@ -29,16 +55,22 @@ const EditUser = () => {
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicFirstName">
               <Form.Label>사용자 이름</Form.Label>
-              <Form.Control name="name" required type="text" defaultValue="홍길동" />
+              <Form.Control name="name" required type="text" defaultValue={userInfoData?.name} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>이메일</Form.Label>
-              <Form.Control name="email" required type="email" defaultValue="abc@email.com" />
+              <Form.Control name="email" required type="email" defaultValue={userInfoData?.email} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check name="isAdmin" type="checkbox" label="관리자 권한" checked={false} />
+              <Form.Check
+                name="isAdmin"
+                type="checkbox"
+                label="관리자 권한"
+                checked={isAdminState}
+                onChange={e => setIsAdminState(e.target.checked)}
+              />
             </Form.Group>
 
             <Button variant="primary" type="submit">

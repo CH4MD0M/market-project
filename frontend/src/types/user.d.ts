@@ -1,30 +1,34 @@
-interface UserProfileFormData {
-  name: string;
-  phoneNumber: string;
-  address: string;
-  zipCode: string;
-  password: string;
-}
-
 interface UserAddressInfo {
   address?: string;
   zipCode?: string;
   phoneNumber?: string;
 }
 
-interface UpdateUserNameFormData {
+interface UserName {
   name: string;
 }
 
-interface UpdateUserPhoneFormData {
+interface UserPhone {
   phoneNumber: string;
 }
 
-interface UpdateUserAddressFormData {
+interface UserAddress {
   address: string;
   zipCode: string;
 }
 
-interface UpdateUserPasswordFormData {
+interface UserPassword {
   password: string;
+}
+
+type UserProfileFormData = UserName & UserPhone & UserAddress & UserPassword;
+type UpdateUserNameFormData = UserName;
+type UpdateUserPhoneFormData = UserPhone;
+type UpdateUserAddressFormData = UserAddress;
+type UpdateUserPasswordFormData = UserPassword;
+
+interface EditUserFormData {
+  name: string;
+  email: string;
+  isAdmin: boolean;
 }
