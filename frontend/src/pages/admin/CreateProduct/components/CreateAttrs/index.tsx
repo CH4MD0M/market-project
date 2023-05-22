@@ -1,14 +1,15 @@
 import React, { Fragment, useRef, useState } from 'react';
 import { Alert, CloseButton, Col, Form, Row, Table } from 'react-bootstrap';
 
-import { saveAttributeThunk } from '@redux/modules/categorySlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { saveAttributeThunk } from '@redux/modules/categorySlice/thunk';
 import { setAttributesFromDb, setAttributesTable } from '@redux/modules/productSlice';
 
-const EditAttrs = () => {
+const CreateAttrs = () => {
+  const dispatch = useAppDispatch();
   const { selectedCategory } = useAppSelector(state => state.category);
   const { attributesFromDb, attributesTable } = useAppSelector(state => state.product);
-  const dispatch = useAppDispatch();
+
   const [newAttrKey, setNewAttrKey] = useState('');
   const [newAttrValue, setNewAttrValue] = useState('');
 
@@ -40,6 +41,11 @@ const EditAttrs = () => {
     }
   };
 
+  const setAttributesTableWrapper = (key: string, val: string) => {
+    const modifiedTable = modifyAttributesTable(key, val);
+    dispatch(setAttributesTable(modifiedTable));
+  };
+
   const modifyAttributesTable = (key: string, val: string) => {
     if (attributesTable.length !== 0) {
       let keyExistsInOldTable = false;
@@ -58,11 +64,17 @@ const EditAttrs = () => {
     }
   };
 
-  const setAttributesTableWrapper = (key: string, val: string) => {
-    const newAttributesTable = modifyAttributesTable(key, val);
-    dispatch(setAttributesTable(newAttributesTable));
+  // Delete Attribute
+  const deleteAttribute = (key: string) => {
+    const modifiedTable = filterAttributesTable(key);
+    dispatch(setAttributesTable(modifiedTable));
   };
 
+  const filterAttributesTable = (key: string) => {
+    return attributesTable.filter((item: any) => item.key !== key);
+  };
+
+  // Add new attribute
   const newAttrKeyHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     setNewAttrKey(e.currentTarget.value);
@@ -96,15 +108,6 @@ const EditAttrs = () => {
     }
   };
 
-  const filterAttributesTable = (key: string) => {
-    return attributesTable.filter((item: any) => item.key !== key);
-  };
-
-  const deleteAttribute = (key: string) => {
-    const newAttributesTable = filterAttributesTable(key);
-    dispatch(setAttributesTable(newAttributesTable));
-  };
-
   return (
     <>
       {attributesFromDb.length > 0 && (
@@ -116,7 +119,7 @@ const EditAttrs = () => {
                 name="atrrKey"
                 aria-label="Default select example"
                 ref={attrKey}
-                onChange={setValuesForAttrFromDbSelectForm}
+                onChange={e => setValuesForAttrFromDbSelectForm(e)}
               >
                 <option>속성 선택</option>
                 {attributesFromDb.map((item, idx) => (
@@ -128,23 +131,24 @@ const EditAttrs = () => {
             </Form.Group>
           </Col>
           <Col md={6}>
-            <Form.Group className="mb-3" controlId="formBasicAttributeValue">
-              <Form.Label>속성 값</Form.Label>
+            <Form.Group className="mb-3" controlId="formBasicAttributes">
+              <Form.Label>속성 값 추가</Form.Label>
               <Form.Select
                 name="atrrVal"
                 aria-label="Default select example"
                 ref={attrVal}
                 onChange={attributeValueSelected}
               >
-                <option>속성 값 선택</option>
+                <option value="">속성 값 선택</option>
               </Form.Select>
             </Form.Group>
           </Col>
         </Row>
       )}
 
+      {/* 속성 테이블 */}
       <Row>
-        {attributesTable && attributesTable.length > 0 && (
+        {attributesTable.length > 0 && (
           <Table hover>
             <thead>
               <tr>
@@ -179,7 +183,7 @@ const EditAttrs = () => {
               placeholder="먼저 카테고리를 선택하거나 생성하세요"
               ref={createNewAttrKey}
               disabled={['', 'Choose category'].includes(selectedCategory)}
-              required={!!newAttrValue}
+              required={!!newAttrKey}
               onKeyUp={newAttrKeyHandler}
             />
           </Form.Group>
@@ -193,13 +197,12 @@ const EditAttrs = () => {
               placeholder="먼저 카테고리를 선택하거나 생성하세요"
               ref={createNewAttrVal}
               disabled={['', 'Choose category'].includes(selectedCategory)}
-              required={!!newAttrKey}
+              required={!!newAttrValue}
               onKeyUp={newAttrValueHandler}
             />
           </Form.Group>
         </Col>
       </Row>
-
       <Alert show={!!newAttrKey && !!newAttrValue} variant="primary">
         속성 키와 속성 값이 모두 입력되어야 속성이 추가됩니다.
       </Alert>
@@ -207,4 +210,4 @@ const EditAttrs = () => {
   );
 };
 
-export default EditAttrs;
+export default CreateAttrs;

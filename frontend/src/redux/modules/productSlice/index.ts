@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ProductState } from './types';
 
-const initialState = {
+const initialState: ProductState = {
   attributesFromDb: [],
   attributesTable: [],
-  categoryChoosen: 'Choose category',
+  uploadedImageData: [],
+  imageUpdated: false,
   imageRemoved: false,
-} as ProductState;
+};
 
 const productSlice = createSlice({
   name: 'product',
@@ -18,13 +19,22 @@ const productSlice = createSlice({
     setAttributesTable: (state, action) => {
       state.attributesTable = action.payload;
     },
-    setCategoryChoosen: (state, action) => {
-      state.categoryChoosen = action.payload;
+    // For Create Product Page
+    setImageDataAfterUploaded: (state, action) => {
+      state.uploadedImageData = action.payload;
+    },
+    setImageDataAfterDeleted: (state, action) => {
+      state.uploadedImageData = action.payload;
+    },
+    // For Edit Product Page
+    setImageUpdated: (state, action) => {
+      state.imageUpdated = action.payload;
     },
     setImageRemoved: (state, action) => {
       state.imageRemoved = action.payload;
     },
-    resetAttributesTable: () => {
+    // Reset Product State
+    resetProductState: () => {
       return initialState;
     },
   },
@@ -33,9 +43,11 @@ const productSlice = createSlice({
 export const {
   setAttributesFromDb,
   setAttributesTable,
-  setCategoryChoosen,
+  setImageDataAfterUploaded,
+  setImageDataAfterDeleted,
+  setImageUpdated,
   setImageRemoved,
-  resetAttributesTable,
+  resetProductState,
 } = productSlice.actions;
 
 export default productSlice.reducer;

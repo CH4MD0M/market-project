@@ -6,7 +6,6 @@ const updateUserName = async (formData: UpdateUserNameFormData) => {
   return data;
 };
 
-// TODO: UserAddressInfo 타입 수정
 const updateUserAddress = async (formData: UserAddressInfo) => {
   const { data } = await instance.put(API_URL.USER.UPDATE_USER_ADDRESS, formData);
   return data;

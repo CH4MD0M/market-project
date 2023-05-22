@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { resetAttributesTable } from '@redux/modules/productSlice';
 import { useAppDispatch } from '@hooks/reduxHooks';
+import { resetProductState } from '@redux/modules/productSlice';
+import { resetCategoryState } from '@redux/modules/categorySlice';
 import { getProductsForAdmin, deleteProduct } from '@utils/api';
+
 import AdminLayout from '@layout/AdminLayout';
 
 const ProductsPage = () => {
@@ -39,7 +41,8 @@ const ProductsPage = () => {
 
   // reset attributes table
   useEffect(() => {
-    dispatch(resetAttributesTable());
+    dispatch(resetProductState());
+    dispatch(resetCategoryState());
   }, []);
 
   return (
