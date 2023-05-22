@@ -1,16 +1,43 @@
 import React, { useState } from 'react';
-import { Alert, Button, CloseButton, Col, Container, Form, Row, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useAppSelector } from '@hooks/reduxHooks';
+import { createProduct } from '@utils/api/createProduct';
+
+import CreateCatgegory from './components/CreateCategory';
+import CreateAttrs from './components/CreateAttrs';
+import CreateImage from './components/CreateImage';
 
 const CreateProduct = () => {
+  const navigate = useNavigate();
+  const { attributesTable, uploadedImageData } = useAppSelector(state => state.product);
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const form = e.currentTarget;
+  // Form Submit Handler
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as typeof e.target & {
+      name: { value: string };
+      description: { value: string };
+      count: { value: string };
+      price: { value: string };
+      category: { value: string };
+    };
 
-    if (!form.checkValidity()) {
-      e.preventDefault();
-      e.stopPropagation();
+    const formInputs = {
+      name: form.name.value,
+      description: form.description.value,
+      count: form.count.value,
+      price: form.price.value,
+      category: form.category.value,
+      attributesTable,
+      images: uploadedImageData,
+    };
+
+    if (e.currentTarget.checkValidity()) {
+      const response = await createProduct(formInputs);
+      if (response.status === 200) navigate('/admin/products');
     }
 
     setValidated(true);
@@ -26,7 +53,14 @@ const CreateProduct = () => {
         </Col>
         <Col md={6}>
           <h1>상품 추가</h1>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmit}
+            onKeyDown={e => {
+              if (e.key === 'Enter') e.preventDefault();
+            }}
+          >
             {/* 상품명 */}
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>상품명</Form.Label>
@@ -52,90 +86,13 @@ const CreateProduct = () => {
             </Form.Group>
 
             {/* 카테고리 */}
-            <Form.Group className="mb-3" controlId="formBasicCategory">
-              <Form.Label>
-                카테고리
-                <CloseButton />(<small>선택 지우기</small>)
-              </Form.Label>
-              <Form.Select id="cats" required name="category" aria-label="Default select example">
-                <option value="">카테고리 선택</option>
-                <option value="1">노트북</option>
-                <option value="2">카메라</option>
-                <option value="3">게임 타이틀</option>
-              </Form.Select>
-            </Form.Group>
-
-            {/* 새 카테고리 추가 */}
-            <Form.Group className="mb-3" controlId="formBasicNewCategory">
-              <Form.Label>새 카테고리 추가</Form.Label>
-              <Form.Control name="newCategory" type="text" />
-            </Form.Group>
+            <CreateCatgegory />
 
             {/* 속성 */}
-            <Row className="mt-5">
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="formBasicAttributes">
-                  <Form.Label>속성 추가</Form.Label>
-                  <Form.Select name="atrrKey" aria-label="Default select example">
-                    <option value="">속성 선택</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="formBasicAttributes">
-                  <Form.Label>속성 값 추가</Form.Label>
-                  <Form.Select name="atrrKey" aria-label="Default select example">
-                    <option value="">속성 값 선택</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Table hover>
-                <thead>
-                  <tr>
-                    <th>속성</th>
-                    <th>값</th>
-                    <th>삭제</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>속성 key</td>
-                    <td>속성 value</td>
-                    <td>
-                      <CloseButton />
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Row>
-
-            {/* 새 속성 추가 */}
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="formBasicNewAttribute">
-                  <Form.Label>새 속성 추가</Form.Label>
-                  <Form.Control name="newAttrValue" type="text" />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3" controlId="formBasicNewAttributeValue">
-                  <Form.Label>속성 값</Form.Label>
-                  <Form.Control name="newAttrValue" type="text" />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Alert show variant="primary">
-              속성 키와 속성 값이 모두 입력되어야 속성이 추가됩니다.
-            </Alert>
+            <CreateAttrs />
 
             {/* 이미지 */}
-            <Form.Group controlId="formFileMultiple" className="mb-3 mt-3">
-              <Form.Label>상품 이미지</Form.Label>
-              <Form.Control required name="images" type="file" multiple />
-            </Form.Group>
+            <CreateImage />
 
             <Button variant="primary" type="submit">
               상품 등록
