@@ -10,6 +10,7 @@ export const API_URL = {
     GET_ALL_USERS: '/api/users',
     GET_SINGLE_USER: (userId: string) => `/api/users/profile/${userId}`,
     DELETE_USER: (userId: string) => `/api/users/${userId}`,
+    EDIT_USER: (userId: string) => `/api/users/${userId}`,
     UPDATE_USER_NAME: '/api/users/profile/name',
     UPDATE_USER_ADDRESS: '/api/users/profile/address',
     UPDATE_USER_PHONE: '/api/users/profile/phone',

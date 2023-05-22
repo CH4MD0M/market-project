@@ -53,7 +53,7 @@ const UserLists = () => {
             <tr key={idx}>
               <td>{idx + 1}</td>
               <td>{user.name}</td>
-              <td>user.email</td>
+              <td>{user.email}</td>
               <td>
                 {user.isAdmin ? (
                   <i className="bi bi-check-lg text-success"></i>

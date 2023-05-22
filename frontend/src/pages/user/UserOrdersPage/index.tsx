@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Col } from 'react-bootstrap';
 
 import UserLayout from '@layout/UserLayout';
-import { getOrdersForUser } from '@/utils/api';
+import { getOrdersForUser } from '@utils/api';
 import OrderPreview from './components/OrderPreview/indext';
 
 const UserOrdersPage = () => {

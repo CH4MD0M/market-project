@@ -4,7 +4,7 @@ import { IRoute } from '@/types/route';
 import { Navigate } from 'react-router-dom';
 
 const EditProfilePage = React.lazy(() => import('@pages/user/EditProfilePage'));
-const UserPerchasePage = React.lazy(() => import('@/pages/user/UserPerchasePage'));
+const UserPerchasePage = React.lazy(() => import('@pages/user/UserPerchasePage'));
 const UserOrdersPage = React.lazy(() => import('@pages/user/UserOrdersPage'));
 const UserOrderDetailPage = React.lazy(() => import('@pages/user/UserOrderDetailsPage'));
 const UserServicePage = React.lazy(() => import('@pages/user/UserServicePage'));

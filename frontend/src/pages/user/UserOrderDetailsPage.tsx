@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, ListGroup, ListGroupItem } from 'react-bootstrap';
-
-import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
-import CartPreview from '@components/CartPreview';
-import { getSingleUser } from '@/utils/api';
+import { Button, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+
+import { useAppSelector } from '@hooks/reduxHooks';
+import CartPreview from '@components/CartPreview';
+import { getSingleUser } from '@utils/api';
 
 const UserOrderDetailsPage = () => {
   const { userData } = useAppSelector(state => state.user);

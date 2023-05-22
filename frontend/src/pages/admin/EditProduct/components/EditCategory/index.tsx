@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { setAttributesFromDb, setAttributesTable } from '@/redux/modules/productSlice';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { setAttributesFromDb, setAttributesTable } from '@redux/modules/productSlice';
 import { setSelectedCategory } from '@redux/modules/categorySlice';
 
 interface EditCategoryProps {

@@ -4,12 +4,10 @@ import { Rating } from 'react-simple-star-rating';
 import ImageZoom from 'js-image-zoom';
 import { Col, Container, Row, ListGroup, Form, Button, Alert, Image } from 'react-bootstrap';
 
-import CartMessage from './components/CartMessage';
-
-import { addToCart } from '@redux/modules/cartSlice';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { getSingleProduct } from '@utils/api';
 import { addToCartAsync } from '@/redux/modules/cartSlice/thunk';
+
+import CartMessage from './components/CartMessage';
 
 const options = {
   offset: { vertical: 0, horizontal: 0 },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CloseButton, Form } from 'react-bootstrap';
 
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setAttributesFromDb } from '@redux/modules/productSlice';
 import { setSelectedCategory } from '@redux/modules/categorySlice';
 import { addNewCategoryThunk, deleteCategoryThunk } from '@redux/modules/categorySlice/thunk';

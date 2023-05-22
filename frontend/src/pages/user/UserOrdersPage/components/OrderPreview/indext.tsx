@@ -1,6 +1,7 @@
-import CartPreview from '@/components/CartPreview';
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import CartPreview from '@components/CartPreview';
 
 interface OrderPreviewProps {
   order: any;

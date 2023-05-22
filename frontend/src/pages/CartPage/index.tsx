@@ -2,8 +2,9 @@ import React from 'react';
 import { Alert, Button, Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+import { useAppSelector } from '@hooks/reduxHooks';
+
 import CartPreview from '@components/CartPreview';
-import { useAppSelector } from '@/hooks/reduxHooks';
 
 const CartPage = () => {
   const { cartItems, cartSubtotal } = useAppSelector(state => state.cart);
