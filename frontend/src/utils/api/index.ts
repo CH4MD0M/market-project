@@ -11,6 +11,7 @@ export * from './postSignOut';
 export * from './getToken';
 
 export * from './categoryApi';
+export * from './postReview';
 
 // admin - product
 export * from './productImageApi';

@@ -17,6 +17,7 @@ const CreateProduct = () => {
   // Form Submit Handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const form = e.target as typeof e.target & {
       name: { value: string };
       description: { value: string };

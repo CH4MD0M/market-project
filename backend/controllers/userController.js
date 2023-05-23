@@ -191,8 +191,9 @@ const getUserProfile = async (req, res, next) => {
 
 // Write review
 const writeReview = async (req, res, next) => {
+  let session;
   try {
-    const session = await Review.startSession();
+    session = await Review.startSession();
 
     // get comment, rating from req.body
     const { comment, rating } = req.body;
