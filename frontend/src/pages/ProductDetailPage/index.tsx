@@ -2,53 +2,67 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
 import ImageZoom from 'js-image-zoom';
-import { Col, Container, Row, ListGroup, Form, Button, Alert, Image } from 'react-bootstrap';
+import { Col, Container, Row, ListGroup, Form, Button, Image } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { addToCartAsync } from '@/redux/modules/cartSlice/thunk';
 
 import CartMessage from './components/CartMessage';
+import { getSingleProduct } from '@/utils/api';
+import ProductReview from './components/ProductReview';
 
 const options = {
+  scale: 2,
   offset: { vertical: 0, horizontal: 0 },
 };
 
 const ProductDetailPage = () => {
-  const dispatch = useAppDispatch();
   const { id } = useParams();
-  const { cartItems } = useAppSelector(state => state.cart);
+  const dispatch = useAppDispatch();
+
+  const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
   const [cartMessageShow, setCartMessageShow] = useState<boolean>(false);
+  const [reviewUpdated, setReviewUpdated] = useState<boolean>(false);
 
+  // Add to cart handler
   const addToCartHandler = async () => {
     await dispatch(addToCartAsync({ id, quantity }));
     setCartMessageShow(true);
   };
 
+  // Quantity change handler
   const quantityChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantity(Number(e.target.value));
   };
 
+  // Image zoom
   useEffect(() => {
-    new ImageZoom(document.getElementById('first'), options);
-    new ImageZoom(document.getElementById('second'), options);
-    new ImageZoom(document.getElementById('third'), options);
-  }, []);
+    if (product?.images) {
+      product?.images.map(
+        (_, id) => new ImageZoom(document.getElementById(`imageId${id + 1}`), options),
+      );
+    }
+  });
+
+  useEffect(() => {
+    getSingleProduct(id).then(({ data }) => setProduct(data));
+  }, [id, reviewUpdated]);
 
   return (
     <Container>
       <CartMessage cartMessageShow={cartMessageShow} setCartMessageShow={setCartMessageShow} />
       <Row className="mt-5">
+        {/* 상품 이미지 */}
         <Col style={{ zIndex: 1 }} md={4}>
-          <div id="first">
-            <Image fluid src="/images/games-category.png" />
-          </div>
-          <div id="second">
-            <Image fluid src="/images/monitors-category.png" />
-          </div>
-          <div id="third">
-            <Image fluid src="/images/tablets-category.png" />
-          </div>
+          {product?.images.map((image, id) => (
+            <div key={id}>
+              <div key={id} id={`imageId${id + 1}`}>
+                <Image crossOrigin="anonymous" fluid src={`${image.path ?? null}`} />
+              </div>
+              <br />
+            </div>
+          ))}
         </Col>
         <Col md={8}>
           <Row>
@@ -56,24 +70,25 @@ const ProductDetailPage = () => {
             <Col md={8}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <h1>상품 이름</h1>
+                  <h1>{product?.name}</h1>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Rating readonly size={20} initialValue={4} />
-                  (2)
+                  <Rating readonly size={20} initialValue={product?.rating} />(
+                  {product?.reviewsNumber})
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <span className="fw-bold">₩상품 가격</span>
+                  <span className="fw-bold">{product?.price}</span>
                 </ListGroup.Item>
-                <ListGroup.Item>상품 설명</ListGroup.Item>
+                <ListGroup.Item>{product?.description}</ListGroup.Item>
               </ListGroup>
             </Col>
+
             {/* 상품 상태, 상품 수량 */}
             <Col md={4}>
               <ListGroup>
-                <ListGroup.Item>재고 상태: "in stock" : "out of stock"</ListGroup.Item>
+                <ListGroup.Item>재고 상태: {`${product?.count}개 남음` || '품절'}</ListGroup.Item>
                 <ListGroup.Item>
-                  가격: <span className="fw-bold">₩100,000원</span>
+                  가격: <span className="fw-bold">{product?.price}</span>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   수량:
@@ -83,9 +98,11 @@ const ProductDetailPage = () => {
                     size="lg"
                     aria-label="Default select example"
                   >
-                    <option value="1">1개</option>
-                    <option value="2">2개</option>
-                    <option value="3">3개</option>
+                    {[...Array(product?.count).keys()].map(x => (
+                      <option key={x + 1} value={x + 1}>
+                        {x + 1}
+                      </option>
+                    ))}
                   </Form.Select>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -96,40 +113,9 @@ const ProductDetailPage = () => {
               </ListGroup>
             </Col>
           </Row>
-          <Row>
-            <Col className="mt-5">
-              <h4>상품 리뷰</h4>
-              <ListGroup variant="flush">
-                {Array.from({ length: 10 }).map((_, idx) => (
-                  <ListGroup.Item key={idx}>
-                    <strong>작성자</strong> <br />
-                    <Rating readonly size={20} initialValue={3} /> <br />
-                    <p>2022-02-01</p>
-                    <p>리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용 리뷰 내용</p>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Col>
-          </Row>
-          <hr />
-          <Alert variant="danger">리뷰를 작성하시려면 로그인 해주세요</Alert>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>리뷰 작성</Form.Label>
-              <Form.Control name="comment" required as="textarea" rows={3} />
-            </Form.Group>
-            <Form.Select name="rating" required aria-label="Default select example">
-              <option value="">별점</option>
-              <option value="5">5 (매우 만족)</option>
-              <option value="4">4 (만족)</option>
-              <option value="3">3 (보통)</option>
-              <option value="2">2 (불만족)</option>
-              <option value="1">1 (매우 불만족)</option>
-            </Form.Select>
-            <Button type="submit" className="mb-3 mt-3" variant="primary">
-              리뷰 등록
-            </Button>
-          </Form>
+
+          {/* 리뷰 */}
+          <ProductReview product={product} setReviewUpdated={setReviewUpdated} />
         </Col>
       </Row>
     </Container>

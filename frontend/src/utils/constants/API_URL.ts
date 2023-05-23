@@ -17,11 +17,16 @@ export const API_URL = {
     UPDATE_USER_PASSWORD: '/api/users/profile/password',
   },
 
+  REVIEW: {
+    WRITE_REVIEW: (productId: string) => `/api/users/review/${productId}`,
+  },
+
   CATEGORY: {
     GET_ALL_CATEGORIES: '/api/categories',
     ADD_NEW_CATEGORY: '/api/categories',
     DELETE_CATEGORY: (encodedCategory: string) => `/api/categories/${encodedCategory}`,
   },
+
   PRODUCT: {
     UPLOAD_PRODUCT_IMAGE: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_ID}/image/upload`,
     UPLOAD_PRODUCT_IMAGE_TO_SERVER: (productId: string) =>
@@ -37,6 +42,7 @@ export const API_URL = {
     DELETE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,
     UPDATE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,
   },
+
   ORDER: {
     ADMIN_GET_ORDERS: '/api/orders/admin',
     USER_GET_ORDERS: '/api/orders',
