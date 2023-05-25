@@ -1,9 +1,18 @@
-const express = require('express');
 require('dotenv').config();
+
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const express = require('express');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const app = express();
-const port = 8933;
+
+const httpServer = createServer(app);
+global.io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:3000',
+  },
+});
 
 app.use(express.json());
 app.use(cookieParser());
@@ -11,14 +20,9 @@ app.use(fileUpload());
 
 const apiRoutes = require('./routes/apiRoutes');
 
-app.get('/', async (req, res, next) => {
-  res.json({ message: 'API running...' });
-});
-
-// Require the cloudinary library
+// cloudinary config
 const cloudinary = require('cloudinary').v2;
 
-// Return "https" URLs by setting secure: true
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -31,6 +35,18 @@ const connectDB = require('./config/db');
 connectDB();
 
 app.use('/api', apiRoutes);
+
+const path = require('path');
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.json({ message: 'API running...' });
+  });
+}
 
 // Error handling
 app.use((error, req, res, next) => {
@@ -50,4 +66,6 @@ app.use((error, req, res, next) => {
   }
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const PORT = process.env.PORT || 8933;
+
+httpServer.listen(PORT, console.log(`Server running on port ${PORT}!`));
