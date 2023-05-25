@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { Col, Form, Row } from 'react-bootstrap';
 import {
   CartesianGrid,
@@ -14,127 +15,123 @@ import {
 
 import AdminLayout from '@layout/AdminLayout';
 
+import { getAnalyticsDataByDate } from '@utils/api/analyticsApi';
+import { socket } from '@/utils/constants/socket';
+
+interface Dataset {
+  name: string;
+  [date: string]: string | number;
+}
+
 const Analytics = () => {
-  const data = [
-    {
-      name: '12:00 AM',
-      '2022 year': 4000,
-      '2021 year': 4100,
-    },
-    {
-      name: '1:00 AM',
-      '2022 year': 4200,
-      '2021 year': 4300,
-    },
-    {
-      name: '2:00 AM',
-      '2022 year': 4400,
-      '2021 year': 4500,
-    },
-    {
-      name: '3:00 AM',
-      '2022 year': 4600,
-      '2021 year': 4600,
-    },
-    {
-      name: '4:00 AM',
-      '2022 year': 4800,
-      '2021 year': 5000,
-    },
-    {
-      name: '5:00 AM',
-      '2022 year': 5000,
-      '2021 year': 5200,
-    },
-    {
-      name: '6:00 AM',
-      '2022 year': 5200,
-      '2021 year': 5400,
-    },
-    {
-      name: '7:00 AM',
-      '2022 year': 5600,
-      '2021 year': 6000,
-    },
-    {
-      name: '8:00 AM',
-      '2022 year': 6000,
-      '2021 year': 6300,
-    },
-    {
-      name: '9:00 AM',
-      '2022 year': 6400,
-      '2021 year': 7000,
-    },
-    {
-      name: '10:00 AM',
-      '2022 year': 6800,
-      '2021 year': 7200,
-    },
-    {
-      name: '11:00 AM',
-      '2022 year': 7000,
-      '2021 year': 7800,
-    },
-    {
-      name: '12:00 PM',
-      '2022 year': 7200,
-      '2021 year': 8200,
-    },
-    {
-      name: '1:00 PM',
-      '2022 year': 7500,
-      '2021 year': 8400,
-    },
-    {
-      name: '2:00 PM',
-      '2022 year': 7700,
-      '2021 year': 9000,
-    },
-    {
-      name: '3:00 PM',
-      '2022 year': 8000,
-      '2021 year': 9500,
-    },
-    {
-      name: '4:00 PM',
-      '2022 year': 8400,
-      '2021 year': 10000,
-    },
-    {
-      name: '5:00 PM',
-      '2022 year': 9000,
-      '2021 year': 12000,
-    },
-    {
-      name: '6:00 PM',
-      '2022 year': 10500,
-      '2021 year': 17000,
-    },
-    {
-      name: '7:00 PM',
-      '2022 year': 16000,
-      '2021 year': 20000,
-    },
-    {
-      name: '8:00 PM',
-      '2022 year': 17000,
-      '2021 year': 21000,
-    },
-    {
-      name: '9:00 PM',
-      '2022 year': 17400,
-      '2021 year': 22000,
-    },
-    {
-      name: '10:00 PM',
-      '2021 year': 23000,
-    },
-    {
-      name: '11:00 PM',
-      '2021 year': 23500,
-    },
-  ];
+  const [firstDateToCompare, setFirstDateToCompare] = useState(
+    new Date().toISOString().substring(0, 10),
+  );
+
+  let previousDay = new Date();
+  previousDay.setDate(previousDay.getDate() - 1);
+  const [secondDateToCompare, setSecondDateToCompare] = useState(
+    new Date(previousDay).toISOString().substring(0, 10),
+  );
+
+  const [dataForFirstSet, setDataForFirstSet] = useState([]);
+  const [dataForSecondSet, setDataForSecondSet] = useState([]);
+
+  console.log(dataForFirstSet, dataForSecondSet);
+
+  // onChange handler
+  const firstDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstDateToCompare(e.target.value);
+  };
+  const secondDateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSecondDateToCompare(e.target.value);
+  };
+
+  useEffect(() => {
+    let today = new Date().toDateString();
+
+    const updateData = (
+      newOrder: OrderDataForAdmin,
+      dateToCompare: string,
+      setData: React.Dispatch<React.SetStateAction<Dataset[]>>,
+    ) => {
+      const orderDate = new Date(newOrder.createdAt).toLocaleString('ko-KR', {
+        hour: 'numeric',
+        hour12: true,
+        timeZone: 'UTC',
+      });
+      setData(prev => {
+        if (prev.length === 0) {
+          return [
+            {
+              name: orderDate,
+              [dateToCompare]: newOrder.orderTotal.cartSubtotal,
+            },
+          ];
+        }
+
+        const lastItemIndex = prev.length - 1;
+        if (prev[lastItemIndex].name === orderDate) {
+          prev[lastItemIndex][dateToCompare] =
+            (prev[lastItemIndex][dateToCompare] as number) + newOrder.orderTotal.cartSubtotal;
+          return [...prev];
+        } else {
+          const lastElem = {
+            name: orderDate,
+            [dateToCompare]:
+              (prev[lastItemIndex][dateToCompare] as number) + newOrder.orderTotal.cartSubtotal,
+          };
+          return [...prev, lastElem];
+        }
+      });
+    };
+
+    const handler = (newOrder: OrderDataForAdmin) => {
+      if (new Date(newOrder.createdAt).toDateString() === today) {
+        if (today === new Date(firstDateToCompare).toDateString()) {
+          updateData(newOrder, firstDateToCompare, setDataForFirstSet);
+        } else if (today === new Date(secondDateToCompare).toDateString()) {
+          updateData(newOrder, secondDateToCompare, setDataForSecondSet);
+        }
+      }
+    };
+
+    socket.on('newOrder', handler);
+    return () => {
+      socket.off('newOrder', handler);
+    };
+  }, [setDataForFirstSet, setDataForSecondSet, firstDateToCompare, secondDateToCompare]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchAnalyticsData = async (selectedDate: string, setData: Function) => {
+      try {
+        const data: OrderDataForAdmin[] = await getAnalyticsDataByDate(
+          selectedDate,
+          abortController.signal,
+        );
+        let orderSum = 0;
+        const orders = data.map(order => {
+          orderSum += order.orderTotal.cartSubtotal;
+          const date = new Date(order.createdAt).toLocaleString('ko-KR', {
+            hour: 'numeric',
+            hour12: true,
+            timeZone: 'UTC',
+          });
+          return { name: date, [selectedDate]: orderSum };
+        });
+        setData(orders);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAnalyticsData(firstDateToCompare, setDataForFirstSet);
+    fetchAnalyticsData(secondDateToCompare, setDataForSecondSet);
+
+    return () => abortController.abort();
+  }, [firstDateToCompare, secondDateToCompare]);
 
   return (
     <AdminLayout>
@@ -142,21 +139,25 @@ const Analytics = () => {
       <Row className="justify-content-md-center mt-5">
         <Col>
           <Form.Group controlId="firstDateToCompare">
-            <Form.Label>시작 날짜 선택</Form.Label>
+            <Form.Label>날짜 선택</Form.Label>
             <Form.Control
               type="date"
               name="firstDateToCompare"
               placeholder="First Date To Compare"
+              defaultValue={firstDateToCompare}
+              onChange={firstDateHandler}
             />
           </Form.Group>
         </Col>
         <Col>
           <Form.Group controlId="secondDateToCompare">
-            <Form.Label>끝 날짜 선택</Form.Label>
+            <Form.Label>비교 날짜 선택</Form.Label>
             <Form.Control
               type="date"
               name="secondDateToCompare"
               placeholder="Second Date To Compare"
+              defaultValue={secondDateToCompare}
+              onChange={secondDateHandler}
             />
           </Form.Group>
         </Col>
@@ -165,7 +166,6 @@ const Analytics = () => {
 
       <ResponsiveContainer width="100%" height={500}>
         <LineChart
-          data={data}
           margin={{
             top: 5,
             right: 30,
@@ -186,12 +186,20 @@ const Analytics = () => {
           <Legend verticalAlign="top" height={36} />
           <Line
             type="monotone"
-            dataKey="2021 year"
             stroke="#8884d8"
             activeDot={{ r: 8 }}
             strokeWidth={4}
+            data={dataForFirstSet}
+            dataKey={firstDateToCompare}
           />
-          <Line type="monotone" dataKey="2022 year" stroke="#82ca9d" strokeWidth={4} />
+          <Line
+            type="monotone"
+            stroke="#82ca9d"
+            activeDot={{ r: 8 }}
+            strokeWidth={4}
+            data={dataForSecondSet}
+            dataKey={secondDateToCompare}
+          />
         </LineChart>
       </ResponsiveContainer>
     </AdminLayout>
