@@ -51,4 +51,8 @@ export const API_URL = {
     MARK_AS_DELIVERED: (orderId: string) => `/api/orders/delivered/${orderId}`,
     UPDATE_AS_PAID: (orderId: string) => `/api/orders/paid/${orderId}`,
   },
+
+  ANALYTICS: {
+    GET_ORDER_DATA: (date: string) => `/api/orders/analysis/${date}`,
+  },
 };
