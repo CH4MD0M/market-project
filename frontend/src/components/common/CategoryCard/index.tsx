@@ -3,32 +3,18 @@ import { Card, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 interface CategoryCardProps {
-  category: string;
+  category: Category;
   idx: number;
 }
 
 const CategoryCard = ({ category, idx }: CategoryCardProps) => {
-  const images = [
-    '/images/tablets-category.png',
-    '/images/monitors-category.png',
-    '/images/games-category.png',
-    '/images/tablets-category.png',
-    '/images/tablets-category.png',
-    '/images/tablets-category.png',
-    '/images/tablets-category.png',
-    '/images/tablets-category.png',
-  ];
-
+  const { image, name } = category;
   return (
     <Card>
-      <Card.Img crossOrigin="anonymous" variant="top" src={images[idx]} />
+      <Card.Img crossOrigin="anonymous" variant="top" src={image} style={{ maxWidth: '120px' }} />
       <Card.Body>
-        <Card.Title>{category}</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the bulk of the card's
-          content.
-        </Card.Text>
-        <LinkContainer to={`/products`}>
+        <Card.Title>{name}</Card.Title>
+        <LinkContainer to={`/products/category/${name}`}>
           <Button variant="primary">카테고리로 이동</Button>
         </LinkContainer>
       </Card.Body>
