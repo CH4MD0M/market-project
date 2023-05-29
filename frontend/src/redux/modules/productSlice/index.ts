@@ -7,6 +7,8 @@ const initialState: ProductState = {
   uploadedImageData: [],
   imageUpdated: false,
   imageRemoved: false,
+  pageNum: 1,
+  maxPageNum: 0,
 };
 
 const productSlice = createSlice({
@@ -33,6 +35,12 @@ const productSlice = createSlice({
     setImageRemoved: (state, action) => {
       state.imageRemoved = action.payload;
     },
+    setPageNum: (state, action) => {
+      state.pageNum = action.payload;
+    },
+    setMaxPageNum: (state, action) => {
+      state.maxPageNum = action.payload;
+    },
     // Reset Product State
     resetProductState: () => {
       return initialState;
@@ -47,6 +55,8 @@ export const {
   setImageDataAfterDeleted,
   setImageUpdated,
   setImageRemoved,
+  setPageNum,
+  setMaxPageNum,
   resetProductState,
 } = productSlice.actions;
 
