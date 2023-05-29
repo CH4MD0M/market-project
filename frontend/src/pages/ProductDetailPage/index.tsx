@@ -54,7 +54,7 @@ const ProductDetailPage = () => {
       <CartMessage cartMessageShow={cartMessageShow} setCartMessageShow={setCartMessageShow} />
       <Row className="mt-5">
         {/* 상품 이미지 */}
-        <Col style={{ zIndex: 1 }} md={4}>
+        <Col style={{ zIndex: 1 }} md={2}>
           {product?.images.map((image, id) => (
             <div key={id}>
               <div key={id} id={`imageId${id + 1}`}>
@@ -64,7 +64,7 @@ const ProductDetailPage = () => {
             </div>
           ))}
         </Col>
-        <Col md={8}>
+        <Col md={10}>
           <Row>
             {/* 상품이름, 가격, 설명, 별점 */}
             <Col md={8}>
