@@ -36,7 +36,6 @@ export const API_URL = {
     DELETE_CLOUDINARY_IMAGE: (publicId: string) => `/api/products/admin/cloudinary/${publicId}`,
     SAVE_ATTRIBUTES: '/api/categories/attr',
     ADMIN_GET_PRODUCTS: '/api/products/admin',
-    GET_ALL_PRODUCTS: '/api/products',
     GET_SINGLE_PRODUCT: (productId: string) => `/api/products/get-one/${productId}`,
     CREATE_PRODUCT: '/api/products/admin',
     DELETE_PRODUCT: (productId: string) => `/api/products/admin/${productId}`,

@@ -3,18 +3,10 @@ import { Container, Row } from 'react-bootstrap';
 
 import ProductCarousel from '@components/common/Carousel';
 import CategoryCard from '@components/common/CategoryCard';
+import { useAppSelector } from '@/hooks/reduxHooks';
 
 const HomePage = () => {
-  const categories = [
-    'Tablets',
-    'Monitors',
-    'Games',
-    'Printers',
-    'Software',
-    'Cameras',
-    'Books',
-    'Videos',
-  ];
+  const { categories } = useAppSelector(state => state.category);
   return (
     <div>
       <ProductCarousel />

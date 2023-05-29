@@ -5,6 +5,7 @@ import userSlice from './userSlice';
 import cartSlice from './cartSlice';
 import categorySlice from './categorySlice';
 import productSlice from './productSlice';
+import filterSlice from './filterSlice';
 
 const rootReducer = combineReducers({
   auth: authSlice,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   cart: cartSlice,
   category: categorySlice,
   product: productSlice,
+  filter: filterSlice,
 });
 
 export default rootReducer;

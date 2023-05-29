@@ -25,6 +25,7 @@ const Header = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           {/* Search Bar */}
           <SearchBar />
+
           {/* Profile */}
           <Profile />
         </Navbar.Collapse>

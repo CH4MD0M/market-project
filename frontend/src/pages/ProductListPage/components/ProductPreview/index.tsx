@@ -25,7 +25,7 @@ const ProductPreview = ({
   return (
     <Card style={{ marginTop: '30px', marginBottom: '50px' }}>
       <Row>
-        <Col lg={5}>
+        <Col lg={3}>
           <Card.Img crossOrigin="anonymous" variant="top" src={images[0] ? images[0].path : ''} />
         </Col>
 
