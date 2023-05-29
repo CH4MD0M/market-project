@@ -102,7 +102,7 @@ const getProducts = async (req, res, next) => {
     res.json({
       products,
       pageNum,
-      paginationLinksNumber: Math.ceil(totalProducts / recordsPerPage),
+      maxPageNum: Math.ceil(totalProducts / recordsPerPage),
     });
   } catch (error) {
     next(error);
