@@ -1,19 +1,18 @@
 import React from 'react';
 import { Container, Row } from 'react-bootstrap';
 
-import ProductCarousel from '@components/common/Carousel';
+import { useAppSelector } from '@hooks/reduxHooks';
+
 import CategoryCard from '@components/common/CategoryCard';
-import { useAppSelector } from '@/hooks/reduxHooks';
 
 const HomePage = () => {
   const { categories } = useAppSelector(state => state.category);
   return (
     <div>
-      <ProductCarousel />
-      <Container>
-        <Row xs={1} md={2} className="g-4 mt-5">
+      <Container className="mt-5">
+        <Row md={3}>
           {categories.map((category, idx) => (
-            <CategoryCard key={idx} category={category} idx={idx} />
+            <CategoryCard key={idx} category={category} />
           ))}
         </Row>
       </Container>

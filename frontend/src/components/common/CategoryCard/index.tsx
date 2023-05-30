@@ -1,24 +1,24 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+
+// CSS
+import * as S from './style';
 
 interface CategoryCardProps {
   category: Category;
-  idx: number;
 }
 
-const CategoryCard = ({ category, idx }: CategoryCardProps) => {
+const CategoryCard = ({ category }: CategoryCardProps) => {
   const { image, name } = category;
   return (
-    <Card>
-      <Card.Img crossOrigin="anonymous" variant="top" src={image} style={{ maxWidth: '120px' }} />
-      <Card.Body>
-        <Card.Title>{name}</Card.Title>
-        <LinkContainer to={`/products/category/${name}`}>
-          <Button variant="primary">카테고리로 이동</Button>
-        </LinkContainer>
-      </Card.Body>
-    </Card>
+    <LinkContainer to={`/products/category/${name}`}>
+      <S.CategoryCardContainer>
+        <S.CategoryCardImage crossOrigin="anonymous" src={image} />
+        <div>
+          <h3>{name}</h3>
+        </div>
+      </S.CategoryCardContainer>
+    </LinkContainer>
   );
 };
 
