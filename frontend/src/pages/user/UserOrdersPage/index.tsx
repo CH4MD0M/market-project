@@ -22,9 +22,11 @@ const UserOrdersPage = () => {
       <Col md={12}>
         <h1>주문 내역</h1>
         <div>
-          {orders.map((order, idx) => (
-            <OrderPreview key={idx} order={order} />
-          ))}
+          {orders.length ? (
+            orders.map((order, idx) => <OrderPreview key={idx} order={order} />)
+          ) : (
+            <p>주문 내역이 없습니다.</p>
+          )}
         </div>
       </Col>
     </UserLayout>
