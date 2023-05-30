@@ -1,0 +1,9 @@
+{
+  "short_name": "Market Project",
+  "name": "Market Project",
+  "description": "Market Project App",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
