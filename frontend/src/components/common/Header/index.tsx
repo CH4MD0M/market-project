@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { Navbar, Container } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
 import { getAllCategoriesThunk } from '@redux/modules/categorySlice/thunk';
 
 import Profile from './components/Profile';
 import SearchBar from './components/SearchBar';
+
+// CSS
+import * as S from './style';
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -16,21 +18,17 @@ const Header = () => {
   }, []);
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
-        <LinkContainer to="/">
-          <Navbar.Brand href="/">모시깽 마켓</Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          {/* Search Bar */}
-          <SearchBar />
+    <S.Navbar>
+      <S.NavWrapper>
+        <S.NavTitle>
+          <Link to="/">모시깽 마켓</Link>
+        </S.NavTitle>
 
-          {/* Profile */}
-          <Profile />
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        <SearchBar />
+
+        <Profile />
+      </S.NavWrapper>
+    </S.Navbar>
   );
 };
 

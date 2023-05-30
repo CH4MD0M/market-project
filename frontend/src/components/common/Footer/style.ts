@@ -4,9 +4,8 @@ export const Footer = styled.footer`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #212529;
-  color: #f5f5f5;
-  width: 100%;
+  background-color: #f7f9fa;
+  color: #949ca4;
   height: 10rem;
   text-align: center;
   font-size: 1.3rem;

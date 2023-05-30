@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { DropdownButton, Dropdown, Form, Nav, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+// CSS
+import * as S from './style';
+
 const SearchBar = () => {
   const navigate = useNavigate();
   const { categories } = useAppSelector(state => state.category);
@@ -32,28 +35,23 @@ const SearchBar = () => {
   };
 
   return (
-    <Nav className="me-auto">
-      <InputGroup>
-        <DropdownButton id="dropdown-basic-button" title={searchCategoryToggle}>
-          <Dropdown.Item onClick={() => setSearchCategoryToggle('All')}>All</Dropdown.Item>
+    <S.SearchContainer>
+      <DropdownButton id="dropdown-basic-button" title={searchCategoryToggle}>
+        <Dropdown.Item onClick={() => setSearchCategoryToggle('All')}>All</Dropdown.Item>
 
-          {categories?.map((category, id) => (
-            <Dropdown.Item key={id} onClick={() => setSearchCategoryToggle(category.name)}>
-              {category.name}
-            </Dropdown.Item>
-          ))}
-        </DropdownButton>
-        <Form.Control
-          type="text"
-          placeholder="Search in shop ..."
-          onKeyUp={checkEnterKeyPress}
-          onChange={e => setSearchQuery(e.target.value)}
-        />
-        <Button variant="warning" onClick={searchHandler}>
-          <i className="bi bi-search text-dark"></i>
-        </Button>
-      </InputGroup>
-    </Nav>
+        {categories?.map((category, id) => (
+          <Dropdown.Item key={id} onClick={() => setSearchCategoryToggle(category.name)}>
+            {category.name}
+          </Dropdown.Item>
+        ))}
+      </DropdownButton>
+      <S.Input
+        type="text"
+        placeholder="검색어를 입력하세요."
+        onKeyUp={checkEnterKeyPress}
+        onChange={e => setSearchQuery(e.target.value)}
+      />
+    </S.SearchContainer>
   );
 };
 
