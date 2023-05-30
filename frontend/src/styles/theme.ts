@@ -19,13 +19,6 @@ const variables: DefaultTheme = {
     lightOrange: 'hsl(29, 74%, 92%)',
     darkOrange: 'hsl(340, 8%, 45%)',
   },
-
-  responsive: {
-    xs: '500px',
-    sm: '780px',
-    md: '960px',
-    lg: '1400px',
-  },
 };
 
 export default variables;

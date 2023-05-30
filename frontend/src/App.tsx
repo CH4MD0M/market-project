@@ -11,6 +11,7 @@ import { adminProtectedRoutes } from '@routes/adminProtectedRoutes';
 // Util
 import ScrollToTop from '@utils/ScrollToTop';
 import { generateRoutes } from '@utils/generateRoutes';
+import GlobalStyles from './styles/GlobalStyles';
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           </Routes>
         </Suspense>
       </GlobalLayout>
+      <GlobalStyles />
     </BrowserRouter>
   );
 };

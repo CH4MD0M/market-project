@@ -20,7 +20,10 @@ const GlobalStyles = styled.createGlobalStyle`
 
   body {
     font-family: 'Noto Sans KR';
-    margin: 0;
+    width: 1900px;
+    margin: 0 auto;
+    overflow-x: auto;
+    color: black;
   }
 
   article,
@@ -41,13 +44,14 @@ const GlobalStyles = styled.createGlobalStyle`
   a {
     text-decoration: none;
     transition: 0.2s;
-    :focus {
+
+    &:focus {
       outline: none;
     }
-  }
-  a:active,
-  a:hover {
-    outline: 0;
+    &:active,
+    &:hover {
+      outline: 0;
+    }
   }
 
   h1 {

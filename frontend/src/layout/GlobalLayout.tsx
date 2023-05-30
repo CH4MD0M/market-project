@@ -5,7 +5,6 @@ import Header from '@components/common/Header';
 import Footer from '@components/common/Footer';
 
 // CSS
-import GlobalStyles from '@styles/GlobalStyles';
 import theme from '@styles/theme';
 import * as S from './style';
 
@@ -16,10 +15,11 @@ interface LayoutProps {
 const GlobalLayout = ({ children }: LayoutProps) => {
   return (
     <ThemeProvider theme={theme}>
-      <Header />
-      <S.LayoutWrapper>{children}</S.LayoutWrapper>
-      <Footer />
-      <GlobalStyles />
+      <div>
+        <Header />
+        <S.LayoutWrapper>{children}</S.LayoutWrapper>
+        <Footer />
+      </div>
     </ThemeProvider>
   );
 };
