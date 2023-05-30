@@ -62,7 +62,7 @@ const loginUser = async (req, res, next) => {
       let cookieParams = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       };
 
       if (doNotLogout) {
