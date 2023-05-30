@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Rating } from 'react-simple-star-rating';
+
+import numberWithCommas from '@/utils/numberWithCommas';
+
+// CSS
+import * as S from './style';
 
 interface ProductPreviewProps {
   images: any[];
@@ -22,30 +27,35 @@ const ProductPreview = ({
   reviewsNumber,
   productId,
 }: ProductPreviewProps) => {
-  return (
-    <Card style={{ marginTop: '30px', marginBottom: '50px' }}>
-      <Row>
-        <Col lg={3}>
-          <Card.Img crossOrigin="anonymous" variant="top" src={images[0] ? images[0].path : ''} />
-        </Col>
+  const [detailShow, setDetailShow] = useState(false);
 
-        <Col lg={7}>
-          <Card.Body>
-            <Card.Title>{name}</Card.Title>
-            <Card.Text>{description}</Card.Text>
-            <Card.Text>
-              <Rating readonly size={20} initialValue={rating} /> ({reviewsNumber})
-            </Card.Text>
-            <Card.Text className="h4">
-              ₩{price}
-              <LinkContainer to={`/product-details/${productId}`}>
-                <Button variant="primary">상품보기</Button>
-              </LinkContainer>
-            </Card.Text>
-          </Card.Body>
-        </Col>
-      </Row>
-    </Card>
+  return (
+    <S.ProductPreviewWrapper>
+      <S.ProductPreviewImage crossOrigin="anonymous" src={images[0] ? images[0].path : ''} />
+      <S.ProductPreviewInfo>
+        <LinkContainer to={`/product-details/${productId}`}>
+          <S.ProductTitle>{name}</S.ProductTitle>
+        </LinkContainer>
+        <S.ProductDescriptionToggle onClick={() => setDetailShow(prev => !prev)}>
+          <span>상세정보 보기</span>{' '}
+          {detailShow ? (
+            <i className="bi bi-arrow-up-short" />
+          ) : (
+            <i className="bi bi-arrow-down-short" />
+          )}
+        </S.ProductDescriptionToggle>
+        {detailShow && <Card.Text>{description}</Card.Text>}
+        <S.InfoFooter>
+          <div>
+            <S.ProductPrice>{numberWithCommas(price)}원</S.ProductPrice>
+            <S.ProductReviewRating>
+              <i className="bi bi-star-fill" />
+              {rating || 0} <span>리뷰{reviewsNumber || 0}</span>
+            </S.ProductReviewRating>
+          </div>
+        </S.InfoFooter>
+      </S.ProductPreviewInfo>
+    </S.ProductPreviewWrapper>
   );
 };
 
