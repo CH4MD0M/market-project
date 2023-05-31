@@ -1,2 +1,0 @@
-/api/*   https://msg-backend-scu1.onrender.com/api/:splat   200
-/socket.io/*   https://msg-backend-scu1.onrender.com/socket.io/:splat   200
