@@ -28,7 +28,6 @@ const Orders = () => {
             <th>주문일자</th>
             <th>주문금액</th>
             <th>배송상태</th>
-            <th>결제 방법</th>
             <th>주문 상세</th>
           </tr>
         </thead>
@@ -46,7 +45,6 @@ const Orders = () => {
                   <i className="bi bi-x-lg text-danger"></i>
                 )}
               </td>
-              <td>{order.paymentMethod}</td>
               <td>
                 <Link to={`/admin/order-details/${order._id}`}>주문 내역 확인</Link>
               </td>

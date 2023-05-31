@@ -13,12 +13,14 @@ import ScrollToTop from '@utils/ScrollToTop';
 import { generateRoutes } from '@utils/generateRoutes';
 import GlobalStyles from './styles/GlobalStyles';
 
+import LoadingPage from '@pages/LoadingPage';
+
 const App = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <GlobalLayout>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingPage />}>
           <Routes>
             {/* public routes */}
             <Route element={<ProtectedRoutes />}>{generateRoutes(PublicRoutes)}</Route>
