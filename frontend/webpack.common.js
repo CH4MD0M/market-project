@@ -50,7 +50,9 @@ module.exports = {
       ],
     }),
     new ForkTsCheckerWebpackPlugin(),
-    new Dotenv(),
+    new Dotenv({
+      systemvars: true,
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
