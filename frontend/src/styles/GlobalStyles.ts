@@ -15,12 +15,11 @@ const GlobalStyles = styled.createGlobalStyle`
     font-family: sans-serif; /* 1 */
     -ms-text-size-adjust: 100%; /* 2 */
     -webkit-text-size-adjust: 100%; /* 2 */
-    /* font-size: 62.5%; */
   }
 
   body {
     font-family: 'Noto Sans KR';
-    width: 1900px;
+    width: 100%;
     margin: 0 auto;
     overflow-x: auto;
     color: black;

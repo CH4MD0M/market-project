@@ -37,9 +37,11 @@ const ProductListPage = () => {
             pageNumParam={pageNumParam}
             searchQuery={searchQuery}
           />
-          {maxPageNum > 1 ? (
-            <Pagination categoryName={categoryName} searchQuery={searchQuery} />
-          ) : null}
+          <div className="d-flex justify-content-center mt-5">
+            {maxPageNum > 1 ? (
+              <Pagination categoryName={categoryName} searchQuery={searchQuery} />
+            ) : null}
+          </div>
         </Col>
       </Row>
     </Container>
