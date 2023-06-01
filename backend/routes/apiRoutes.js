@@ -9,7 +9,13 @@ const orderRoutes = require('./orderRoutes');
 const jwt = require('jsonwebtoken');
 
 app.get('/logout', (req, res) => {
-  return res.clearCookie('access_token').send('access token cleared');
+  return res
+    .clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+    })
+    .send('access token cleared');
 });
 
 app.get('/get-token', (req, res) => {
