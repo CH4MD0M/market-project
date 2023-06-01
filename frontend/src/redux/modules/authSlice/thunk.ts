@@ -12,17 +12,12 @@ const storeUserInfo = useStoreUserInfo();
 // loginCheck
 export const loginCheck = createAsyncThunk<any, void, { state: RootState }>(
   'auth/loginCheck',
-  async (_, { getState, dispatch }) => {
+  async (_, { dispatch }) => {
     const { data } = await getToken();
 
     dispatch(setUserRole(data));
-
-    const userInfoExists = getState().user.userData;
-
-    if (!userInfoExists) {
-      dispatch(setUserInfo(data));
-      storeUserInfo(false, data.userInfo);
-    }
+    dispatch(setUserInfo(data));
+    storeUserInfo(false, data.userInfo);
 
     return data;
   },
