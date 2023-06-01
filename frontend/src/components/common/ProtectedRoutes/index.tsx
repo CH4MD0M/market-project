@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
 import { loginCheck } from '@redux/modules/authSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+
+import LoadingPage from '@pages/LoadingPage';
 
 type ProtectedRoutesProps = {
   requireAdmin?: boolean;
@@ -15,7 +17,7 @@ const ProtectedRoutes = ({
   requireAuth = false,
   blockLogin = false,
 }: ProtectedRoutesProps) => {
-  const { isLogin } = useAppSelector(state => state.auth);
+  const { isLogin, loading } = useAppSelector(state => state.auth);
   const { role } = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
 
@@ -26,6 +28,10 @@ const ProtectedRoutes = ({
 
     checkLogin();
   }, [dispatch]);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   if (isLogin && blockLogin) return <Navigate to="/" />;
   if (requireAuth && !isLogin) return <Navigate to="/login" />;

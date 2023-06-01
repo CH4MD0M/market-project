@@ -106,7 +106,12 @@ const ProductDetailPage = () => {
                   </Form.Select>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Button onClick={addToCartHandler} variant="danger">
+                  <Button
+                    className="w-100"
+                    onClick={addToCartHandler}
+                    type="button"
+                    style={{ background: '#86CEEB', border: 'none' }}
+                  >
                     장바구니
                   </Button>
                 </ListGroup.Item>

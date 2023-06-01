@@ -55,25 +55,43 @@ const ProductReview = ({ product, setReviewUpdated }: ProductReviewProps) => {
       </Row>
       <hr />
       {!userData?.name && <Alert variant="danger">리뷰를 작성하시려면 로그인 해주세요</Alert>}
-      <Form onSubmit={sendReviewHandler}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>리뷰 작성</Form.Label>
-          <Form.Control name="comment" required as="textarea" disabled={!userData?.name} rows={3} />
-        </Form.Group>
-        <Form.Select
-          name="rating"
-          required
-          aria-label="Default select example"
+      <Form onSubmit={sendReviewHandler} className="d-flex align-items-center">
+        <div className="w-100 me-5">
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>리뷰 작성</Form.Label>
+            <Form.Control
+              name="comment"
+              required
+              as="textarea"
+              disabled={!userData?.name}
+              rows={3}
+            />
+          </Form.Group>
+          <Form.Select
+            name="rating"
+            required
+            aria-label="Default select example"
+            disabled={!userData?.name}
+          >
+            <option value="">별점</option>
+            <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
+            <option value="4">⭐️⭐️⭐️⭐️</option>
+            <option value="3">⭐️⭐️⭐️</option>
+            <option value="2">⭐️⭐️</option>
+            <option value="1">⭐️</option>
+          </Form.Select>
+        </div>
+        <Button
+          type="submit"
+          className="w-25"
+          style={{
+            height: '110px',
+            background: 'transparent',
+            color: '#0A58CA',
+            border: '1px solid #0A58CA',
+          }}
           disabled={!userData?.name}
         >
-          <option value="">별점</option>
-          <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
-          <option value="4">⭐️⭐️⭐️⭐️</option>
-          <option value="3">⭐️⭐️⭐️</option>
-          <option value="2">⭐️⭐️</option>
-          <option value="1">⭐️</option>
-        </Form.Select>
-        <Button type="submit" className="mb-3 mt-3" variant="primary">
           리뷰 등록
         </Button>
       </Form>

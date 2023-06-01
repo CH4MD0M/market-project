@@ -28,8 +28,15 @@ const authSlice = createSlice({
     });
 
     // loginCheck
+    builder.addCase(loginCheck.pending, state => {
+      state.loading = true;
+    });
     builder.addCase(loginCheck.fulfilled, state => {
       state.isLogin = true;
+      state.loading = false;
+    });
+    builder.addCase(loginCheck.rejected, state => {
+      state.loading = false;
     });
 
     // logout
