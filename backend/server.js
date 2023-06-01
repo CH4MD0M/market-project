@@ -11,12 +11,25 @@ const cors = require('cors');
 const httpServer = createServer(app);
 global.io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin:
+      process.env.NODE_ENV === 'develpment'
+        ? 'http://localhost:3000'
+        : process.env.CLIENT_URL,
   },
 });
 
 let corsOptions = {
-  origin: process.env.CLIENT_URL,
+  origin: function (origin, callback) {
+    if (
+      ['http://localhost:3000', 'https://msg-market.netlify.app'].indexOf(
+        origin
+      ) !== -1
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 };
 
