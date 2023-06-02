@@ -5,9 +5,9 @@ const productRoutes = require('./productRoutes');
 const categoryRoutes = require('./categoryRoutes');
 const userRoutes = require('./userRoutes');
 const orderRoutes = require('./orderRoutes');
+const bannerRoutes = require('./bannerRoutes');
 
 const jwt = require('jsonwebtoken');
-const { getBanners } = require('../controllers/BannerController');
 
 app.get('/logout', (req, res) => {
   return res
@@ -37,11 +37,10 @@ app.get('/get-token', (req, res) => {
   }
 });
 
-app.get('/get-banners', getBanners);
-
 app.use('/products', productRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/users', userRoutes);
 app.use('/orders', orderRoutes);
+app.use('/banners', bannerRoutes);
 
 module.exports = app;
