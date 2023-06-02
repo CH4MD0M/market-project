@@ -7,6 +7,7 @@ const userRoutes = require('./userRoutes');
 const orderRoutes = require('./orderRoutes');
 
 const jwt = require('jsonwebtoken');
+const { getBanners } = require('../controllers/BannerController');
 
 app.get('/logout', (req, res) => {
   return res
@@ -35,6 +36,8 @@ app.get('/get-token', (req, res) => {
     return res.status(401).send('Unauthorized. Invalid Token');
   }
 });
+
+app.get('/get-banners', getBanners);
 
 app.use('/products', productRoutes);
 app.use('/categories', categoryRoutes);
