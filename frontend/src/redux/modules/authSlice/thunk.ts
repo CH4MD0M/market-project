@@ -7,8 +7,6 @@ import { postSignUp } from '@utils/api';
 import { StorageType, removeValue } from '@utils/storageUtils';
 import { useStoreUserInfo } from '@hooks/useStoreUserInfo';
 
-const storeUserInfo = useStoreUserInfo();
-
 // loginCheck
 export const loginCheck = createAsyncThunk<any, void, { state: RootState }>(
   'auth/loginCheck',
@@ -16,8 +14,6 @@ export const loginCheck = createAsyncThunk<any, void, { state: RootState }>(
     const { data } = await getToken();
 
     dispatch(setUserRole(data));
-    dispatch(setUserInfo(data));
-    storeUserInfo(false, data.userInfo);
 
     return data;
   },

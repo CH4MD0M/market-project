@@ -22,12 +22,12 @@ const ProtectedRoutes = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const checkLogin = async () => {
+    const fetchLoginCheck = async () => {
       await dispatch(loginCheck());
     };
 
-    checkLogin();
-  }, [dispatch]);
+    fetchLoginCheck();
+  }, [dispatch, isLogin]);
 
   if (loading) {
     return <LoadingPage />;
