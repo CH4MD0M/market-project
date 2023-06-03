@@ -19,3 +19,5 @@ export * from './productAdminApi';
 
 export * from './userAdminApi';
 export * from './markAsDelivered';
+
+export * from './getBanner';
