@@ -74,6 +74,9 @@ const AttributesFilter = () => {
               type="checkbox"
               key={value_idx}
               label={value}
+              checked={attrsFromFilter.some(
+                item => item.key === attr.key && item.value.includes(value),
+              )}
               onChange={e => attrOnchangeHandler(e, attr, value)}
             />
           ))}

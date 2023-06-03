@@ -20,32 +20,36 @@ const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    setFilters(state, action) {
+    setFilters: (state, action) => {
       state.filters = action.payload;
     },
 
-    setAttrsFilter(state, action) {
+    setAttrsFilter: (state, action) => {
       state.attrsFilter = action.payload;
     },
 
-    setAttrsFromFilter(state, action) {
+    setAttrsFromFilter: (state, action) => {
       state.attrsFromFilter = action.payload;
     },
 
-    setPriceFromFilter(state, action) {
+    setPriceFromFilter: (state, action) => {
       state.priceFromFilter = action.payload;
     },
 
-    setRatingsFromFilter(state, action) {
+    setRatingsFromFilter: (state, action) => {
       state.ratingsFromFilter = action.payload;
     },
 
-    setCategoriesFromFilter(state, action) {
+    setCategoriesFromFilter: (state, action) => {
       state.categoriesFromFilter = action.payload;
     },
 
-    setSortOption(state, action) {
+    setSortOption: (state, action) => {
       state.sortOption = action.payload;
+    },
+
+    resetFilter: () => {
+      return initialState;
     },
   },
 });
@@ -58,6 +62,7 @@ export const {
   setRatingsFromFilter,
   setCategoriesFromFilter,
   setSortOption,
+  resetFilter,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

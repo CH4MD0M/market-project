@@ -18,11 +18,8 @@ const FilterOptions = () => {
   const { attrsFromFilter, priceFromFilter, ratingsFromFilter, categoriesFromFilter } =
     useAppSelector(state => state.filter);
 
-  const [showResetFiltersButton, setShowResetFiltersButton] = useState(false);
-
   const handleFilters = () => {
     navigate(location.pathname.replace(/\/[0-9]+$/, ''));
-    setShowResetFiltersButton(true);
     dispatch(
       setFilters({
         attrs: attrsFromFilter,
@@ -34,7 +31,6 @@ const FilterOptions = () => {
   };
 
   const resetFilters = () => {
-    setShowResetFiltersButton(false);
     dispatch(setFilters({}));
     navigate(0);
   };
@@ -73,7 +69,7 @@ const FilterOptions = () => {
         <Button variant="primary" onClick={handleFilters}>
           적용
         </Button>
-        {showResetFiltersButton && (
+        {(attrsFromFilter || priceFromFilter || ratingsFromFilter || categoriesFromFilter) && (
           <Button variant="danger" onClick={resetFilters}>
             필터 초기화
           </Button>

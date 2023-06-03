@@ -6,7 +6,7 @@ import Pagination from './components/Pagination';
 import ProductList from './components/ProductList';
 import FilterOptions from './components/FilterOptions';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { setAttrsFilter } from '@/redux/modules/filterSlice';
+import { resetFilter, setAttrsFilter } from '@/redux/modules/filterSlice';
 
 const ProductListPage = () => {
   const dispatch = useAppDispatch();

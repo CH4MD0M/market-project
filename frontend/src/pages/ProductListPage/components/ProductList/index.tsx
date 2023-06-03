@@ -18,11 +18,13 @@ const ProductList = ({ categoryName, searchQuery, pageNumParam }: ProductListPro
   const { filters, sortOption } = useAppSelector(state => state.filter);
 
   const [products, setProducts] = useState([]);
+  const [isProductsLoading, setIsProductsLoading] = useState(true);
 
   useEffect(() => {
     getAllProducts(categoryName, pageNumParam, searchQuery, filters, sortOption)
       .then(res => {
         setProducts(res.products);
+        setIsProductsLoading(false);
         dispatch(setPageNum(res.pageNum));
         dispatch(setMaxPageNum(res.maxPageNum));
       })
@@ -33,6 +35,7 @@ const ProductList = ({ categoryName, searchQuery, pageNumParam }: ProductListPro
     <>
       {products.map(product => (
         <ProductPreview
+          isProductsLoading={isProductsLoading}
           key={product._id}
           images={product.images}
           name={product.name}
