@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Card, Row, Col } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Rating } from 'react-simple-star-rating';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import numberWithCommas from '@/utils/numberWithCommas';
 
@@ -16,6 +16,7 @@ interface ProductPreviewProps {
   rating: number;
   reviewsNumber: number;
   productId: string;
+  isProductsLoading: boolean;
 }
 
 const ProductPreview = ({
@@ -26,12 +27,13 @@ const ProductPreview = ({
   rating,
   reviewsNumber,
   productId,
+  isProductsLoading,
 }: ProductPreviewProps) => {
   const [detailShow, setDetailShow] = useState(false);
 
   return (
     <S.ProductPreviewWrapper>
-      <S.ProductPreviewImage crossOrigin="anonymous" src={images[0] ? images[0].path : ''} />
+      <LazyLoadImage src={images[0]?.path} alt={name} effect="blur" width="200px" height="200px" />
       <S.ProductPreviewInfo>
         <LinkContainer to={`/product-details/${productId}`}>
           <S.ProductTitle>{name}</S.ProductTitle>

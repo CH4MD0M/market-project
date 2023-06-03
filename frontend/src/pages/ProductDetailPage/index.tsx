@@ -4,11 +4,12 @@ import { Rating } from 'react-simple-star-rating';
 import ImageZoom from 'js-image-zoom';
 import { Col, Container, Row, ListGroup, Form, Button, Image } from 'react-bootstrap';
 
-import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { useAppDispatch } from '@hooks/reduxHooks';
 import { addToCartAsync } from '@/redux/modules/cartSlice/thunk';
 
-import CartMessage from './components/CartMessage';
 import { getSingleProduct } from '@/utils/api';
+import LoadingPage from '@pages/LoadingPage';
+import CartMessage from './components/CartMessage';
 import ProductReview from './components/ProductReview';
 
 const options = {
@@ -24,6 +25,7 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [cartMessageShow, setCartMessageShow] = useState<boolean>(false);
   const [reviewUpdated, setReviewUpdated] = useState<boolean>(false);
+  const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
 
   // Add to cart handler
   const addToCartHandler = async () => {
@@ -46,8 +48,13 @@ const ProductDetailPage = () => {
   });
 
   useEffect(() => {
-    getSingleProduct(id).then(({ data }) => setProduct(data));
+    getSingleProduct(id).then(({ data }) => {
+      setProduct(data);
+      setIsProductLoading(false);
+    });
   }, [id, reviewUpdated]);
+
+  if (isProductLoading) return <LoadingPage />;
 
   return (
     <Container>
@@ -58,7 +65,7 @@ const ProductDetailPage = () => {
           {product?.images.map((image, id) => (
             <div key={id}>
               <div key={id} id={`imageId${id + 1}`}>
-                <Image crossOrigin="anonymous" fluid src={`${image.path ?? null}`} />
+                <Image fluid src={image?.path ?? null} />
               </div>
               <br />
             </div>

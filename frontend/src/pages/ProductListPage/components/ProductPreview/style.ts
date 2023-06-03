@@ -59,3 +59,10 @@ export const ProductReviewRating = styled.div`
     color: #9e9e9e;
   }
 `;
+
+// Skeleton style
+export const SkeletonImage = styled.div`
+  width: 200px;
+  height: 200px;
+  background-color: #f7f9fa;
+`;
