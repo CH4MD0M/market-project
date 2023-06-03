@@ -17,7 +17,7 @@ const Profile = () => {
   };
 
   return (
-    <Nav className="d-flex align-items-center ">
+    <Nav className="d-flex align-items-center " style={{ zIndex: '100' }}>
       <LinkContainer to="/cart">
         <Nav.Link>
           <Badge pill bg="danger" className="me-1">
@@ -36,7 +36,7 @@ const Profile = () => {
 
       {/* User Menu */}
       {isLogin && role === 'user' && (
-        <NavDropdown title={userData.name} id="collasible-nav-dropdown" style={{ zIndex: '999' }}>
+        <NavDropdown title={userData.name} id="collasible-nav-dropdown">
           <NavDropdown.Item eventKey="/user" as={Link} to="/user">
             마이페이지
           </NavDropdown.Item>

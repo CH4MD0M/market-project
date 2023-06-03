@@ -16,16 +16,6 @@ const UserInformation = ({ userInfo }: any) => (
   </Col>
 );
 
-const PaymentDetails = ({ paymentMethod }: any) => (
-  <Col md={6}>
-    <h2>결제 방법</h2>
-    <Form.Select value={paymentMethod} disabled={true}>
-      <option value="pp">PayPal</option>
-      <option value="acc">무통장</option>
-    </Form.Select>
-  </Col>
-);
-
 const OrderStatus = ({ isDelivered, isPaid }: any) => (
   <Row>
     <Col>
@@ -89,7 +79,6 @@ const OrderDetails = () => {
   const { id } = useParams();
 
   const [userInfo, setUserInfo] = useState({});
-  const [paymentMethod, setPaymentMethod] = useState('');
   const [isPaid, setIsPaid] = useState(false);
   const [isDelivered, setIsDelivered] = useState(false);
   const [cartSubtotal, setCartSubtotal] = useState(0);
@@ -113,7 +102,7 @@ const OrderDetails = () => {
       try {
         const order = await getOrderDetails(id);
         setUserInfo(order.user);
-        setPaymentMethod(order.paymentMethod);
+
         order.isPaid ? setIsPaid(order.paidAt) : setIsPaid(false);
         order.isDelivered ? setIsDelivered(order.deliveredAt) : setIsDelivered(false);
         setCartSubtotal(order.orderTotal.cartSubtotal);
@@ -138,7 +127,6 @@ const OrderDetails = () => {
           <br />
           <Row>
             <UserInformation userInfo={userInfo} />
-            <PaymentDetails paymentMethod={paymentMethod} />
           </Row>
           <OrderStatus isDelivered={isDelivered} isPaid={isPaid} />
           <hr />

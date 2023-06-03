@@ -10,12 +10,11 @@ const getAllProducts = async (
   sortOption = '',
 ) => {
   const filtersUrl = proceedFilters(filters);
-  console.log(filtersUrl);
+
   const search = searchQuery ? `search/${searchQuery}/` : '';
   const category = categoryName ? `category/${categoryName}/` : '';
   const url = `/api/products/${category}${search}?pageNum=${pageNumParam}${filtersUrl}&sort=${sortOption}`;
 
-  console.log(url);
   const { data } = await instance.get(url);
   return data;
 };
