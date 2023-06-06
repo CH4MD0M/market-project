@@ -72,7 +72,13 @@ const loginUser = async (req, res, next) => {
       return res
         .cookie(
           'access_token',
-          generateAuthToken(user._id, user.name, user.email, user.isAdmin),
+          generateAuthToken(
+            user._id,
+            user.name,
+            user.email,
+            user.isAdmin,
+            doNotLogout
+          ),
           cookieParams
         )
         .json({
