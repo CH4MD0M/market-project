@@ -29,6 +29,7 @@ app.get('/get-token', (req, res) => {
         _id: decoded._id,
         name: decoded.name,
         email: decoded.email,
+        doNotLogout: decoded.doNotLogout,
       },
       isAdmin: decoded.isAdmin,
     });
