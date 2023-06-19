@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Badge, Nav, NavDropdown } from 'react-bootstrap';
 
@@ -11,9 +11,13 @@ const Profile = () => {
   const { userData, role } = useAppSelector(state => state.user);
   const { itemsCount } = useAppSelector(state => state.cart);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const logoutHandler = () => {
-    dispatch(logout());
+  const logoutHandler = async () => {
+    const { payload } = await dispatch(logout());
+    if (payload) {
+      navigate(0);
+    }
   };
 
   return (
@@ -51,7 +55,7 @@ const Profile = () => {
       )}
 
       {/* Login Menu */}
-      {!isLogin && (
+      {!isLogin && !userData && (
         <>
           <LinkContainer to="/login">
             <Nav.Link>로그인</Nav.Link>

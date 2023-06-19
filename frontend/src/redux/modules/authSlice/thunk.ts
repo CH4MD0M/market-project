@@ -34,10 +34,11 @@ export const login = createAsyncThunk(
 
 // logout
 export const logout = createAsyncThunk('auth/logout', async () => {
-  await postSignOut();
+  const response = await postSignOut();
   removeValue(StorageType.LOCAL, 'userInfo');
   removeValue(StorageType.SESSION, 'userInfo');
   removeValue(StorageType.LOCAL, 'cartItems');
+  return response;
 });
 
 // signup

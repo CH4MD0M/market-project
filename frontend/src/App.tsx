@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import GlobalLayout from '@layout/GlobalLayout';
@@ -14,8 +14,28 @@ import { generateRoutes } from '@utils/generateRoutes';
 import GlobalStyles from './styles/GlobalStyles';
 
 import LoadingPage from '@pages/LoadingPage';
+import { useAppDispatch, useAppSelector } from './hooks/reduxHooks';
+import { loginCheck } from './redux/modules/authSlice/thunk';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { StorageType, setValue } from './utils/storageUtils';
 
 const App = () => {
+  const { userData } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!userData) return;
+
+    const fetchLoginCheck = async () => {
+      const resultAction = await dispatch(loginCheck());
+      const data = unwrapResult(resultAction);
+      if (data.userInfo.doNotLogout) setValue(StorageType.LOCAL, 'userInfo', data.userInfo);
+      else setValue(StorageType.SESSION, 'userInfo', data.userInfo);
+    };
+
+    fetchLoginCheck();
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <ScrollToTop />
