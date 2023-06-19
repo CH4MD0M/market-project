@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 
 import { loginCheck } from '@redux/modules/authSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { StorageType, setValue } from '@utils/storageUtils';
 
 import LoadingPage from '@pages/LoadingPage';
 
@@ -20,13 +22,27 @@ const ProtectedRoutes = ({
   const { isLogin, loading } = useAppSelector(state => state.auth);
   const { role } = useAppSelector(state => state.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchLoginCheck = async () => {
-      await dispatch(loginCheck());
+    const redirectToMainPage = () => {
+      navigate('/');
     };
 
-    fetchLoginCheck();
+    const fetchLoginCheck = async () => {
+      try {
+        const resultAction = await dispatch(loginCheck());
+        const data = unwrapResult(resultAction);
+        if (data.userInfo.doNotLogout) setValue(StorageType.LOCAL, 'userInfo', data.userInfo);
+        else setValue(StorageType.SESSION, 'userInfo', data.userInfo);
+      } catch (error) {
+        redirectToMainPage();
+      }
+    };
+
+    if (document.cookie.split('; ').find(row => row.startsWith('access_token='))) {
+      fetchLoginCheck();
+    }
   }, [dispatch, isLogin]);
 
   if (loading) {
