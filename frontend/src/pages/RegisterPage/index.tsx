@@ -9,7 +9,8 @@ import { validateEmail, validatePassword } from '@utils/validation';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 const RegisterPage = () => {
-  const { loading, error } = useAppSelector(state => state.auth);
+  const loading = useAppSelector(state => state.auth.loading);
+  const error = useAppSelector(state => state.auth.error);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

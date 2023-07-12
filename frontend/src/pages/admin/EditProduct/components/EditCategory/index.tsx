@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import { Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
@@ -11,7 +12,8 @@ interface EditCategoryProps {
 
 const EditCategory = ({ product }: EditCategoryProps) => {
   const dispatch = useAppDispatch();
-  const { categories, selectedCategory } = useAppSelector(state => state.category);
+  const categories = useAppSelector(state => state.category.categories);
+  const selectedCategory = useAppSelector(state => state.category.selectedCategory);
 
   const changeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const choosenCategory = e.target.value;

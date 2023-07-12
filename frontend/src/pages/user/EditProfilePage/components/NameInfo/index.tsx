@@ -1,4 +1,5 @@
 import React from 'react';
+import { shallowEqual } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Alert, Button, Form } from 'react-bootstrap';
 
@@ -12,7 +13,7 @@ import { validateName } from '@utils/validation';
 const NameInfo = ({ userInfo }: { userInfo: any }) => {
   const storeUserInfo = useStoreUserInfo();
   const dispatch = useAppDispatch();
-  const { userData } = useAppSelector(state => state.user);
+  const userData = useAppSelector(state => state.user.userData, shallowEqual);
   const [nameEdit, toggleNameEdit] = useToggle(false);
 
   const {

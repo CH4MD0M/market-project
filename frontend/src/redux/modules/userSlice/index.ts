@@ -5,14 +5,14 @@ import { updateUserNameThunk } from './thunk';
 import { isFulfilledAction, isPendingAction } from './util';
 import { StorageType, getValue } from '@utils/storageUtils';
 
-const initialState = {
+const initialState: UserState = {
   userData: getValue(StorageType.LOCAL, 'userInfo') || getValue(StorageType.SESSION, 'userInfo'),
   userAddress: {},
   loading: false,
   error: false,
   isUpdate: false,
   role: '',
-} as UserState;
+};
 
 const userSlice = createSlice({
   name: 'user',

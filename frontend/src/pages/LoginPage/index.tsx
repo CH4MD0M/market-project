@@ -11,7 +11,8 @@ import { validateEmail, validatePassword } from '@utils/validation';
 
 const LoginPage = () => {
   const storeUserInfo = useStoreUserInfo();
-  const { loading, error } = useAppSelector(state => state.auth);
+  const loading = useAppSelector(state => state.auth.loading);
+  const error = useAppSelector(state => state.auth.error);
   const dispatch = useAppDispatch();
 
   const {

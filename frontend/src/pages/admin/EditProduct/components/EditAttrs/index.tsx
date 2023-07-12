@@ -6,8 +6,9 @@ import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setAttributesFromDb, setAttributesTable } from '@redux/modules/productSlice';
 
 const EditAttrs = () => {
-  const { selectedCategory } = useAppSelector(state => state.category);
-  const { attributesFromDb, attributesTable } = useAppSelector(state => state.product);
+  const selectedCategory = useAppSelector(state => state.category.selectedCategory);
+  const attributesFromDb = useAppSelector(state => state.product.attributesFromDb);
+  const attributesTable = useAppSelector(state => state.product.attributesTable);
   const dispatch = useAppDispatch();
   const [newAttrKey, setNewAttrKey] = useState('');
   const [newAttrValue, setNewAttrValue] = useState('');

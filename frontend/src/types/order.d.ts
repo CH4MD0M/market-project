@@ -16,3 +16,11 @@ interface OrderDataForAdmin extends OrderData {
   paymentMethod: string;
   user: string;
 }
+
+interface OrderUserData {
+  name: string;
+  email: string;
+  address: string;
+  phoneNumber: string;
+  zipCode: string;
+}

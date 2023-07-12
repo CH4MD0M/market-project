@@ -11,7 +11,10 @@ import CreateImage from './components/CreateImage';
 
 const CreateProduct = () => {
   const navigate = useNavigate();
-  const { attributesTable, uploadedImageData } = useAppSelector(state => state.product);
+
+  const attributesTable = useAppSelector(state => state.product.attributesTable);
+  const uploadedImageData = useAppSelector(state => state.product.uploadedImageData);
+
   const [validated, setValidated] = useState(false);
 
   // Form Submit Handler

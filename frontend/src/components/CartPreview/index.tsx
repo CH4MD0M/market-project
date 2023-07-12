@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
-import { addToCartAsync } from '@redux/modules/cartSlice/thunk';
-import { removeFromCart } from '@redux/modules/cartSlice';
+import { removeFromCart, updateCart } from '@redux/modules/cartSlice';
+import numberWithCommas from '@utils/numberWithCommas';
 
 interface CartPreviewProps {
   item: CartProduct;
@@ -11,15 +11,14 @@ interface CartPreviewProps {
 }
 
 const CartPreview = ({ item, orderCreated = false }: CartPreviewProps) => {
-  const { _id } = item;
   const dispatch = useAppDispatch();
 
   const changeCountHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(addToCartAsync({ id: _id, quantity: Number(e.target.value) }));
+    dispatch(updateCart({ ...item, quantity: Number(e.target.value) }));
   };
 
   const removeCartItemHandler = () => {
-    dispatch(removeFromCart({ _id, quantity: item.quantity, price: item.price }));
+    dispatch(removeFromCart({ _id: item._id }));
   };
 
   return (
@@ -30,7 +29,7 @@ const CartPreview = ({ item, orderCreated = false }: CartPreviewProps) => {
         </Col>
         <Col md={2}>{item.name}</Col>
         <Col md={2}>
-          <b>{item.price}원</b>
+          <b>{numberWithCommas(item.price)}원</b>
         </Col>
         <Col md={3}>
           <Form.Select onChange={changeCountHandler} disabled={orderCreated} value={item.quantity}>

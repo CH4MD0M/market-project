@@ -1,14 +1,15 @@
-import { useAppSelector } from '@/hooks/reduxHooks';
 import React, { useState } from 'react';
-import { DropdownButton, Dropdown, Form, Nav, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { DropdownButton, Dropdown } from 'react-bootstrap';
+
+import { useAppSelector } from '@hooks/reduxHooks';
 
 // CSS
 import * as S from './style';
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const { categories } = useAppSelector(state => state.category);
+  const categories = useAppSelector(state => state.category.categories);
 
   const [searchCategoryToggle, setSearchCategoryToggle] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');

@@ -1,9 +1,7 @@
 import React from 'react';
-
 import { Navigate, Outlet } from 'react-router-dom';
 
 import { useAppSelector } from '@hooks/reduxHooks';
-
 import LoadingPage from '@pages/LoadingPage';
 
 type ProtectedRoutesProps = {
@@ -17,8 +15,9 @@ const ProtectedRoutes = ({
   requireAuth = false,
   blockLogin = false,
 }: ProtectedRoutesProps) => {
-  const { isLogin, loading } = useAppSelector(state => state.auth);
-  const { role } = useAppSelector(state => state.user);
+  const isLogin = useAppSelector(state => state.auth.isLogin);
+  const loading = useAppSelector(state => state.auth.loading);
+  const role = useAppSelector(state => state.user.role);
 
   if (loading) return <LoadingPage />;
 

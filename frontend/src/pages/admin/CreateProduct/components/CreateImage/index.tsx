@@ -15,7 +15,8 @@ const onHover: React.CSSProperties = {
 
 const CreateImage = () => {
   const dispatch = useAppDispatch();
-  const { uploadedImageData } = useAppSelector(state => state.product);
+  // TODO: shallowEqual 처리하기
+  const uploadedImageData = useAppSelector(state => state.product.uploadedImageData);
 
   // Upload Image Handler
   const imageUploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Alert, Form, Button, Container } from 'react-bootstrap';
 
@@ -20,12 +20,12 @@ const OrderStatus = ({ isDelivered, isPaid }: any) => (
   <Row>
     <Col>
       <Alert className="mt-3" variant={isDelivered ? 'success' : 'danger'}>
-        {isDelivered ? <>배송 완료</> : <>배송 준비중</>}
+        {isDelivered ? '배송 완료' : '배송 준비중'}
       </Alert>
     </Col>
     <Col>
       <Alert className="mt-3" variant={isPaid ? 'success' : 'danger'}>
-        {isPaid ? <>결제됨</> : <>결제 대기중</>}
+        {isPaid ? '결제됨' : '결제 대기중'}
       </Alert>
     </Col>
   </Row>
@@ -78,6 +78,7 @@ const OrderSummary = ({ cartSubtotal, buttonDisabled, orderButtonMessage, delive
 const OrderDetails = () => {
   const { id } = useParams();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [userInfo, setUserInfo] = useState({});
   const [isPaid, setIsPaid] = useState(false);
   const [isDelivered, setIsDelivered] = useState(false);
@@ -97,25 +98,27 @@ const OrderDetails = () => {
       );
   };
 
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const order = await getOrderDetails(id);
-        setUserInfo(order.user);
+  const fetchOrder = useCallback(async () => {
+    try {
+      const order = await getOrderDetails(id);
+      setUserInfo(order.user);
 
-        order.isPaid ? setIsPaid(order.paidAt) : setIsPaid(false);
-        order.isDelivered ? setIsDelivered(order.deliveredAt) : setIsDelivered(false);
-        setCartSubtotal(order.orderTotal.cartSubtotal);
-        if (order.isDelivered) {
-          setOrderButtonMessage('배송 완료');
-          setButtonDisabled(true);
-        }
-        setCartItems(order.cartItems);
-      } catch (error) {
-        console.log('There was an error while fetching the order details: ');
+      order.isPaid ? setIsPaid(order.paidAt) : setIsPaid(false);
+      order.isDelivered ? setIsDelivered(order.deliveredAt) : setIsDelivered(false);
+      setCartSubtotal(order.orderTotal.cartSubtotal);
+      if (order.isDelivered) {
+        setOrderButtonMessage('배송 완료');
+        setButtonDisabled(true);
       }
-    };
+      setCartItems(order.cartItems);
 
+      setIsLoading(false);
+    } catch (error) {
+      console.log('There was an error while fetching the order details: ');
+    }
+  }, []);
+
+  useEffect(() => {
     fetchOrder();
   }, [isDelivered, id]);
 
@@ -123,23 +126,29 @@ const OrderDetails = () => {
     <Container>
       <Row className="mt-4">
         <h1>내 주문</h1>
-        <Col md={8}>
-          <br />
-          <Row>
-            <UserInformation userInfo={userInfo} />
-          </Row>
-          <OrderStatus isDelivered={isDelivered} isPaid={isPaid} />
-          <hr />
-          <OrderItems cartItems={cartItems} />
-        </Col>
-        <Col md={4}>
-          <OrderSummary
-            cartSubtotal={cartSubtotal}
-            buttonDisabled={buttonDisabled}
-            orderButtonMessage={orderButtonMessage}
-            deliverHandle={deliverHandle}
-          />
-        </Col>
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : (
+          <>
+            <Col md={8}>
+              <br />
+              <Row>
+                <UserInformation userInfo={userInfo} />
+              </Row>
+              <OrderStatus isDelivered={isDelivered} isPaid={isPaid} />
+              <hr />
+              <OrderItems cartItems={cartItems} />
+            </Col>
+            <Col md={4}>
+              <OrderSummary
+                cartSubtotal={cartSubtotal}
+                buttonDisabled={buttonDisabled}
+                orderButtonMessage={orderButtonMessage}
+                deliverHandle={deliverHandle}
+              />
+            </Col>
+          </>
+        )}
       </Row>
     </Container>
   );
