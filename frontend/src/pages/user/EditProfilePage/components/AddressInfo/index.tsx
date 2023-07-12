@@ -10,9 +10,10 @@ import { validateAddress } from '@utils/validation';
 import Postcode from '@components/PostCode';
 
 const AddressInfo = ({ userInfo }: { userInfo: any }) => {
-  const dispatch = useAppDispatch();
-  const { userAddress } = useAppSelector(state => state.user);
   const [addressEdit, toggleAddressEdit] = useToggle(false);
+  const dispatch = useAppDispatch();
+
+  const userAddress = useAppSelector(state => state.user.userAddress);
 
   const {
     value: detailAddress,

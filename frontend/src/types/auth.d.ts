@@ -12,6 +12,13 @@ interface UserInfo {
   doNotLogout: boolean;
 }
 
+interface UserData {
+  _id: string;
+  email: string;
+  name: string;
+  doNotLogout: boolean;
+}
+
 interface LoginResponse {
   success: string;
   userInfo: UserInfo;

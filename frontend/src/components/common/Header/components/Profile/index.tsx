@@ -1,23 +1,25 @@
 import React from 'react';
+import { shallowEqual } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Badge, Nav, NavDropdown } from 'react-bootstrap';
 
-import { logout } from '@redux/modules/authSlice/thunk';
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
+import { logout } from '@redux/modules/authSlice/thunk';
+import { selectItemsCount } from '@redux/modules/cartSlice/selector';
 
 const Profile = () => {
-  const { isLogin } = useAppSelector(state => state.auth);
-  const { userData, role } = useAppSelector(state => state.user);
-  const { itemsCount } = useAppSelector(state => state.cart);
+  const isLogin = useAppSelector(state => state.auth.isLogin);
+  const role = useAppSelector(state => state.user.role);
+  const userData = useAppSelector(state => state.user.userData, shallowEqual);
+  const itemsCount = useAppSelector(selectItemsCount);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
     const { payload } = await dispatch(logout());
-    if (payload) {
-      navigate(0);
-    }
+    if (payload) navigate(0);
   };
 
   return (

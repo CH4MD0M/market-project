@@ -12,7 +12,10 @@ import EditImage from './components/EditImage';
 const EditProduct = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { attributesTable, imageRemoved, imageUpdated } = useAppSelector(state => state.product);
+
+  const attributesTable = useAppSelector(state => state.product.attributesTable);
+  const imageRemoved = useAppSelector(state => state.product.imageRemoved);
+  const imageUpdated = useAppSelector(state => state.product.imageUpdated);
 
   const [validated, setValidated] = useState<boolean>(false);
   const [product, setProduct] = useState<any>({});

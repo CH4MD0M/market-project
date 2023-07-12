@@ -8,7 +8,9 @@ import { addNewCategoryThunk, deleteCategoryThunk } from '@redux/modules/categor
 
 const CreateCatgegory = () => {
   const dispatch = useAppDispatch();
-  const { categories, selectedCategory } = useAppSelector(state => state.category);
+
+  const categories = useAppSelector(state => state.category.categories);
+  const selectedCategory = useAppSelector(state => state.category.selectedCategory);
 
   // Category Handler
   const changeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {

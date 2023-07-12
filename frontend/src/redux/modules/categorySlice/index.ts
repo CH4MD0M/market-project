@@ -7,10 +7,11 @@ import {
 } from './thunk';
 import { CatState } from './types';
 
-const initialState = {
+const initialState: CatState = {
   categories: [],
   selectedCategory: 'Choose category',
-} as CatState;
+  catLoading: false,
+};
 
 const categorySlice = createSlice({
   name: 'category',
@@ -24,7 +25,11 @@ const categorySlice = createSlice({
     },
   },
   extraReducers: builder => {
+    builder.addCase(getAllCategoriesThunk.pending, state => {
+      state.catLoading = true;
+    });
     builder.addCase(getAllCategoriesThunk.fulfilled, (state, action) => {
+      state.catLoading = false;
       state.categories = action.payload;
     });
 
