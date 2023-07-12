@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Alert, Button, Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { useAppSelector } from '@hooks/reduxHooks';
-
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { resetFilter } from '@redux/modules/filterSlice';
+import { selectCartSubtotal } from '@redux/modules/cartSlice/selector';
+import numberWithCommas from '@utils/numberWithCommas';
 import CartPreview from '@components/CartPreview';
 
 const CartPage = () => {
-  const { cartItems, cartSubtotal } = useAppSelector(state => state.cart);
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector(state => state.cart.cartItems);
+  const cartSubtotal = useAppSelector(selectCartSubtotal);
+
+  useEffect(() => {
+    dispatch(resetFilter());
+  }, []);
 
   return (
     <Container>
@@ -43,7 +51,7 @@ const CartPage = () => {
               <div className="d-flex justify-content-between mt-4">
                 <dt>총 상품 금액</dt>
                 <dd>
-                  <span>{cartSubtotal}</span>원
+                  <span>{numberWithCommas(cartSubtotal)}</span>원
                 </dd>
               </div>
               <div className="d-flex justify-content-between mb-3">
@@ -55,7 +63,7 @@ const CartPage = () => {
               <div className="d-flex justify-content-between mb-3">
                 <dt>결제금액</dt>
                 <dd>
-                  <h4 className="fw-bold">{cartSubtotal}원</h4>
+                  <h4 className="fw-bold">{numberWithCommas(cartSubtotal)}원</h4>
                 </dd>
               </div>
               <div className="d-flex ">

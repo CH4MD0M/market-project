@@ -2,11 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 import rootReducer from './modules';
+import { cartListenerMiddleware } from './modules/cartSlice/middleware';
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware => {
-    const middlewares = getDefaultMiddleware({ serializableCheck: false });
+    const middlewares = getDefaultMiddleware({ serializableCheck: false }).concat(
+      cartListenerMiddleware.middleware,
+    );
 
     if (process.env.NODE_ENV === 'development') {
       middlewares.concat(logger);

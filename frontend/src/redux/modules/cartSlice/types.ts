@@ -5,12 +5,14 @@ export interface CartState {
 }
 
 export interface AddToCartPayload {
-  id: string;
+  _id: string;
+  name: string;
+  price: number;
+  count: number;
+  images: any[];
   quantity: number;
 }
 
 export interface RemoveFromCartPayload {
   _id: string;
-  quantity: number;
-  price: number;
 }
