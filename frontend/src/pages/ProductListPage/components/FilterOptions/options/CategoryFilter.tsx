@@ -1,45 +1,22 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import { shallowEqual } from 'react-redux';
 import { Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { setCategoriesFromFilter } from '@redux/modules/filterSlice';
+import { resetFilter, setCategoryFilter } from '@redux/modules/filterSlice';
 
 const CategoryFilter = () => {
-  const categoryRefs = useRef<HTMLInputElement[]>([]);
   const dispatch = useAppDispatch();
-  const { categories } = useAppSelector(state => state.category);
-  const { categoriesFromFilter } = useAppSelector(state => state.filter);
+
+  const categories = useAppSelector(state => state.category.categories);
+  const categoryFilter = useAppSelector(state => state.filter.categoryFilter, shallowEqual);
 
   const categoryOnChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
     selectedCategory: string,
   ) => {
-    dispatch(
-      setCategoriesFromFilter({ ...categoriesFromFilter, [selectedCategory]: e.target.checked }),
-    );
-
-    let allCategories = categoryRefs.current.map((_, id) => {
-      return { name: categories[id].name, idx: id };
-    });
-
-    let indexesOfMainCategory = allCategories.reduce((acc, item) => {
-      if (item.name === selectedCategory) acc.push(item.idx);
-      return acc;
-    }, []);
-
-    if (e.target.checked) {
-      categoryRefs.current.forEach((el, idx) => {
-        if (!indexesOfMainCategory.includes(idx)) {
-          el.disabled = true;
-        }
-      });
-    } else {
-      categoryRefs.current.forEach((el, idx) => {
-        if (!indexesOfMainCategory.includes(idx)) {
-          el.disabled = false;
-        }
-      });
-    }
+    dispatch(resetFilter());
+    dispatch(setCategoryFilter({ [selectedCategory]: e.target.checked }));
   };
 
   return (
@@ -50,9 +27,12 @@ const CategoryFilter = () => {
           <div key={idx}>
             <Form.Check type="checkbox" id={`check-api2-${idx}`}>
               <Form.Check.Input
-                ref={(el: HTMLInputElement) => (categoryRefs.current[idx] = el)}
                 type="checkbox"
                 isValid
+                checked={categoryFilter[category.name] === true}
+                disabled={Object.keys(categoryFilter).some(
+                  cat => cat !== category.name && categoryFilter[cat],
+                )}
                 onChange={e => categoryOnChangeHandler(e, category.name)}
               />
               <Form.Check.Label style={{ cursor: 'pointer' }}>{category.name}</Form.Check.Label>
@@ -64,4 +44,4 @@ const CategoryFilter = () => {
   );
 };
 
-export default CategoryFilter;
+export default React.memo(CategoryFilter);

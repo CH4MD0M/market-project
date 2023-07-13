@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, ListGroup } from 'react-bootstrap';
 
-import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { setFilters } from '@redux/modules/filterSlice';
+import { useAppDispatch } from '@hooks/reduxHooks';
+import { resetFilter } from '@redux/modules/filterSlice';
 
 import SortOptions from '../SortOptions';
 import PriceFilter from './options/PriceFilter';
@@ -12,28 +12,13 @@ import CategoryFilter from './options/CategoryFilter';
 import AttributesFilter from './options/AttributesFilter';
 
 const FilterOptions = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { attrsFromFilter, priceFromFilter, ratingsFromFilter, categoriesFromFilter } =
-    useAppSelector(state => state.filter);
 
-  const handleFilters = () => {
-    navigate(location.pathname.replace(/\/[0-9]+$/, ''));
-    dispatch(
-      setFilters({
-        attrs: attrsFromFilter,
-        price: priceFromFilter,
-        rating: ratingsFromFilter,
-        category: categoriesFromFilter,
-      }),
-    );
-  };
-
-  const resetFilters = () => {
-    dispatch(setFilters({}));
+  const resetFilterHandler = useCallback(() => {
+    dispatch(resetFilter());
     navigate(0);
-  };
+  }, [dispatch, navigate]);
 
   return (
     <ListGroup variant="flush">
@@ -65,18 +50,11 @@ const FilterOptions = () => {
       </ListGroup.Item>
 
       {/* 필터 버튼 */}
-      <ListGroup.Item>
-        <Button variant="primary" onClick={handleFilters}>
-          적용
-        </Button>
-        {(attrsFromFilter || priceFromFilter || ratingsFromFilter || categoriesFromFilter) && (
-          <Button variant="danger" onClick={resetFilters}>
-            필터 초기화
-          </Button>
-        )}
-      </ListGroup.Item>
+      <Button variant="danger" onClick={resetFilterHandler}>
+        필터 초기화
+      </Button>
     </ListGroup>
   );
 };
 
-export default FilterOptions;
+export default React.memo(FilterOptions);

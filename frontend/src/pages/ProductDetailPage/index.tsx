@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
 import ImageZoom from 'js-image-zoom';
 import { Col, Container, Row, ListGroup, Form, Button, Image } from 'react-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
-import { addToCartAsync } from '@/redux/modules/cartSlice/thunk';
+import { addToCart } from '@/redux/modules/cartSlice';
+import { getSingleProduct } from '@utils/api';
+import numberWithCommas from '@utils/numberWithCommas';
 
-import { getSingleProduct } from '@/utils/api';
 import LoadingPage from '@pages/LoadingPage';
 import CartMessage from './components/CartMessage';
 import ProductReview from './components/ProductReview';
@@ -20,7 +21,6 @@ const options = {
 const ProductDetailPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
   const [cartMessageShow, setCartMessageShow] = useState<boolean>(false);
@@ -28,8 +28,8 @@ const ProductDetailPage = () => {
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
 
   // Add to cart handler
-  const addToCartHandler = async () => {
-    await dispatch(addToCartAsync({ id, quantity }));
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, quantity }));
     setCartMessageShow(true);
   };
 
@@ -95,7 +95,7 @@ const ProductDetailPage = () => {
               <ListGroup>
                 <ListGroup.Item>재고 상태: {`${product?.count}개 남음` || '품절'}</ListGroup.Item>
                 <ListGroup.Item>
-                  가격: <span className="fw-bold">{product?.price}</span>
+                  가격: <span className="fw-bold">{numberWithCommas(product?.price)}</span>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   수량:

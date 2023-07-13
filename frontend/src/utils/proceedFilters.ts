@@ -1,36 +1,38 @@
 export const proceedFilters = (filters: Filters) => {
   let filtersUrl = '';
-  Object.keys(filters).map((key, index) => {
-    if (key === 'price') {
-      if (filters[key]) {
-        filtersUrl += `&price=${filters[key]}`;
-      }
-      return '';
-    } else if (key === 'rating') {
-      let rat = '';
-      Object.keys(filters[key]).map((key2, index2) => {
-        if (filters[key][key2]) rat += `${key2},`;
-        return '';
-      });
-      filtersUrl += '&rating=' + rat;
-    } else if (key === 'category') {
-      let cat = '';
-      Object.keys(filters[key]).map((key3, index3) => {
-        if (filters[key][key3]) cat += `${key3},`;
-        return '';
-      });
-      filtersUrl += '&category=' + cat;
-    } else if (key === 'attrs') {
-      if (filters[key].length > 0) {
-        let val = filters[key].reduce((acc, item) => {
-          let key = item.key;
-          let val = item.value.join('-');
-          return acc + key + '-' + val + ',';
-        }, '');
-        filtersUrl += '&attrs=' + val;
-      }
+
+  // Append to url if value is not empty
+  const appendToUrl = (key: string, value: any) => {
+    if (value) {
+      filtersUrl += `&${key}=${value}`;
     }
-    return '';
+  };
+
+  // Process nested filters (rating, category)
+  const processNestedFilters = (filterKey: string, filterValue: Record<string, any>) => {
+    let filterValues = '';
+    Object.keys(filterValue).forEach(key => {
+      if (filterValue[key]) filterValues += `${key},`;
+    });
+    // Remove last comma
+    appendToUrl(filterKey, filterValues.slice(0, -1));
+  };
+
+  // Process All filters
+  Object.entries(filters).forEach(([key, value]) => {
+    if (key === 'price') {
+      appendToUrl(key, value);
+    } else if (key === 'rating' || key === 'category') {
+      if (typeof value === 'object' && value !== null) {
+        processNestedFilters(key, value);
+      }
+    } else if (key === 'attrs' && Array.isArray(value) && value.length > 0) {
+      let attrs = value.reduce((acc, item) => {
+        return acc + item.key + '-' + item.value.join('-') + ',';
+      }, '');
+      // Remove last comma
+      appendToUrl(key, attrs.slice(0, -1));
+    }
   });
 
   return filtersUrl;

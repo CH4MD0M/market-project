@@ -1,7 +1,8 @@
-import { useAppDispatch } from '@/hooks/reduxHooks';
-import { setSortOption } from '@/redux/modules/filterSlice';
 import React from 'react';
 import { Form } from 'react-bootstrap';
+
+import { useAppDispatch } from '@hooks/reduxHooks';
+import { setSortOption } from '@redux/modules/filterSlice';
 
 const SortOptions = () => {
   const dispatch = useAppDispatch();
@@ -22,4 +23,4 @@ const SortOptions = () => {
   );
 };
 
-export default SortOptions;
+export default React.memo(SortOptions);
