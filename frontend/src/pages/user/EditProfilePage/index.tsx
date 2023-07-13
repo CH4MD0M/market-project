@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { shallowEqual } from 'react-redux';
 import { Alert, Col, Container, Row } from 'react-bootstrap';
 
 import { resetUpdateSatatus } from '@redux/modules/userSlice';
@@ -12,14 +13,25 @@ import PasswordInfo from './components/PasswordInfo';
 
 const EditProfilePage = () => {
   const dispatch = useAppDispatch();
-  const { userData, error, isUpdate, loading } = useAppSelector(state => state.user);
+
+  const userData = useAppSelector(state => state.user.userData, shallowEqual);
+  const error = useAppSelector(state => state.user.error);
+  const isUpdate = useAppSelector(state => state.user.isUpdate);
+
   const [userInfo, setUserInfo] = useState<any>({});
 
   useEffect(() => {
-    getSingleUser(userData._id)
-      .then(data => setUserInfo(data))
-      .catch(er => console.log(er));
-  }, [userData, loading]);
+    const fetchUserData = async () => {
+      try {
+        const data = await getSingleUser(userData._id);
+        setUserInfo(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUserData();
+  }, [userData]);
 
   // isUpdate 상태 리셋
   useEffect(() => {

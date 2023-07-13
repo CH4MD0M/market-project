@@ -1,4 +1,5 @@
 import React from 'react';
+import { shallowEqual } from 'react-redux';
 import { Alert, Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { Rating } from 'react-simple-star-rating';
 
@@ -11,7 +12,7 @@ interface ProductReviewProps {
 }
 
 const ProductReview = ({ product, setReviewUpdated }: ProductReviewProps) => {
-  const { userData } = useAppSelector(state => state.user);
+  const userData = useAppSelector(state => state.user.userData, shallowEqual);
 
   const sendReviewHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

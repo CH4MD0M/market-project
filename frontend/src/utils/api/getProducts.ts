@@ -14,7 +14,6 @@ const getAllProducts = async (
   const search = searchQuery ? `search/${searchQuery}/` : '';
   const category = categoryName ? `category/${categoryName}/` : '';
   const url = `/api/products/${category}${search}?pageNum=${pageNumParam}${filtersUrl}&sort=${sortOption}`;
-
   const { data } = await instance.get(url);
   return data;
 };

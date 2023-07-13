@@ -9,26 +9,11 @@ import numberWithCommas from '@/utils/numberWithCommas';
 import * as S from './style';
 
 interface ProductPreviewProps {
-  images: any[];
-  name: string;
-  description: string;
-  price: number;
-  rating: number;
-  reviewsNumber: number;
-  productId: string;
-  isProductsLoading: boolean;
+  product: Product;
 }
 
-const ProductPreview = ({
-  images,
-  name,
-  description,
-  price,
-  rating,
-  reviewsNumber,
-  productId,
-  isProductsLoading,
-}: ProductPreviewProps) => {
+const ProductPreview = ({ product }: ProductPreviewProps) => {
+  const { images, name, description, price, rating, reviewsNumber, _id: productId } = product;
   const [detailShow, setDetailShow] = useState(false);
 
   return (
@@ -61,4 +46,4 @@ const ProductPreview = ({
   );
 };
 
-export default ProductPreview;
+export default React.memo(ProductPreview);

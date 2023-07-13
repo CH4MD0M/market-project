@@ -8,16 +8,12 @@ import { getBanners } from '@/utils/api';
 // CSS
 import * as S from './style';
 
-const cursorP = {
-  cursor: 'pointer',
-};
-
 const CarouselComponent = () => {
   const [banners, setBanners] = useState([]);
 
   useEffect(() => {
     const fetchBanners = async () => {
-      const data = await getBanners();
+      const { data } = await getBanners();
       setBanners(data);
     };
 

@@ -1,7 +1,7 @@
 import { AsyncThunk } from '@reduxjs/toolkit';
 
 export interface UserState {
-  userData: any;
+  userData: UserData;
   userAddress: UserAddressInfo;
   loading: boolean;
   error: boolean;

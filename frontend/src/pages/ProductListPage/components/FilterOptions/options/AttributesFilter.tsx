@@ -2,69 +2,75 @@ import React, { useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { setAttrsFilter, setAttrsFromFilter } from '@redux/modules/filterSlice';
+import { setAttrsFromCategory, setAttrsFilter } from '@redux/modules/filterSlice';
+import { shallowEqual } from 'react-redux';
 
 const AttributesFilter = () => {
   const dispatch = useAppDispatch();
-  const { categories } = useAppSelector(state => state.category);
-  const { attrsFilter, attrsFromFilter, categoriesFromFilter } = useAppSelector(
-    state => state.filter,
-  );
+
+  const categories = useAppSelector(state => state.category.categories);
+  const attrsFromCategory = useAppSelector(state => state.filter.attrsFromCategory);
+  const categoryFilter = useAppSelector(state => state.filter.categoryFilter, shallowEqual);
+  const attrsFilter = useAppSelector(state => state.filter.attrsFilter);
 
   const attrOnchangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
-    selectedAttr: AttrsFilter,
-    valueForSelectedAttr: string,
+    attr: AttrsFromCategory,
+    value: string,
   ) => {
-    const newAttrsFilter = modifiedAttrsFilter(
-      e,
-      selectedAttr,
-      valueForSelectedAttr,
-      attrsFromFilter,
-    );
-    dispatch(setAttrsFromFilter(newAttrsFilter));
-  };
+    const modifiedAttrsFilter = () => {
+      const existingFilterIndex = attrsFilter.findIndex(filter => filter.key === attr.key);
 
-  const modifiedAttrsFilter = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    selectedAttr: AttrsFilter,
-    valueForSelectedAttr: string,
-    attrsFromFilter: AttrsFilter[],
-  ) => {
-    const filterIndex = attrsFromFilter.findIndex(item => item.key === selectedAttr.key);
+      // If the filter does not exist, add it
+      if (existingFilterIndex === -1) {
+        return [...attrsFilter, { key: attr.key, value: [value] }];
+      }
 
-    if (filterIndex === -1) {
-      return [...attrsFromFilter, { key: selectedAttr.key, value: [valueForSelectedAttr] }];
-    }
+      // Otherwise, modify the existing filter
+      const updatedFilters = [...attrsFilter];
+      const existingValues = new Set(updatedFilters[existingFilterIndex].value);
 
-    const updatedFilters = [...attrsFromFilter];
-    const filterValues = new Set(updatedFilters[filterIndex].value);
+      if (e.target.checked) existingValues.add(value);
+      else existingValues.delete(value);
 
-    if (e.target.checked) filterValues.add(valueForSelectedAttr);
-    else filterValues.delete(valueForSelectedAttr);
+      const updatedValues = Array.from(existingValues);
+      if (updatedValues.length === 0) {
+        updatedFilters[existingFilterIndex] = null;
+      } else {
+        updatedFilters[existingFilterIndex] = {
+          ...updatedFilters[existingFilterIndex],
+          value: updatedValues,
+        };
+      }
+      return updatedFilters.filter(Boolean);
+    };
 
-    const updatedValues = Array.from(filterValues);
-
-    updatedFilters[filterIndex] =
-      updatedValues.length > 0 ? { ...updatedFilters[filterIndex], value: updatedValues } : null;
-
-    return updatedFilters.filter(Boolean);
+    dispatch(setAttrsFilter(modifiedAttrsFilter()));
   };
 
   useEffect(() => {
-    dispatch(setAttrsFilter([]));
-    Object.entries(categoriesFromFilter).forEach(([category, checked]) => {
-      if (checked) {
-        const UpdatedAttrs = categories.find(item => item.name === category).attrs;
-        dispatch(setAttrsFilter(UpdatedAttrs));
+    const applyCategoryFilters = (categoryFilters: any, categories: Category[]) => {
+      if (Object.values(categoryFilters).every(item => !item)) {
+        dispatch(setAttrsFromCategory([]));
+        return;
       }
-    });
-  }, [categoriesFromFilter, categories]);
+
+      for (const [category, checked] of Object.entries(categoryFilters)) {
+        if (checked) {
+          const matchedCategory = categories.find(item => item.name === category)?.attrs;
+
+          dispatch(setAttrsFromCategory(matchedCategory));
+        }
+      }
+    };
+
+    applyCategoryFilters(categoryFilter, categories);
+  }, [categoryFilter, categories]);
 
   return (
     <>
-      {attrsFilter?.map((attr, idx) => (
-        <div key={idx}>
+      {attrsFromCategory?.map((attr, idx) => (
+        <div key={`cat-${idx}`}>
           <Form.Label>
             <b>{attr.key}</b>
           </Form.Label>
@@ -74,7 +80,7 @@ const AttributesFilter = () => {
               type="checkbox"
               key={value_idx}
               label={value}
-              checked={attrsFromFilter.some(
+              checked={attrsFilter?.some(
                 item => item.key === attr.key && item.value.includes(value),
               )}
               onChange={e => attrOnchangeHandler(e, attr, value)}
@@ -86,4 +92,4 @@ const AttributesFilter = () => {
   );
 };
 
-export default AttributesFilter;
+export default React.memo(AttributesFilter);

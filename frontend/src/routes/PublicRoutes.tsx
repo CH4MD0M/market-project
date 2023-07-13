@@ -12,6 +12,7 @@ const RegisterPage = React.lazy(() => import('@pages/RegisterPage'));
 const PublicRoutes: IRoute[] = [
   { path: '/', element: <HomePage /> },
   { path: '/products', element: <ProductListPage /> },
+  { path: '/products/:pageNumParam', element: <ProductListPage /> },
   { path: '/products/category/:categoryName', element: <ProductListPage /> },
   { path: '/products/category/:categoryName/:pageNumParam', element: <ProductListPage /> },
   { path: '/products/search/:searchQuery', element: <ProductListPage /> },

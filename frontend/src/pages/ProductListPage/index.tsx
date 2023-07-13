@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
+
+import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 
 import Pagination from './components/Pagination';
 import ProductList from './components/ProductList';
 import FilterOptions from './components/FilterOptions';
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { resetFilter, setAttrsFilter } from '@/redux/modules/filterSlice';
+import { setCategoryFilter } from '@/redux/modules/filterSlice';
 
 const ProductListPage = () => {
+  const { categoryName, pageNumParam, searchQuery } = useParams();
   const dispatch = useAppDispatch();
 
-  const { pageNum, maxPageNum } = useAppSelector(state => state.product);
-  const { categories } = useAppSelector(state => state.category);
-
-  const { categoryName } = useParams();
-  const { pageNumParam } = useParams();
-  const { searchQuery } = useParams();
+  const maxPageNum = useAppSelector(state => state.product.maxPageNum);
 
   useEffect(() => {
     if (categoryName) {
-      const categoryAllData = categories.find(item => item.name === categoryName);
-      dispatch(setAttrsFilter(categoryAllData?.attrs));
+      dispatch(setCategoryFilter({ [categoryName]: true }));
     }
-  }, [categoryName, categories]);
+  }, [categoryName, dispatch]);
 
   return (
     <Container>
@@ -38,9 +34,7 @@ const ProductListPage = () => {
             searchQuery={searchQuery}
           />
           <div className="d-flex justify-content-center mt-5">
-            {maxPageNum > 1 ? (
-              <Pagination categoryName={categoryName} searchQuery={searchQuery} />
-            ) : null}
+            {maxPageNum > 1 && <Pagination categoryName={categoryName} searchQuery={searchQuery} />}
           </div>
         </Col>
       </Row>

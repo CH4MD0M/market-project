@@ -7,8 +7,9 @@ import { setAttributesFromDb, setAttributesTable } from '@redux/modules/productS
 
 const CreateAttrs = () => {
   const dispatch = useAppDispatch();
-  const { selectedCategory } = useAppSelector(state => state.category);
-  const { attributesFromDb, attributesTable } = useAppSelector(state => state.product);
+  const selectedCategory = useAppSelector(state => state.category.selectedCategory);
+  const attributesFromDb = useAppSelector(state => state.product.attributesFromDb);
+  const attributesTable = useAppSelector(state => state.product.attributesTable);
 
   const [newAttrKey, setNewAttrKey] = useState('');
   const [newAttrValue, setNewAttrValue] = useState('');

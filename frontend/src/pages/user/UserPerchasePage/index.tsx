@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
 import { removeFromCart } from '@redux/modules/cartSlice';
+import { selectItemsCount, selectCartSubtotal } from '@redux/modules/cartSlice/selector';
 import { getSingleUser, postOrder, updateOrder } from '@utils/api';
+import numberWithCommas from '@utils/numberWithCommas';
 
 import CartPreview from '@components/CartPreview';
 
 const UserPerchasePage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { userData } = useAppSelector(state => state.user);
-  const { cartItems, itemsCount, cartSubtotal } = useAppSelector(state => state.cart);
+  const userData = useAppSelector(state => state.user.userData, shallowEqual);
+  const cartItems = useAppSelector(state => state.cart.cartItems);
+  const itemsCount = useAppSelector(selectItemsCount);
+  const cartSubtotal = useAppSelector(selectCartSubtotal);
 
   const [userInfo, setUserInfo] = useState<UserAddressInfo>();
   const [userInfoMissing, setUserInfoMissing] = useState(false);
@@ -40,8 +45,8 @@ const UserPerchasePage = () => {
     try {
       const response = await postOrder(orderData);
       if (response.status === 201) {
-        cartItems.forEach(({ _id, price, quantity }) => {
-          dispatch(removeFromCart({ _id, price, quantity }));
+        cartItems.forEach(({ _id }) => {
+          dispatch(removeFromCart({ _id }));
         });
         updateOrder(response.data._id);
         navigate(`/user/order-details/${response.data._id}`);
@@ -127,7 +132,7 @@ const UserPerchasePage = () => {
           <div className="d-flex justify-content-between mt-4">
             <dt>총 상품 금액</dt>
             <dd>
-              <span>{cartSubtotal}</span>원
+              <span>{numberWithCommas(cartSubtotal)}</span>원
             </dd>
           </div>
           <div className="d-flex justify-content-between mb-3">
@@ -139,7 +144,7 @@ const UserPerchasePage = () => {
           <div className="d-flex justify-content-between mb-3">
             <dt>결제금액</dt>
             <dd>
-              <h4 className="fw-bold">{cartSubtotal}원</h4>
+              <h4 className="fw-bold">{numberWithCommas(cartSubtotal)}원</h4>
             </dd>
           </div>
           <div className="d-flex ">

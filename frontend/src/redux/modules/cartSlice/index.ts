@@ -1,76 +1,60 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CartState, RemoveFromCartPayload } from './types';
-import { StorageType, getValue, setValue } from '@utils/storageUtils';
-import { addToCartAsync } from './thunk';
+import { AddToCartPayload, CartState, RemoveFromCartPayload } from './types';
+import { StorageType, getValue } from '@utils/storageUtils';
 
 const cartItemsInLocalStorage = getValue(StorageType.LOCAL, 'cartItems');
 
-const initialState = {
+const initialState: CartState = {
   cartItems: cartItemsInLocalStorage || [],
-  itemsCount:
-    cartItemsInLocalStorage?.reduce(
-      (quantity: number, item: CartProduct) => Number(item.quantity) + quantity,
-      0,
-    ) || 0,
-  cartSubtotal:
-    cartItemsInLocalStorage?.reduce(
-      (price: number, item: CartProduct) => price + item.price * item.quantity,
-      0,
-    ) || 0,
-} as CartState;
+  itemsCount: 0,
+  cartSubtotal: 0,
+};
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action) => {
-      const productBeingAddedToCart = action.payload;
+    // 장바구니 추가
+    addToCart: (state, action: PayloadAction<AddToCartPayload>) => {
+      const { _id, name, price, count, images, quantity } = action.payload;
+      const productBeingAddedToCart = {
+        _id,
+        name,
+        price,
+        count,
+        image: images[0] ?? null,
+        quantity,
+      };
 
-      const productAlreadyExistsInState = state.cartItems.find(
+      const existingProductIndex = state.cartItems.findIndex(
         item => item._id === productBeingAddedToCart._id,
       );
 
-      if (productAlreadyExistsInState) {
-        state.itemsCount = 0;
-        state.cartSubtotal = 0;
-        state.cartItems = state.cartItems.map(x => {
-          if (x._id === productAlreadyExistsInState._id) {
-            state.itemsCount += Number(productBeingAddedToCart.quantity);
-            const sum =
-              Number(productBeingAddedToCart.quantity) * Number(productBeingAddedToCart.price);
-            state.cartSubtotal += sum;
-          } else {
-            state.itemsCount += Number(x.quantity);
-            const sum = Number(x.quantity) * Number(x.price);
-            state.cartSubtotal += sum;
-          }
-          return x._id === productAlreadyExistsInState._id ? productBeingAddedToCart : x;
-        });
+      if (existingProductIndex !== -1) {
+        state.cartItems[existingProductIndex] = productBeingAddedToCart;
       } else {
-        state.itemsCount += Number(productBeingAddedToCart.quantity);
-        const sum =
-          Number(productBeingAddedToCart.quantity) * Number(productBeingAddedToCart.price);
-        state.cartSubtotal += sum;
         state.cartItems.push(productBeingAddedToCart);
       }
     },
 
+    // 장바구니 삭제
     removeFromCart(state, action: PayloadAction<RemoveFromCartPayload>) {
-      const { _id, quantity, price } = action.payload;
+      const { _id } = action.payload;
       state.cartItems = state.cartItems.filter(item => item._id !== _id);
-      state.itemsCount -= quantity;
-      state.cartSubtotal -= price * quantity;
-
-      setValue(StorageType.LOCAL, 'cartItems', state.cartItems);
     },
-  },
-  extraReducers: builder => {
-    builder.addCase(addToCartAsync.fulfilled, (_, action) => {
-      setValue(StorageType.LOCAL, 'cartItems', action.payload);
-    });
+
+    // 장바구니 상품 수량 변경
+    updateCart(state, action) {
+      const { _id, quantity } = action.payload;
+      const productBeingAddedToCart = state.cartItems.find(item => item._id === _id);
+
+      if (productBeingAddedToCart) {
+        productBeingAddedToCart.quantity = quantity;
+      }
+    },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateCart } = cartSlice.actions;
 export default cartSlice.reducer;

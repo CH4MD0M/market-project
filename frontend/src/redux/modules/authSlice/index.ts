@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AuthState } from './types';
 import { login, loginCheck, logout, signup } from './thunk';
 
-const initialState = {
+const initialState: AuthState = {
   loading: false,
   error: false,
   isLogin: false,
-} as AuthState;
+};
 
 const authSlice = createSlice({
   name: 'auth',
