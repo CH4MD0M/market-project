@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Col, Form, Image, Row } from 'react-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';

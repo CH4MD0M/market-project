@@ -1,4 +1,3 @@
-import React from 'react';
 import { Col, Form, Image, Row } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';

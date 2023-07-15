@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, ListGroup } from 'react-bootstrap';
 
@@ -57,4 +57,4 @@ const FilterOptions = () => {
   );
 };
 
-export default React.memo(FilterOptions);
+export default memo(FilterOptions);

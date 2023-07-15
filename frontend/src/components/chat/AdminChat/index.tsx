@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { Button, Form, Toast } from 'react-bootstrap';
 
 import * as S from '../UserChat/style';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';

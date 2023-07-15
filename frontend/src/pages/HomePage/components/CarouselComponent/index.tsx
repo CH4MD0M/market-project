@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Carousel } from 'react-bootstrap';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { LinkContainer } from 'react-router-bootstrap';
 
-import { getBanners } from '@/utils/api';
+import { getBanners } from '@utils/api';
 
 // CSS
 import * as S from './style';
