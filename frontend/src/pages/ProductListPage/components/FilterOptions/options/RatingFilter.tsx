@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react';
+import { Fragment, memo, useCallback } from 'react';
 import { shallowEqual } from 'react-redux';
 import { Rating } from 'react-simple-star-rating';
 import { Form } from 'react-bootstrap';
@@ -39,4 +39,4 @@ const RatingFilter = () => {
   );
 };
 
-export default React.memo(RatingFilter);
+export default memo(RatingFilter);

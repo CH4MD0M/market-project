@@ -1,9 +1,9 @@
-import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { resetFilter, setCategoryFilter } from '@redux/modules/filterSlice';
+import { memo } from 'react';
 
 const CategoryFilter = () => {
   const dispatch = useAppDispatch();
@@ -44,4 +44,4 @@ const CategoryFilter = () => {
   );
 };
 
-export default React.memo(CategoryFilter);
+export default memo(CategoryFilter);

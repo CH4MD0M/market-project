@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Col, Form, Row } from 'react-bootstrap';
 import {
@@ -16,7 +16,7 @@ import {
 import AdminLayout from '@layout/AdminLayout';
 
 import { getAnalyticsDataByDate } from '@utils/api/analyticsApi';
-import { socket } from '@/utils/constants/socket';
+import { socket } from '@utils/constants/socket';
 
 interface Dataset {
   name: string;
@@ -51,7 +51,7 @@ const Analytics = () => {
     let today = new Date().toDateString();
 
     const updateData = (
-      newOrder: OrderDataForAdmin,
+      newOrder: OrderDetailsData,
       dateToCompare: string,
       setData: React.Dispatch<React.SetStateAction<Dataset[]>>,
     ) => {
@@ -86,7 +86,7 @@ const Analytics = () => {
       });
     };
 
-    const handler = (newOrder: OrderDataForAdmin) => {
+    const handler = (newOrder: OrderDetailsData) => {
       if (new Date(newOrder.createdAt).toDateString() === today) {
         if (today === new Date(firstDateToCompare).toDateString()) {
           updateData(newOrder, firstDateToCompare, setDataForFirstSet);
@@ -107,7 +107,7 @@ const Analytics = () => {
 
     const fetchAnalyticsData = async (selectedDate: string, setData: Function) => {
       try {
-        const data: OrderDataForAdmin[] = await getAnalyticsDataByDate(
+        const data: OrderDetailsData[] = await getAnalyticsDataByDate(
           selectedDate,
           abortController.signal,
         );

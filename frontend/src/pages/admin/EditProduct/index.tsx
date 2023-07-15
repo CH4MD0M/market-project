@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
@@ -130,4 +130,4 @@ const EditProduct = () => {
   );
 };
 
-export default React.memo(EditProduct);
+export default memo(EditProduct);

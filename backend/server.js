@@ -53,9 +53,6 @@ cloudinary.config({
 const connectDB = require('./config/db');
 connectDB();
 
-// Redis connection
-const redisClient = require('./config/redis');
-
 app.use('/api', apiRoutes);
 
 const path = require('path');

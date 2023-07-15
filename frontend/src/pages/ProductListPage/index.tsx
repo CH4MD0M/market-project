@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { setCategoryFilter } from '@redux/modules/filterSlice';
 
 import Pagination from './components/Pagination';
 import ProductList from './components/ProductList';
 import FilterOptions from './components/FilterOptions';
-import { setCategoryFilter } from '@/redux/modules/filterSlice';
 
 const ProductListPage = () => {
   const { categoryName, pageNumParam, searchQuery } = useParams();

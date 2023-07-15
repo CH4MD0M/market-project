@@ -1,4 +1,3 @@
-import React from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';

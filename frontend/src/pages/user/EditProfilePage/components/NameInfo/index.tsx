@@ -1,4 +1,3 @@
-import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { Alert, Button, Form } from 'react-bootstrap';

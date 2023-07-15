@@ -14,7 +14,6 @@ const {
   updateUserPhone,
   updateUserPassword,
   getUserProfile,
-  writeReview,
   getSingleUser,
   updateUser,
   deleteUser,
@@ -30,7 +29,6 @@ router.put('/profile/phone', updateUserPhone);
 router.put('/profile/address', updateUserAddress);
 router.put('/profile/password', updateUserPassword);
 router.get('/profile/:id', getUserProfile);
-router.post('/review/:productId', writeReview);
 
 // Admin routes
 router.use(verifyIsAdmin);

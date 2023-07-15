@@ -1,17 +1,16 @@
-import React from 'react';
-
 import { IRoute } from '@/types/route';
+import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
-const AdminAnalytics = React.lazy(() => import('@pages/admin/Analytics'));
-const AdminChats = React.lazy(() => import('@pages/admin/Chat'));
-const AdminCreateProduct = React.lazy(() => import('@pages/admin/CreateProduct'));
-const AdminEditProduct = React.lazy(() => import('@pages/admin/EditProduct'));
-const AdminEditUser = React.lazy(() => import('@pages/admin/EditUser'));
-const AdminOrderDetails = React.lazy(() => import('@pages/admin/OrderDetails'));
-const AdminOrders = React.lazy(() => import('@pages/admin/Orders'));
-const AdminProducts = React.lazy(() => import('@pages/admin/Products'));
-const AdminUsers = React.lazy(() => import('@pages/admin/Users'));
+const AdminAnalytics = lazy(() => import('@pages/admin/Analytics'));
+const AdminChats = lazy(() => import('@pages/admin/Chat'));
+const AdminCreateProduct = lazy(() => import('@pages/admin/CreateProduct'));
+const AdminEditProduct = lazy(() => import('@pages/admin/EditProduct'));
+const AdminEditUser = lazy(() => import('@pages/admin/EditUser'));
+const AdminOrderDetails = lazy(() => import('@pages/admin/OrderDetails'));
+const AdminOrders = lazy(() => import('@pages/admin/Orders'));
+const AdminProducts = lazy(() => import('@pages/admin/Products'));
+const AdminUsers = lazy(() => import('@pages/admin/Users'));
 
 export const adminProtectedRoutes: IRoute[] = [
   { path: '/admin', element: <Navigate to="/admin/orders" /> },

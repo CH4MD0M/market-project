@@ -1,13 +1,12 @@
-import React from 'react';
-
+import { lazy } from 'react';
 import { IRoute } from '@/types/route';
 import { Navigate } from 'react-router-dom';
 
-const EditProfilePage = React.lazy(() => import('@pages/user/EditProfilePage'));
-const UserPerchasePage = React.lazy(() => import('@pages/user/UserPerchasePage'));
-const UserOrdersPage = React.lazy(() => import('@pages/user/UserOrdersPage'));
-const UserOrderDetailPage = React.lazy(() => import('@pages/user/UserOrderDetailsPage'));
-const UserServicePage = React.lazy(() => import('@pages/user/UserServicePage'));
+const EditProfilePage = lazy(() => import('@pages/user/EditProfilePage'));
+const UserPerchasePage = lazy(() => import('@pages/user/UserPerchasePage'));
+const UserOrdersPage = lazy(() => import('@pages/user/UserOrdersPage'));
+const UserOrderDetailPage = lazy(() => import('@pages/user/UserOrderDetailsPage'));
+const UserServicePage = lazy(() => import('@pages/user/UserServicePage'));
 
 export const userProtectedRoutes: IRoute[] = [
   { path: '/user', element: <Navigate to="/user/my-orders" /> },

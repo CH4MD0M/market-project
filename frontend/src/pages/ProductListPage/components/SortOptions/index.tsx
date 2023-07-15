@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import { Form } from 'react-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
@@ -23,4 +23,4 @@ const SortOptions = () => {
   );
 };
 
-export default React.memo(SortOptions);
+export default memo(SortOptions);

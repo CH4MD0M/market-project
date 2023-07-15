@@ -1,5 +1,3 @@
-import React from 'react';
-
 // CSS
 import * as S from './style';
 

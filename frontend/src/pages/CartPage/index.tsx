@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Alert, Button, Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
