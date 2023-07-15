@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Container } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { getOrderDetails } from '@utils/api';
 
 import LoadingPage from '@pages/LoadingPage';
+import OrderProductPreview from '@components/OrderProductPreview';
 
 const UserOrderDetailsPage = () => {
   const { id } = useParams();
+  const [orderData, setOrderData] = useState<OrderDetailsData>();
   const [userInfo, setUserInfo] = useState<OrderUserData>();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +18,7 @@ const UserOrderDetailsPage = () => {
       setIsLoading(true);
       try {
         const order = await getOrderDetails(id);
-        console.log(order);
+        setOrderData(order);
         setUserInfo(order.user);
       } catch (error) {
         console.log(error);
@@ -39,19 +40,9 @@ const UserOrderDetailsPage = () => {
             <div>
               <section className="d-flex justify-content-between mt-5 mb-5">
                 <div className="w-75">
-                  {/* {cartItems?.map((item: CartProduct, idx: number) => (
-                <CartPreview item={item} key={idx} orderCreated={true} />
-              ))} */}
-                </div>
-                <div className="w-25">
-                  <Button type="button" size="sm" variant="info" style={{ color: 'white' }}>
-                    리뷰 작성하기
-                  </Button>
-                  <LinkContainer to="/user/service">
-                    <Button className="ms-2" type="button" size="sm" variant="outline-info">
-                      문의하기
-                    </Button>
-                  </LinkContainer>
+                  {orderData?.cartItems.map((item: CartProduct, idx: number) => (
+                    <OrderProductPreview orderData={orderData} item={item} key={idx} />
+                  ))}
                 </div>
               </section>
               <h4>배송지</h4>
