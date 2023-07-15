@@ -1,6 +1,4 @@
 const User = require('../models/UserModel');
-const Review = require('../models/ReviewModel');
-const Product = require('../models/ProductModel');
 
 const { hashPassword, comparePasswords } = require('../utils/hashPassword');
 const generateAuthToken = require('../utils/generateAuthToken');
@@ -58,42 +56,45 @@ const loginUser = async (req, res, next) => {
     }
 
     const user = await User.findOne({ email }).orFail();
-    if (user && comparePasswords(password, user.password)) {
-      let cookieParams = {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      };
 
-      if (doNotLogout) {
-        cookieParams = { ...cookieParams, maxAge: 1000 * 60 * 60 * 24 * 7 }; // 1000=1ms
-      }
-
-      return res
-        .cookie(
-          'access_token',
-          generateAuthToken(
-            user._id,
-            user.name,
-            user.email,
-            user.isAdmin,
-            doNotLogout
-          ),
-          cookieParams
-        )
-        .json({
-          success: 'user logged in',
-          userInfo: {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-            doNotLogout,
-          },
-        });
-    } else {
-      return res.status(401).send('wrong credentials');
+    // user가 존재하지 않을 경우를 처리합니다.
+    if (!user) {
+      return res.status(404).send('User not found');
     }
+
+    // 비밀번호가 일치하지 않을 경우를 처리합니다.
+    if (!comparePasswords(password, user.password)) {
+      return res.status(401).send('Incorrect password');
+    }
+
+    const accessToken = generateAuthToken(
+      user._id,
+      user.name,
+      user.email,
+      user.isAdmin,
+      doNotLogout
+    );
+
+    let cookieParams = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+    };
+
+    if (doNotLogout) {
+      cookieParams = { ...cookieParams, maxAge: 1000 * 60 * 60 * 24 * 7 }; // 1000=1ms
+    }
+
+    return res.cookie('access_token', accessToken, cookieParams).json({
+      success: 'user logged in',
+      userInfo: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        doNotLogout,
+      },
+    });
   } catch (err) {
     next(err);
   }
@@ -195,78 +196,6 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
-// Write review
-const writeReview = async (req, res, next) => {
-  let session;
-  try {
-    session = await Review.startSession();
-
-    // get comment, rating from req.body
-    const { comment, rating } = req.body;
-    // validate request
-    if (!(comment && rating)) {
-      return res.status(400).send('All inputs are required');
-    }
-
-    // Product Collection에 저장해야 하기 때문에 리뷰 id를 수동으로 생성함.
-    const ObjectId = require('mongodb').ObjectId;
-    let reviewId = ObjectId();
-
-    session.startTransaction();
-    await Review.create(
-      [
-        {
-          _id: reviewId,
-          comment: comment,
-          rating: Number(rating),
-          user: {
-            _id: req.user._id,
-            name: req.user.name,
-          },
-        },
-      ],
-      { session: session }
-    );
-
-    const product = await Product.findById(req.params.productId)
-      .populate('reviews')
-      .session(session);
-
-    // 이미 리뷰를 작성했는지 확인
-    const alreadyReviewed = product.reviews.find(
-      r => r.user._id.toString() === req.user._id.toString()
-    );
-    if (alreadyReviewed) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).send('product already reviewed');
-    }
-
-    let prc = [...product.reviews];
-    prc.push({ rating: rating });
-    product.reviews.push(reviewId);
-    if (product.reviews.length === 1) {
-      product.rating = Number(rating);
-      product.reviewsNumber = 1;
-    } else {
-      product.reviewsNumber = product.reviews.length;
-      let ratingCalc =
-        prc
-          .map(item => Number(item.rating))
-          .reduce((sum, item) => sum + item, 0) / product.reviews.length;
-      product.rating = Math.round(ratingCalc);
-    }
-    await product.save();
-
-    await session.commitTransaction();
-    session.endSession();
-    res.send('review created');
-  } catch (err) {
-    await session.abortTransaction();
-    next(err);
-  }
-};
-
 const getSingleUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
@@ -313,7 +242,6 @@ module.exports = {
   updateUserAddress,
   updateUserPassword,
   getUserProfile,
-  writeReview,
   getSingleUser,
   updateUser,
   deleteUser,
