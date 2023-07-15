@@ -5,4 +5,5 @@ interface CartProduct {
   price: number;
   count: number;
   quantity: number;
+  isReviewed?: boolean;
 }
