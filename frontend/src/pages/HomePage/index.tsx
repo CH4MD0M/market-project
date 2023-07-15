@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';

@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
 import ImageZoom from 'js-image-zoom';
 import { Col, Container, Row, ListGroup, Form, Button, Image } from 'react-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
-import { addToCart } from '@/redux/modules/cartSlice';
+import { addToCart } from '@redux/modules/cartSlice';
 import { getSingleProduct } from '@utils/api';
 import numberWithCommas from '@utils/numberWithCommas';
 
@@ -21,10 +21,10 @@ const options = {
 const ProductDetailPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
+
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
   const [cartMessageShow, setCartMessageShow] = useState<boolean>(false);
-  const [reviewUpdated, setReviewUpdated] = useState<boolean>(false);
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
 
   // Add to cart handler
@@ -52,7 +52,7 @@ const ProductDetailPage = () => {
       setProduct(data);
       setIsProductLoading(false);
     });
-  }, [id, reviewUpdated]);
+  }, [id]);
 
   if (isProductLoading) return <LoadingPage />;
 
@@ -81,7 +81,7 @@ const ProductDetailPage = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Rating readonly size={20} initialValue={product?.rating} />(
-                  {product?.reviewsNumber})
+                  {product?.reviewsNumber || 0})
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <span className="fw-bold">{product?.price}</span>
@@ -127,7 +127,7 @@ const ProductDetailPage = () => {
           </Row>
 
           {/* 리뷰 */}
-          <ProductReview product={product} setReviewUpdated={setReviewUpdated} />
+          <ProductReview product={product} />
         </Col>
       </Row>
     </Container>

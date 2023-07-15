@@ -18,7 +18,7 @@ export const API_URL = {
   },
 
   REVIEW: {
-    WRITE_REVIEW: (productId: string) => `/api/users/review/${productId}`,
+    WRITE_REVIEW: (productId: string) => `/api/review/${productId}`,
   },
 
   CATEGORY: {

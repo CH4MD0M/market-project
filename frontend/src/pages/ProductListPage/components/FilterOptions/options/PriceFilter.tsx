@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
@@ -27,4 +27,4 @@ const PriceFilter = () => {
   );
 };
 
-export default React.memo(PriceFilter);
+export default memo(PriceFilter);

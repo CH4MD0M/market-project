@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Pagination } from 'react-bootstrap';
 
 import { useAppSelector } from '@hooks/reduxHooks';

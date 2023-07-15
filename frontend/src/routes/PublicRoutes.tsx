@@ -1,13 +1,12 @@
-import React from 'react';
-
+import { lazy } from 'react';
 import { IRoute } from '@/types/route';
 
-const HomePage = React.lazy(() => import('@pages/HomePage'));
-const ProductListPage = React.lazy(() => import('@pages/ProductListPage'));
-const ProductDetailPage = React.lazy(() => import('@pages/ProductDetailPage'));
-const CartPage = React.lazy(() => import('@pages/CartPage'));
-const LoginPage = React.lazy(() => import('@pages/LoginPage'));
-const RegisterPage = React.lazy(() => import('@pages/RegisterPage'));
+const HomePage = lazy(() => import('@pages/HomePage'));
+const ProductListPage = lazy(() => import('@pages/ProductListPage'));
+const ProductDetailPage = lazy(() => import('@pages/ProductDetailPage'));
+const CartPage = lazy(() => import('@pages/CartPage'));
+const LoginPage = lazy(() => import('@pages/LoginPage'));
+const RegisterPage = lazy(() => import('@pages/RegisterPage'));
 
 const PublicRoutes: IRoute[] = [
   { path: '/', element: <HomePage /> },

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Col } from 'react-bootstrap';
 
 import { getOrdersForUser } from '@utils/api';
 
 import UserLayout from '@layout/UserLayout';
 import LoadingPage from '@pages/LoadingPage';
-import OrderPreview from './components/OrderPreview/indext';
+import OrderPreview from './components/OrderPreview';
 
 const UserOrdersPage = () => {
   const [orders, setOrders] = useState([]);

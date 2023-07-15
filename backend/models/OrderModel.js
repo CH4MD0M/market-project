@@ -19,6 +19,7 @@ const orderSchema = mongoose.Schema(
         image: { path: { type: String, required: true } },
         quantity: { type: Number, required: true },
         count: { type: Number, required: true },
+        isReviewed: { type: Boolean, required: true, default: false },
       },
     ],
     transactionResult: {

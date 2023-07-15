@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
-import CartPreview from '@components/CartPreview';
+import OrderProductPreview from '@components/OrderProductPreview';
 
 interface OrderPreviewProps {
   order: any;
@@ -24,7 +23,7 @@ const OrderPreview = ({ order }: OrderPreviewProps) => {
       <hr />
       <div>
         {cartItems.map((item: any, idx: number) => (
-          <CartPreview key={idx} item={item} orderCreated={true} />
+          <OrderProductPreview key={idx} item={item} />
         ))}
       </div>
     </section>

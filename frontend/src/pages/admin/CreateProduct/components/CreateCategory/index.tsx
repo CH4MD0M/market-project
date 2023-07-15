@@ -1,4 +1,3 @@
-import React from 'react';
 import { CloseButton, Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { memo, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-import numberWithCommas from '@/utils/numberWithCommas';
+import numberWithCommas from '@utils/numberWithCommas';
 
 // CSS
 import * as S from './style';
@@ -46,4 +46,4 @@ const ProductPreview = ({ product }: ProductPreviewProps) => {
   );
 };
 
-export default React.memo(ProductPreview);
+export default memo(ProductPreview);

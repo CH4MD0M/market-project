@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
@@ -92,4 +92,4 @@ const AttributesFilter = () => {
   );
 };
 
-export default React.memo(AttributesFilter);
+export default memo(AttributesFilter);

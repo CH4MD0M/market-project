@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { shallowEqual } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

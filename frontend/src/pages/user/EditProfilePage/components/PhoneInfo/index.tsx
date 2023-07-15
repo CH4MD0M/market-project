@@ -1,4 +1,3 @@
-import React from 'react';
 import { Alert, Button, Form } from 'react-bootstrap';
 
 import { updateUserPhoneThunk } from '@redux/modules/userSlice/thunk';

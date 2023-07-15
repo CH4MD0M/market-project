@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Alert, Form, Button, Container } from 'react-bootstrap';
+import { Row, Col, ListGroup, Alert, Button, Container } from 'react-bootstrap';
 
 import { getOrderDetails, markAsDelivered } from '@utils/api';
-import CartPreview from '@components/CartPreview';
+import OrderProductPreview from '@components/OrderProductPreview';
 
 const UserInformation = ({ userInfo }: any) => (
   <Col md={6}>
@@ -36,7 +36,7 @@ const OrderItems = ({ cartItems }: { cartItems: CartProduct[] }) => (
     <h2>주문 상품</h2>
     <ListGroup variant="flush">
       {cartItems.map((item: CartProduct, idx: number) => (
-        <CartPreview key={idx} item={item} orderCreated={true} />
+        <OrderProductPreview key={idx} item={item} />
       ))}
     </ListGroup>
   </>
