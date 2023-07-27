@@ -4,14 +4,15 @@ import { Form } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setAttrsFromCategory, setAttrsFilter } from '@redux/modules/filterSlice';
 import { shallowEqual } from 'react-redux';
+import { isEqual } from 'lodash';
 
 const AttributesFilter = () => {
   const dispatch = useAppDispatch();
 
   const categories = useAppSelector(state => state.category.categories);
-  const attrsFromCategory = useAppSelector(state => state.filter.attrsFromCategory);
+  const attrsFromCategory = useAppSelector(state => state.filter.attrsFromCategory, isEqual);
   const categoryFilter = useAppSelector(state => state.filter.categoryFilter, shallowEqual);
-  const attrsFilter = useAppSelector(state => state.filter.attrsFilter);
+  const attrsFilter = useAppSelector(state => state.filter.attrsFilter, isEqual);
 
   const attrOnchangeHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
