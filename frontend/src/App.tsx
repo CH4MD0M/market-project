@@ -30,14 +30,18 @@ const App = () => {
     if (!userData) return;
 
     const fetchLoginCheck = async () => {
-      const resultAction = await dispatch(loginCheck());
-      const data = unwrapResult(resultAction);
-      if (data.userInfo.doNotLogout) setValue(StorageType.LOCAL, 'userInfo', data.userInfo);
-      else setValue(StorageType.SESSION, 'userInfo', data.userInfo);
+      try {
+        const resultAction = await dispatch(loginCheck());
+        const data = unwrapResult(resultAction);
+        if (data.userInfo.doNotLogout) setValue(StorageType.LOCAL, 'userInfo', data.userInfo);
+        else setValue(StorageType.SESSION, 'userInfo', data.userInfo);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchLoginCheck();
-  }, [dispatch]);
+  }, [dispatch, userData]);
 
   return (
     <BrowserRouter>
@@ -46,20 +50,20 @@ const App = () => {
         <Suspense fallback={<LoadingPage />}>
           <Routes>
             {/* public routes */}
-            <Route element={<ProtectedRoutes />}>{generateRoutes(PublicRoutes)}</Route>
+            <Route>{generateRoutes(PublicRoutes)}</Route>
 
             {/* block login routes */}
-            <Route element={<ProtectedRoutes blockLogin={true} />}>
+            <Route element={<ProtectedRoutes blockLogin />}>
               {generateRoutes(BlockLoginRoutes)}
             </Route>
 
             {/* user protected routes */}
-            <Route element={<ProtectedRoutes requireAuth={true} />}>
+            <Route element={<ProtectedRoutes requireAuth />}>
               {generateRoutes(userProtectedRoutes)}
             </Route>
 
             {/* admin protected routes */}
-            <Route element={<ProtectedRoutes requireAuth={true} requireAdmin={true} />}>
+            <Route element={<ProtectedRoutes requireAuth requireAdmin />}>
               {generateRoutes(adminProtectedRoutes)}
             </Route>
           </Routes>
