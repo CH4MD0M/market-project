@@ -56,7 +56,7 @@ const Profile = () => {
       )}
 
       {/* Login Menu */}
-      {!isLogin && !userData && (
+      {!isLogin && (
         <>
           <LinkContainer to="/login">
             <Nav.Link>로그인</Nav.Link>

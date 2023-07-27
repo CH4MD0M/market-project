@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { useAppSelector } from '@hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { resetProductState } from '@redux/modules/productSlice';
+import { resetCategoryState } from '@redux/modules/categorySlice';
 import { createProduct } from '@utils/api';
 
 import CreateCatgegory from './components/CreateCategory';
-import CreateAttrs from './components/CreateAttrs';
+import AdminProductAttr from '@components/AdminProductAttr';
 import CreateImage from './components/CreateImage';
 
 const CreateProduct = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const attributesTable = useAppSelector(state => state.product.attributesTable);
@@ -46,6 +49,14 @@ const CreateProduct = () => {
 
     setValidated(true);
   };
+
+  // reset attributes table
+  useEffect(() => {
+    return () => {
+      dispatch(resetProductState());
+      dispatch(resetCategoryState());
+    };
+  }, []);
 
   return (
     <Container>
@@ -93,7 +104,7 @@ const CreateProduct = () => {
             <CreateCatgegory />
 
             {/* 속성 */}
-            <CreateAttrs />
+            <AdminProductAttr />
 
             {/* 이미지 */}
             <CreateImage />

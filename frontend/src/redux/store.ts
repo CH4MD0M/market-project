@@ -12,7 +12,7 @@ export const store = configureStore({
     );
 
     if (process.env.NODE_ENV === 'development') {
-      middlewares.concat(logger);
+      middlewares.push(logger);
     }
 
     return middlewares;

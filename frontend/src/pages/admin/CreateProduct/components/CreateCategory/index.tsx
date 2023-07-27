@@ -16,7 +16,7 @@ const CreateCatgegory = () => {
     const choosenCategory = e.target.value;
     const categoryData = categories.find(cat => cat.name === choosenCategory);
 
-    dispatch(setAttributesFromDb(categoryData.attrs || []));
+    dispatch(setAttributesFromDb(categoryData?.attrs || []));
     dispatch(setSelectedCategory(choosenCategory));
   };
 

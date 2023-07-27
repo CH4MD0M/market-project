@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { RootState } from '@redux/store';
-import { setUserInfo, setUserRole } from '../userSlice';
+import { setUserInfo, setUserRole, resetUserState } from '../userSlice';
 import { postSignIn, postSignOut, getToken } from '@utils/api';
 import { postSignUp } from '@utils/api';
 import { StorageType, removeValue } from '@utils/storageUtils';
@@ -33,11 +33,12 @@ export const login = createAsyncThunk(
 );
 
 // logout
-export const logout = createAsyncThunk('auth/logout', async () => {
+export const logout = createAsyncThunk('auth/logout', async (_, { dispatch }) => {
   const response = await postSignOut();
   removeValue(StorageType.LOCAL, 'userInfo');
   removeValue(StorageType.SESSION, 'userInfo');
   removeValue(StorageType.LOCAL, 'cartItems');
+  dispatch(resetUserState());
   return response;
 });
 

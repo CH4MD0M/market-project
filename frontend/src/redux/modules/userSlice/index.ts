@@ -18,21 +18,24 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserRole(state, action) {
+    setUserRole: (state, action) => {
       const { isAdmin } = action.payload;
       state.role = isAdmin ? 'admin' : 'user';
     },
-    setUserInfo(state, action) {
+    setUserInfo: (state, action) => {
       const { userInfo } = action.payload;
       state.userData = userInfo;
     },
-    setAddress(state, action) {
+    setAddress: (state, action) => {
       const { newAddress, newZipCode } = action.payload;
       state.userAddress.address = newAddress;
       state.userAddress.zipCode = newZipCode;
     },
-    resetUpdateSatatus(state) {
+    resetUpdateSatatus: state => {
       state.isUpdate = false;
+    },
+    resetUserState: () => {
+      return initialState;
     },
   },
   extraReducers: builder => {
@@ -51,5 +54,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, setUserRole, setAddress, resetUpdateSatatus } = userSlice.actions;
+export const { setUserInfo, setUserRole, setAddress, resetUpdateSatatus, resetUserState } =
+  userSlice.actions;
 export default userSlice.reducer;
