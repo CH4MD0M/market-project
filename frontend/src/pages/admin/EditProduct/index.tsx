@@ -2,14 +2,17 @@ import { memo, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
-import { useAppSelector } from '@hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { resetProductState } from '@redux/modules/productSlice';
+import { resetCategoryState } from '@redux/modules/categorySlice';
 import { getSingleProduct, updateProduct } from '@utils/api';
 
-import EditAttrs from './components/EditAttrs';
+import AdminProductAttr from '@components/AdminProductAttr';
 import EditCategory from './components/EditCategory';
 import EditImage from './components/EditImage';
 
 const EditProduct = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -54,15 +57,24 @@ const EditProduct = () => {
     setValidated(true);
   };
 
+  const checkKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') e.preventDefault();
+  };
+
+  // get single product
   useEffect(() => {
     getSingleProduct(id)
       .then(res => setProduct(res.data))
       .catch(error => console.log(error));
   }, [id, imageUpdated, imageRemoved]);
 
-  const checkKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') e.preventDefault();
-  };
+  // reset attributes table
+  useEffect(() => {
+    return () => {
+      dispatch(resetProductState());
+      dispatch(resetCategoryState());
+    };
+  }, []);
 
   return (
     <Container>
@@ -114,7 +126,7 @@ const EditProduct = () => {
             <EditCategory product={product} />
 
             {/* 속성 */}
-            <EditAttrs />
+            <AdminProductAttr />
 
             {/* 이미지 */}
             <EditImage product={product} id={id} />
