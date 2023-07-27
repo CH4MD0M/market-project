@@ -31,7 +31,7 @@ const EditProfilePage = () => {
     };
 
     fetchUserData();
-  }, [userData]);
+  }, [userInfo, userData]);
 
   // isUpdate 상태 리셋
   useEffect(() => {

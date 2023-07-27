@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { isEqual } from 'lodash';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setMaxPageNum, setPageNum } from '@/redux/modules/productSlice';
@@ -19,10 +20,10 @@ const ProductList = ({ categoryName, searchQuery, pageNumParam }: ProductListPro
   const dispatch = useAppDispatch();
 
   const sortOption = useAppSelector(state => state.filter.sortOption);
-  const categoryFilter = useAppSelector(state => state.filter.categoryFilter, shallowEqual);
-  const attrsFilter = useAppSelector(state => state.filter.attrsFilter);
   const priceFilter = useAppSelector(state => state.filter.priceFilter);
-  const ratingFilter = useAppSelector(state => state.filter.ratingFilter);
+  const categoryFilter = useAppSelector(state => state.filter.categoryFilter, shallowEqual);
+  const ratingFilter = useAppSelector(state => state.filter.ratingFilter, shallowEqual);
+  const attrsFilter = useAppSelector(state => state.filter.attrsFilter, isEqual);
 
   const [products, setProducts] = useState<Product[] | null>(null);
   const [isProductsLoading, setIsProductsLoading] = useState(true);
