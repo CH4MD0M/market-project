@@ -114,7 +114,7 @@ const OrderDetails = () => {
 
       setIsLoading(false);
     } catch (error) {
-      console.log('There was an error while fetching the order details: ');
+      console.log('배송 정보를 불러오는데 실패했습니다.');
     }
   }, []);
 

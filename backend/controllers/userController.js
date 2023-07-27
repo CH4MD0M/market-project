@@ -129,7 +129,6 @@ const updateUserName = async (req, res, next) => {
     const user = await User.findById(req.user._id).orFail();
     user.name = req.body.name || user.name;
 
-    console.log(user);
     await user.save();
 
     res.json({
