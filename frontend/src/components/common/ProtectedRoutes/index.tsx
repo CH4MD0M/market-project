@@ -2,7 +2,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { useAppSelector } from '@hooks/reduxHooks';
 import LoadingPage from '@pages/LoadingPage';
-import { StorageType, getValue } from '@/utils/storageUtils';
 
 type ProtectedRoutesProps = {
   requireAdmin?: boolean;

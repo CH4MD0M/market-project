@@ -4,7 +4,6 @@ import { postReview } from '@utils/api';
 
 // CSS
 import * as S from './style';
-import { useParams } from 'react-router-dom';
 
 interface ReviewComponentProps {
   productId: string;

@@ -44,7 +44,7 @@ const RegisterPage = () => {
     inputBlurHandler: onBlurPasswordCheck,
   } = useInput(value => value === password);
 
-  let formIsValid = nameIsValid && emailIsValid && passwordIsValid && passwordCheckIsValid;
+  const formIsValid = nameIsValid && emailIsValid && passwordIsValid && passwordCheckIsValid;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
