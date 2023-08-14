@@ -4,6 +4,10 @@
   "main": "index.js",
   "author": "ch4md0m",
   "license": "MIT",
+  "browserslist": [
+    "last 2 versions",
+    "safari >= 7"
+  ],
   "dependencies": {
     "@babel/runtime-corejs3": "^7.22.6",
     "@reduxjs/toolkit": "^1.9.5",
