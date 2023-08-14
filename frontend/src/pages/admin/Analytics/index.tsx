@@ -28,7 +28,7 @@ const Analytics = () => {
     new Date().toISOString().substring(0, 10),
   );
 
-  let previousDay = new Date();
+  const previousDay = new Date();
   previousDay.setDate(previousDay.getDate() - 1);
   const [secondDateToCompare, setSecondDateToCompare] = useState(
     new Date(previousDay).toISOString().substring(0, 10),
@@ -48,7 +48,7 @@ const Analytics = () => {
   };
 
   useEffect(() => {
-    let today = new Date().toDateString();
+    const today = new Date().toDateString();
 
     const updateData = (
       newOrder: OrderDetailsData,
@@ -105,7 +105,7 @@ const Analytics = () => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    const fetchAnalyticsData = async (selectedDate: string, setData: Function) => {
+    const fetchAnalyticsData = async (selectedDate: string, setData: (data: any[]) => void) => {
       try {
         const data: OrderDetailsData[] = await getAnalyticsDataByDate(
           selectedDate,

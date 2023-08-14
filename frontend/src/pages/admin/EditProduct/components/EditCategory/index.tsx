@@ -24,7 +24,7 @@ const EditCategory = ({ product }: EditCategoryProps) => {
   };
 
   useEffect(() => {
-    let categoryOfEditedProduct = categories?.find(item => item.name === product.category);
+    const categoryOfEditedProduct = categories?.find(item => item.name === product.category);
 
     if (categoryOfEditedProduct?.attrs.length) {
       dispatch(setAttributesFromDb(categoryOfEditedProduct.attrs));
