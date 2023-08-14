@@ -27,7 +27,7 @@ export const proceedFilters = (filters: Filters) => {
         processNestedFilters(key, value);
       }
     } else if (key === 'attrs' && Array.isArray(value) && value.length > 0) {
-      let attrs = value.reduce((acc, item) => {
+      const attrs = value.reduce((acc, item) => {
         return acc + item.key + '-' + item.value.join('-') + ',';
       }, '');
       // Remove last comma

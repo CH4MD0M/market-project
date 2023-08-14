@@ -47,7 +47,7 @@ const userSlice = createSlice({
     builder.addMatcher(isPendingAction, state => {
       state.loading = true;
     });
-    builder.addMatcher(isFulfilledAction, (state, action) => {
+    builder.addMatcher(isFulfilledAction, state => {
       state.isUpdate = true;
       state.loading = false;
     });

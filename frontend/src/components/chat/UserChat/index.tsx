@@ -12,7 +12,7 @@ const UserChat = () => {
       </S.ChatBtn>
       <S.ChatWrapper>
         <S.ChatHeader>
-          <h6>Let's Chat - Online</h6>
+          <h6>채팅 - Online</h6>
         </S.ChatHeader>
         <S.ChatBody>
           <S.ChatMessage>
