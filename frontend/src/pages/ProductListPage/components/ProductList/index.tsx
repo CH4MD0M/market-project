@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setMaxPageNum, setPageNum } from '@/redux/modules/productSlice';
