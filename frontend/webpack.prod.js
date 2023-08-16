@@ -10,6 +10,9 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   mode: 'production',
+  cache: {
+    type: 'filesystem',
+  },
   devtool: 'hidden-source-map',
   module: {
     rules: [
@@ -54,10 +57,25 @@ module.exports = merge(common, {
     ],
     splitChunks: {
       cacheGroups: {
-        vendor: {
+        common: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
+          name: 'app_node_modules',
+          chunks: 'initial',
+          minSize: 0,
+          priority: 20,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 2,
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+        defaultVendors: false,
+        reactPackage: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+          name: 'react',
           chunks: 'all',
+          priority: 30,
         },
       },
     },
