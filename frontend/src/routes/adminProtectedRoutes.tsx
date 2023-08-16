@@ -2,15 +2,27 @@ import { IRoute } from '@/types/route';
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
-const AdminAnalytics = lazy(() => import('@pages/admin/Analytics'));
-const AdminChats = lazy(() => import('@pages/admin/Chat'));
-const AdminCreateProduct = lazy(() => import('@pages/admin/CreateProduct'));
-const AdminEditProduct = lazy(() => import('@pages/admin/EditProduct'));
-const AdminEditUser = lazy(() => import('@pages/admin/EditUser'));
-const AdminOrderDetails = lazy(() => import('@pages/admin/OrderDetails'));
-const AdminOrders = lazy(() => import('@pages/admin/Orders'));
-const AdminProducts = lazy(() => import('@pages/admin/Products'));
-const AdminUsers = lazy(() => import('@pages/admin/Users'));
+const AdminAnalytics = lazy(
+  () => import(/* webpackChunkName: "adminAnalytics" */ '@pages/admin/Analytics'),
+);
+const AdminChats = lazy(() => import(/* webpackChunkName: "adminChat" */ '@pages/admin/Chat'));
+const AdminCreateProduct = lazy(
+  () => import(/* webpackChunkName: "adminCreateProduct" */ '@pages/admin/CreateProduct'),
+);
+const AdminEditProduct = lazy(
+  () => import(/* webpackChunkName: "adminEditProduct" */ '@pages/admin/EditProduct'),
+);
+const AdminEditUser = lazy(
+  () => import(/* webpackChunkName: "adminEditUser" */ '@pages/admin/EditUser'),
+);
+const AdminOrderDetails = lazy(
+  () => import(/* webpackChunkName: "adminOrderDetails" */ '@pages/admin/OrderDetails'),
+);
+const AdminOrders = lazy(() => import(/* webpackChunkName: "adminOrders" */ '@pages/admin/Orders'));
+const AdminProducts = lazy(
+  () => import(/* webpackChunkName: "adminProduct" */ '@pages/admin/Products'),
+);
+const AdminUsers = lazy(() => import(/* webpackChunkName: "adminUsers" */ '@pages/admin/Users'));
 
 export const adminProtectedRoutes: IRoute[] = [
   { path: '/admin', element: <Navigate to="/admin/orders" /> },
