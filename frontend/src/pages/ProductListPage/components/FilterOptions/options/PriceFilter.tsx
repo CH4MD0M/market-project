@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
 import { Form } from 'react-bootstrap';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setPriceFilter } from '@redux/modules/filterSlice';
