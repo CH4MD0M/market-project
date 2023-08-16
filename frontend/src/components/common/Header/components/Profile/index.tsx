@@ -23,7 +23,7 @@ const Profile = () => {
 
   return (
     <Nav className="d-flex align-items-center " style={{ zIndex: '100' }}>
-      <LinkContainer to="/cart">
+      <LinkContainer to="/cart" aria-label="cart">
         <Nav.Link>
           <Badge pill bg="danger" className="me-1">
             {itemsCount || ''}

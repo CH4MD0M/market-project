@@ -12,7 +12,7 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
   return (
     <LinkContainer to={`/products/category/${name}`}>
       <S.CategoryCardContainer>
-        <S.CategoryCardImage crossOrigin="anonymous" src={image} />
+        <S.CategoryCardImage crossOrigin="anonymous" src={image} alt={name} />
         <div>
           <h3>{name}</h3>
         </div>

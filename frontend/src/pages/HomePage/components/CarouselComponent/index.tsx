@@ -21,7 +21,7 @@ const CarouselComponent = () => {
 
   return (
     <Carousel style={{ margin: '0 3%', zIndex: '-1' }}>
-      {banners?.map((banner, idx) => (
+      {banners?.map(banner => (
         <Carousel.Item key={banner._id}>
           <S.BackgroundWrapper backgroundImage={banner.image ?? null} />
           <LazyLoadImage
@@ -32,7 +32,7 @@ const CarouselComponent = () => {
               top: '20%',
               left: '25%',
               width: '640px',
-              height: '360px',
+              height: '70%',
             }}
           />
 
