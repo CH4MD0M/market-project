@@ -4,8 +4,6 @@ export interface ProductState {
   uploadedImageData: any[];
   imageUpdated: boolean;
   imageRemoved: boolean;
-  pageNum: number;
-  maxPageNum: number;
 }
 
 // Attributes
