@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { getAllCategoriesThunk } from '@redux/modules/categorySlice/thunk';
 
 import Profile from './components/Profile';
-import SearchBar from './components/SearchBar';
 
 // CSS
 import * as S from './style';
@@ -25,8 +24,8 @@ const Header = () => {
           <S.NavTitle>
             <Link to="/">모시깽 마켓</Link>
           </S.NavTitle>
-
-          <SearchBar />
+          {/* TODO: 검색 기능 구현 */}
+          {/* <SearchBar /> */}
 
           <Profile />
         </S.NavWrapper>
