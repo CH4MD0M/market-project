@@ -31,8 +31,8 @@ export const API_URL = {
     UPLOAD_PRODUCT_IMAGE: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_ID}/image/upload`,
     UPLOAD_PRODUCT_IMAGE_TO_SERVER: (productId: string) =>
       `/api/products/admin/upload?productId=${productId}`,
-    DELETE_PRODUCT_IMAGE: (encodedImagePath: string, productId: string, imagePublicId: string) =>
-      `/api/products/admin/image/${encodedImagePath}/${productId}/${imagePublicId}`,
+    DELETE_PRODUCT_IMAGE: (encodedImagePath: string, productId: string, publicId: string) =>
+      `/api/products/admin/image/${encodedImagePath}/${productId}/${publicId}`,
     DELETE_CLOUDINARY_IMAGE: (publicId: string) => `/api/products/admin/cloudinary/${publicId}`,
     SAVE_ATTRIBUTES: '/api/categories/attr',
     ADMIN_GET_PRODUCTS: '/api/products/admin',

@@ -4,59 +4,46 @@ import { API_URL } from '@utils/constants';
 import { instance } from './instance';
 
 // UPLOAD PRODUCT IMAGE
-const uploadProductImage = (images: FileList) => {
-  const files = Array.from(images);
-
-  const formData = new FormData();
-  formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_PRESET as string);
-
-  const uploaders = files.map(async file => {
+const uploadProductImageToCloudinary = (images: File[]) => {
+  const uploaders = images.map(async file => {
+    const formData = new FormData();
+    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_PRESET as string);
     formData.append('file', file);
 
-    return await axios
-      .post(API_URL.PRODUCT.UPLOAD_PRODUCT_IMAGE, formData, {
+    try {
+      const response = await axios.post(API_URL.PRODUCT.UPLOAD_PRODUCT_IMAGE, formData, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
-      })
-      .then(response => {
-        const { data } = response;
-
-        const imageData: UploadImageData = {
-          path: data.secure_url,
-          publicId: data.public_id,
-        };
-
-        return imageData;
       });
+      const { data } = response;
+
+      return {
+        path: data.secure_url,
+        publicId: data.public_id,
+      };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   });
 
-  return Promise.all(uploaders).then(data => data);
-};
-
-const uploadProductImageToServer = async (productId: string, imageData: UploadImageDataArray) => {
-  const response = await instance.post(API_URL.PRODUCT.UPLOAD_PRODUCT_IMAGE_TO_SERVER(productId), {
-    imageData,
-  });
-  return response;
+  return Promise.all(uploaders);
 };
 
 // DELETE PRODUCT IMAGE
-const deleteProductImage = async (imagePath: string, productId: string, imagePublicId: string) => {
-  const encodedImagePath = encodeURIComponent(imagePath);
-  const response = await instance.delete(
-    API_URL.PRODUCT.DELETE_PRODUCT_IMAGE(encodedImagePath, productId, imagePublicId),
-  );
+const deleteProductImage = async (imagePath: string, productId: string, publicId: string) => {
+  try {
+    const encodedImagePath = encodeURIComponent(imagePath);
+    // delete image from database
+    await instance.delete(
+      API_URL.PRODUCT.DELETE_PRODUCT_IMAGE(encodedImagePath, productId, publicId),
+    );
 
-  return response;
+    // delete image from cloudinary
+    await instance.delete(API_URL.PRODUCT.DELETE_CLOUDINARY_IMAGE(publicId));
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
-const deleteCloudinaryImage = async (publicId: string) => {
-  const response = await instance.delete(API_URL.PRODUCT.DELETE_CLOUDINARY_IMAGE(publicId));
-  return response;
-};
-
-export {
-  uploadProductImage,
-  uploadProductImageToServer,
-  deleteProductImage,
-  deleteCloudinaryImage,
-};
+export { uploadProductImageToCloudinary, deleteProductImage };
