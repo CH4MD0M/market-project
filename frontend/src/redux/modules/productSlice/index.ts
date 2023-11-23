@@ -1,37 +1,62 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProductState } from './types';
 
 const initialState: ProductState = {
-  attributesFromDb: [],
-  attributesTable: [],
-  uploadedImageData: [],
-  imageUpdated: false,
-  imageRemoved: false,
+  productData: null,
+  categoryAttributes: [],
+  selectedAttributes: [],
+  stagedImageFiles: [],
+  imageFilesToDelete: [],
+  isEditMode: false,
+  productFormInputs: {
+    name: '',
+    count: '',
+    price: '',
+    description: '',
+  },
 };
 
 const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    setAttributesFromDb: (state, action) => {
-      state.attributesFromDb = action.payload;
+    setProductData: (state, action) => {
+      state.productData = action.payload;
     },
-    setAttributesTable: (state, action) => {
-      state.attributesTable = action.payload;
+    setCategoryAttributes: (state, action) => {
+      state.categoryAttributes = action.payload;
     },
-    // For Create Product Page
-    setImageDataAfterUploaded: (state, action) => {
-      state.uploadedImageData = action.payload;
+    setSelectedAttributes: (state, action) => {
+      state.selectedAttributes = action.payload;
     },
-    setImageDataAfterDeleted: (state, action) => {
-      state.uploadedImageData = action.payload;
+
+    // Set Local Image Preview before upload
+    setStagedImageFiles: (state, action) => {
+      state.stagedImageFiles = action.payload;
     },
-    // For Edit Product Page
-    setImageUpdated: (state, action) => {
-      state.imageUpdated = action.payload;
+
+    // Set Image Files to Delete
+    setImageFilesToDelete: (state, action) => {
+      state.imageFilesToDelete.push(action.payload);
     },
-    setImageRemoved: (state, action) => {
-      state.imageRemoved = action.payload;
+
+    // Delete Server Image Preview before upload
+    deleteServerPreviewImage: (state, action) => {
+      state.productData.images = state.productData!.images.filter(
+        image => image._id !== action.payload,
+      );
+    },
+
+    setEditMode: (state, action) => {
+      state.isEditMode = action.payload;
+    },
+
+    setProductFormInput: (
+      state,
+      action: PayloadAction<{ field: keyof ProductFormInputType; value: string }>,
+    ) => {
+      const { field, value } = action.payload;
+      state.productFormInputs[field] = value;
     },
 
     // Reset Product State
@@ -42,12 +67,14 @@ const productSlice = createSlice({
 });
 
 export const {
-  setAttributesFromDb,
-  setAttributesTable,
-  setImageDataAfterUploaded,
-  setImageDataAfterDeleted,
-  setImageUpdated,
-  setImageRemoved,
+  setProductData,
+  setCategoryAttributes,
+  setSelectedAttributes,
+  setStagedImageFiles,
+  setImageFilesToDelete,
+  deleteServerPreviewImage,
+  setEditMode,
+  setProductFormInput,
   resetProductState,
 } = productSlice.actions;
 
