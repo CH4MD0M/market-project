@@ -8,9 +8,9 @@ import {
 import { CatState } from './types';
 
 const initialState: CatState = {
-  categories: [],
-  selectedCategory: 'Choose category',
-  catLoading: false,
+  categoriesDataList: [],
+  selectedCategory: '',
+  categoryLoading: false,
 };
 
 const categorySlice = createSlice({
@@ -21,32 +21,37 @@ const categorySlice = createSlice({
       state.selectedCategory = action.payload;
     },
     resetCategoryState: state => {
-      state.selectedCategory = 'Choose category';
+      state.selectedCategory = '';
     },
   },
   extraReducers: builder => {
+    // Get All Categories
     builder.addCase(getAllCategoriesThunk.pending, state => {
-      state.catLoading = true;
+      state.categoryLoading = true;
     });
     builder.addCase(getAllCategoriesThunk.fulfilled, (state, action) => {
-      state.catLoading = false;
-      state.categories = action.payload;
+      state.categoryLoading = false;
+      state.categoriesDataList = action.payload;
     });
 
+    // Save New Attribute
     builder.addCase(saveAttributeThunk.fulfilled, (state, action) => {
-      const { categoriesUpdated } = action.payload;
-      state.categories = categoriesUpdated;
+      // updatedCategory => after adding new attribute
+      const { updatedCategories } = action.payload;
+      state.categoriesDataList = updatedCategories;
     });
 
     builder.addCase(addNewCategoryThunk.fulfilled, (state, action) => {
+      // updatedCategory => after adding new category
       const updatedCategory = action.payload;
-      state.categories = updatedCategory;
+      state.categoriesDataList = updatedCategory;
     });
 
     builder.addCase(deleteCategoryThunk.fulfilled, (state, action) => {
+      // updatedCategory => after deleting category
       const updatedCategory = action.payload;
-      state.categories = updatedCategory;
-      state.selectedCategory = 'Choose category';
+      state.categoriesDataList = updatedCategory;
+      state.selectedCategory = '';
     });
   },
 });

@@ -9,7 +9,7 @@ import isEqual from 'lodash/isEqual';
 const AttributesFilter = () => {
   const dispatch = useAppDispatch();
 
-  const categories = useAppSelector(state => state.category.categories);
+  const categoriesDataList = useAppSelector(state => state.category.categoriesDataList);
   const attrsFromCategory = useAppSelector(state => state.filter.attrsFromCategory);
   const categoryFilter = useAppSelector(state => state.filter.categoryFilter, shallowEqual);
   const attrsFilter = useAppSelector(state => state.filter.attrsFilter, isEqual);
@@ -60,8 +60,8 @@ const AttributesFilter = () => {
       }
     };
 
-    applyCategoryFilters(categoryFilter, categories);
-  }, [categoryFilter, categories]);
+    applyCategoryFilters(categoryFilter, categoriesDataList);
+  }, [categoryFilter, categoriesDataList]);
 
   return (
     <>

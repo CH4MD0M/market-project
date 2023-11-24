@@ -1,5 +1,5 @@
 export interface CatState {
-  categories: Category[];
+  categoriesDataList: Category[];
   selectedCategory: string;
-  catLoading: boolean;
+  categoryLoading: boolean;
 }

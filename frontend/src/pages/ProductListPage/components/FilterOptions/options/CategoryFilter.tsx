@@ -8,7 +8,10 @@ import { memo } from 'react';
 const CategoryFilter = () => {
   const dispatch = useAppDispatch();
 
-  const categories = useAppSelector(state => state.category.categories);
+  const categoriesDataList = useAppSelector(
+    state => state.category.categoriesDataList,
+    shallowEqual,
+  );
   const categoryFilter = useAppSelector(state => state.filter.categoryFilter, shallowEqual);
 
   const categoryOnChangeHandler = (
@@ -23,7 +26,7 @@ const CategoryFilter = () => {
     <>
       <span className="fw-bold">카테고리</span>
       <Form>
-        {categories.map((category, idx) => (
+        {categoriesDataList.map((category, idx) => (
           <div key={idx}>
             <Form.Check type="checkbox" id={`check-api2-${idx}`}>
               <Form.Check.Input

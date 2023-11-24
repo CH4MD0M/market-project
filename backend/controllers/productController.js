@@ -157,8 +157,11 @@ const adminGetProducts = async (req, res, next) => {
 const adminDeleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id).orFail();
+    for (const image of product.images) {
+      await cloudinary.uploader.destroy(image.publicId);
+    }
     await product.remove();
-    res.json({ message: 'product removed' });
+    res.json({ message: "product removed" });
   } catch (err) {
     next(err);
   }
@@ -182,16 +185,12 @@ const adminCreateProduct = async (req, res, next) => {
     product.count = count;
     product.price = price;
     product.category = category;
-    if (attributesTable.length > 0) {
-      attributesTable.map(item => {
-        product.attrs.push(item);
-      });
-    }
+    product.attrs = attributesTable;
     product.images = images;
     await product.save();
 
     res.json({
-      message: 'product created',
+      message: "product created",
       productId: product._id,
     });
   } catch (err) {
@@ -203,8 +202,15 @@ const adminCreateProduct = async (req, res, next) => {
 const adminUpdateProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id).orFail();
-    const { name, description, count, price, category, attributesTable } =
-      req.body;
+    const {
+      name,
+      description,
+      count,
+      price,
+      category,
+      attributesTable,
+      images,
+    } = req.body;
     product.name = name || product.name;
     product.description = description || product.description;
     product.count = count || product.count;
@@ -213,15 +219,17 @@ const adminUpdateProduct = async (req, res, next) => {
 
     if (attributesTable.length > 0) {
       product.attrs = [];
-      attributesTable.map(item => {
+      attributesTable.map((item) => {
         product.attrs.push(item);
       });
     } else {
       product.attrs = [];
     }
+    if (images) product.images.push(...images);
+
     await product.save();
     res.json({
-      message: 'product updated',
+      message: "product updated",
     });
   } catch (err) {
     next(err);
