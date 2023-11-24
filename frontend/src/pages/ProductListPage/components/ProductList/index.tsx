@@ -3,8 +3,7 @@ import { shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import isEqual from 'lodash/isEqual';
 
-import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { setMaxPageNum, setPageNum } from '@/redux/modules/productSlice';
+import { useAppSelector } from '@hooks/reduxHooks';
 import { getAllProducts } from '@utils/api';
 
 import ProductPreview from '../ProductPreview';
@@ -13,11 +12,18 @@ interface ProductListProps {
   categoryName: string;
   searchQuery: string;
   pageNumParam: string;
+  setCurrentPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  setTotalPages: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ProductList = ({ categoryName, searchQuery, pageNumParam }: ProductListProps) => {
+const ProductList = ({
+  categoryName,
+  searchQuery,
+  pageNumParam,
+  setCurrentPageNumber,
+  setTotalPages,
+}: ProductListProps) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const sortOption = useAppSelector(state => state.filter.sortOption);
   const priceFilter = useAppSelector(state => state.filter.priceFilter);
@@ -30,6 +36,7 @@ const ProductList = ({ categoryName, searchQuery, pageNumParam }: ProductListPro
 
   // get products
   useEffect(() => {
+    const abortController = new AbortController();
     const filters = {
       category: categoryFilter,
       attrs: attrsFilter,
@@ -50,16 +57,20 @@ const ProductList = ({ categoryName, searchQuery, pageNumParam }: ProductListPro
         );
 
         setProducts(res.products);
-        dispatch(setPageNum(res.pageNum));
-        dispatch(setMaxPageNum(res.maxPageNum));
+        setCurrentPageNumber(res.pageNum);
+        setTotalPages(res.maxPageNum);
       } catch (err) {
-        console.log(err);
+        console.log("Couldn't fetch products", err);
       } finally {
         setIsProductsLoading(false);
       }
     };
 
     fetchProducts();
+
+    return () => {
+      abortController.abort();
+    };
   }, [pageNumParam, sortOption, categoryFilter, attrsFilter, priceFilter, ratingFilter]);
 
   // Redirect to the first page when the category name changes

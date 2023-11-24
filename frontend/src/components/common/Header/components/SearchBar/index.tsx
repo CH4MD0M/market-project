@@ -9,7 +9,7 @@ import * as S from './style';
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const categories = useAppSelector(state => state.category.categories);
+  const categoriesDataList = useAppSelector(state => state.category.categoriesDataList);
 
   const [searchCategoryToggle, setSearchCategoryToggle] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,7 +40,7 @@ const SearchBar = () => {
       <DropdownButton id="dropdown-basic-button" title={searchCategoryToggle}>
         <Dropdown.Item onClick={() => setSearchCategoryToggle('All')}>All</Dropdown.Item>
 
-        {categories?.map((category, id) => (
+        {categoriesDataList?.map((category, id) => (
           <Dropdown.Item key={id} onClick={() => setSearchCategoryToggle(category.name)}>
             {category.name}
           </Dropdown.Item>

@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
+import { useAppDispatch } from '@hooks/reduxHooks';
 import { setCategoryFilter } from '@redux/modules/filterSlice';
 
 import Pagination from './components/Pagination';
@@ -12,8 +12,8 @@ import FilterOptions from './components/FilterOptions';
 const ProductListPage = () => {
   const { categoryName, pageNumParam, searchQuery } = useParams();
   const dispatch = useAppDispatch();
-
-  const maxPageNum = useAppSelector(state => state.product.maxPageNum);
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     if (categoryName) {
@@ -32,9 +32,18 @@ const ProductListPage = () => {
             categoryName={categoryName}
             pageNumParam={pageNumParam}
             searchQuery={searchQuery}
+            setCurrentPageNumber={setCurrentPageNumber}
+            setTotalPages={setTotalPages}
           />
           <div className="d-flex justify-content-center mt-5">
-            {maxPageNum > 1 && <Pagination categoryName={categoryName} searchQuery={searchQuery} />}
+            {totalPages > 1 && (
+              <Pagination
+                categoryName={categoryName}
+                searchQuery={searchQuery}
+                currentPageNumber={currentPageNumber}
+                totalPages={totalPages}
+              />
+            )}
           </div>
         </Col>
       </Row>

@@ -9,8 +9,8 @@ import CarouselComponent from './components/CarouselComponent';
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const categories = useAppSelector(state => state.category.categories);
-  const catLoading = useAppSelector(state => state.category.catLoading);
+  const categoriesDataList = useAppSelector(state => state.category.categoriesDataList);
+  const categoryLoading = useAppSelector(state => state.category.categoryLoading);
 
   useEffect(() => {
     dispatch(resetFilter());
@@ -20,9 +20,9 @@ const HomePage = () => {
     <>
       <CarouselComponent />
       <Container style={{ marginTop: '100px' }}>
-        {catLoading && <div>로딩중</div>}
+        {categoryLoading && <div>로딩중</div>}
         <Row md={3}>
-          {categories.map((category, idx) => (
+          {categoriesDataList.map((category, idx) => (
             <CategoryCard key={idx} category={category} />
           ))}
         </Row>

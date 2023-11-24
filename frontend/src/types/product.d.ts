@@ -24,6 +24,7 @@ interface AttrsData {
 interface UploadImageData {
   path: string;
   publicId: string;
+  _id?: string;
 }
 type UploadImageDataArray = UploadImageData[];
 
@@ -39,3 +40,10 @@ interface ReviewData {
   createdAt?: string;
   updatedAt?: string;
 }
+
+// Product Form Input
+type formInputType = 'name' | 'count' | 'price' | 'description';
+
+type ProductFormInputType = {
+  [key in formInputType]: string;
+};
