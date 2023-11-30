@@ -17,6 +17,7 @@ interface UserData {
   email: string;
   name: string;
   doNotLogout: boolean;
+  isAdmin: boolean;
 }
 
 interface LoginResponse {

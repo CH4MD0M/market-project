@@ -5,14 +5,15 @@ import { signup } from '@redux/modules/authSlice/thunk';
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
 import { useInput } from '@hooks/useInput';
 import { validateEmail, validatePassword } from '@utils/validation';
-import { unwrapResult } from '@reduxjs/toolkit';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const loading = useAppSelector(state => state.auth.loading);
   const error = useAppSelector(state => state.auth.error);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
+  // name
   const {
     value: name,
     isValid: nameIsValid,
@@ -20,6 +21,7 @@ const RegisterPage = () => {
     valueChangeHandler: onChangeName,
     inputBlurHandler: onBlurName,
   } = useInput(value => value.trim() !== '');
+  // email
   const {
     value: email,
     isValid: emailIsValid,
@@ -27,7 +29,7 @@ const RegisterPage = () => {
     valueChangeHandler: onChangeEmail,
     inputBlurHandler: onBlurEmail,
   } = useInput(validateEmail);
-
+  // password
   const {
     value: password,
     isValid: passwordIsValid,
@@ -35,7 +37,7 @@ const RegisterPage = () => {
     valueChangeHandler: onChangePassword,
     inputBlurHandler: onBlurPassword,
   } = useInput(validatePassword);
-
+  // passwordCheck
   const {
     value: passwordCheck,
     isValid: passwordCheckIsValid,
@@ -44,16 +46,16 @@ const RegisterPage = () => {
     inputBlurHandler: onBlurPasswordCheck,
   } = useInput(value => value === password);
 
-  const formIsValid = nameIsValid && emailIsValid && passwordIsValid && passwordCheckIsValid;
+  const isFormValid = nameIsValid && emailIsValid && passwordIsValid && passwordCheckIsValid;
 
+  // Submit form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!formIsValid) return;
+    if (!isFormValid) return;
 
-    const data = await dispatch(signup({ name, email, password }));
-    const response = unwrapResult(data);
+    const response = await dispatch(signup({ name, email, password })).unwrap();
     if (response.status === 201) navigate('/login');
   };
 
@@ -131,7 +133,7 @@ const RegisterPage = () => {
             </Alert>
 
             <div className="d-grid mt-5 mb-3">
-              <Button variant="outline-primary" type="submit" size="lg" disabled={!formIsValid}>
+              <Button variant="outline-primary" type="submit" size="lg" disabled={!isFormValid}>
                 {loading ? (
                   <Spinner
                     as="span"

@@ -17,7 +17,6 @@ export const NavWrapper = styled.div`
 `;
 
 export const NavTitle = styled.div`
-  font-family: 'Damion', cursive;
   font-size: 30px;
   font-weight: 600;
   letter-spacing: 0.15rem;

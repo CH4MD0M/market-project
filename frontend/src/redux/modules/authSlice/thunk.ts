@@ -1,34 +1,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { RootState } from '@redux/store';
-import { setUserInfo, setUserRole, resetUserState } from '../userSlice';
+import { setUserInfo, resetUserState } from '../userSlice';
 import { postSignIn, postSignOut, getToken } from '@utils/api';
 import { postSignUp } from '@utils/api';
 import { StorageType, removeValue } from '@utils/storageUtils';
+import { storeUserInfo } from '@utils/storeUserInfo';
 
 // loginCheck
-export const loginCheck = createAsyncThunk<any, void, { state: RootState }>(
-  'auth/loginCheck',
-  async (_, { dispatch }) => {
-    const { data } = await getToken();
+export const loginCheck = createAsyncThunk('auth/loginCheck', async (_, { dispatch }) => {
+  const { userInfo } = await getToken();
 
-    dispatch(setUserRole(data));
-    dispatch(setUserInfo(data));
+  dispatch(setUserInfo(userInfo));
+  storeUserInfo(userInfo.doNotLogout, userInfo);
+  return userInfo;
+});
 
-    return data;
-  },
-);
+// signup
+export const signup = createAsyncThunk('auth/signup', async (formData: SignupFormData) => {
+  const response = await postSignUp(formData);
+  return response;
+});
 
 // login
 export const login = createAsyncThunk(
   'auth/login',
   async (formData: LoginFormData, { dispatch }) => {
-    const response = await postSignIn(formData);
-
-    dispatch(setUserInfo(response.data));
-    dispatch(setUserRole(response.data.userInfo));
-
-    return response;
+    const { data } = await postSignIn(formData);
+    dispatch(setUserInfo(data.userInfo));
+    return data;
   },
 );
 
@@ -39,11 +38,5 @@ export const logout = createAsyncThunk('auth/logout', async (_, { dispatch }) =>
   removeValue(StorageType.SESSION, 'userInfo');
   removeValue(StorageType.LOCAL, 'cartItems');
   dispatch(resetUserState());
-  return response;
-});
-
-// signup
-export const signup = createAsyncThunk('auth/signup', async (formData: SignupFormData) => {
-  const response = await postSignUp(formData);
   return response;
 });
