@@ -1,19 +1,17 @@
-import { unwrapResult } from '@reduxjs/toolkit';
-import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 
+import { useInput } from '@hooks/useInput';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { login } from '@redux/modules/authSlice/thunk';
-import { useInput } from '@hooks/useInput';
-import { useStoreUserInfo } from '@hooks/useStoreUserInfo';
 import { validateEmail, validatePassword } from '@utils/validation';
 
 const LoginPage = () => {
-  const storeUserInfo = useStoreUserInfo();
+  const dispatch = useAppDispatch();
   const loading = useAppSelector(state => state.auth.loading);
   const error = useAppSelector(state => state.auth.error);
-  const dispatch = useAppDispatch();
 
+  // email
   const {
     value: email,
     isValid: emailIsValid,
@@ -21,7 +19,7 @@ const LoginPage = () => {
     valueChangeHandler: onChangeEmail,
     inputBlurHandler: onBlurEmail,
   } = useInput(validateEmail);
-
+  // password
   const {
     value: password,
     isValid: passwordIsValid,
@@ -30,6 +28,7 @@ const LoginPage = () => {
     inputBlurHandler: onBlurPassword,
   } = useInput(validatePassword);
 
+  // Submit form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -39,11 +38,9 @@ const LoginPage = () => {
     const doNotLogout = doNotLogoutElement?.checked;
     const isFormValid = e.currentTarget.checkValidity();
 
-    if (!(isFormValid && email && password)) return;
+    if (!isFormValid) return;
 
-    const resultAction = await dispatch(login({ email, password, doNotLogout }));
-    const { data } = unwrapResult(resultAction);
-    storeUserInfo(doNotLogout, data.userInfo);
+    await dispatch(login({ email, password, doNotLogout }));
   };
 
   return (
