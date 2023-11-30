@@ -6,7 +6,6 @@ export interface UserState {
   loading: boolean;
   error: boolean;
   isUpdate: boolean;
-  role: string;
 }
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
