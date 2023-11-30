@@ -9,8 +9,8 @@ import { selectItemsCount } from '@redux/modules/cartSlice/selector';
 
 const Profile = () => {
   const isLogin = useAppSelector(state => state.auth.isLogin);
-  const role = useAppSelector(state => state.user.role);
   const userData = useAppSelector(state => state.user.userData, shallowEqual);
+  const isAdmin = userData?.isAdmin;
   const itemsCount = useAppSelector(selectItemsCount);
 
   const dispatch = useAppDispatch();
@@ -33,15 +33,15 @@ const Profile = () => {
       </LinkContainer>
 
       {/* Admin Menu */}
-      {isLogin && role === 'admin' && (
+      {isLogin && isAdmin && (
         <LinkContainer to="/admin">
           <Nav.Link>Admin</Nav.Link>
         </LinkContainer>
       )}
 
       {/* User Menu */}
-      {isLogin && role === 'user' && (
-        <NavDropdown title={userData.name} id="collasible-nav-dropdown">
+      {isLogin && !isAdmin && (
+        <NavDropdown title={userData?.name} id="collasible-nav-dropdown">
           <NavDropdown.Item eventKey="/user" as={Link} to="/user">
             마이페이지
           </NavDropdown.Item>

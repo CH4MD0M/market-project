@@ -11,18 +11,18 @@ interface OrderProductPreviewProps {
 const OrderProductPreview = ({ item, orderData = null }: OrderProductPreviewProps) => {
   return (
     <ListGroup.Item className="mb-5">
-      <Row>
-        <Col md={2}>
+      <Row className="align-items-center">
+        <Col sm={2}>
           <Image crossOrigin="anonymous" src={item?.image.path ?? null} fluid />
         </Col>
-        <Col md={4}>{item.name}</Col>
-        <Col md={2}>
+        <Col xs>{item.name}</Col>
+        <Col xs>
           <b>{numberWithCommas(item.price)}원</b>
         </Col>
-        <Col md={2}>
+        <Col xs>
           <Form.Text>수량 {item.quantity} 개</Form.Text>
         </Col>
-        <Col>
+        <Col md="auto">
           {orderData && (
             <ReviewButton productId={item?._id} disabled={orderData && !item?.isReviewed} />
           )}

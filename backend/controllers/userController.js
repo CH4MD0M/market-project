@@ -32,15 +32,7 @@ const registerUser = async (req, res, next) => {
         email: email.toLowerCase(),
         password: hashedPassword,
       });
-      res.status(201).json({
-        success: 'User created',
-        userInfo: {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          isAdmin: user.isAdmin,
-        },
-      });
+      res.status(201);
     }
   } catch (err) {
     next(err);
@@ -77,16 +69,16 @@ const loginUser = async (req, res, next) => {
 
     let cookieParams = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     };
 
     if (doNotLogout) {
       cookieParams = { ...cookieParams, maxAge: 1000 * 60 * 60 * 24 * 7 }; // 1000=1ms
     }
 
-    return res.cookie('access_token', accessToken, cookieParams).json({
-      success: 'user logged in',
+    return res.cookie("access_token", accessToken, cookieParams).json({
+      success: "user logged in",
       userInfo: {
         _id: user._id,
         name: user.name,
@@ -131,8 +123,22 @@ const updateUserName = async (req, res, next) => {
 
     await user.save();
 
-    res.json({
-      success: 'user updated',
+    const newAccessToken = generateAuthToken(
+      user._id,
+      user.name,
+      user.email,
+      user.isAdmin,
+      req.body.doNotLogout
+    );
+
+    let cookieParams = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    };
+
+    return res.cookie("access_token", newAccessToken, cookieParams).json({
+      success: "user updated",
       userUpdated: {
         _id: user._id,
         name: user.name,
