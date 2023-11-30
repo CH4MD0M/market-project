@@ -29,17 +29,22 @@ const EditProfilePage = () => {
         console.log(error);
       }
     };
-
     fetchUserData();
-  }, [userInfo, userData]);
+  }, [isUpdate]);
 
   // isUpdate 상태 리셋
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
     if (isUpdate) {
-      setTimeout(() => {
+      timer = setTimeout(() => {
         dispatch(resetUpdateSatatus());
       }, 2500);
     }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [isUpdate]);
 
   return (

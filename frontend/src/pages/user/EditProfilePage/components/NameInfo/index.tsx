@@ -1,18 +1,18 @@
 import { shallowEqual } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { Alert, Button, Form } from 'react-bootstrap';
 
 import { updateUserNameThunk } from '@redux/modules/userSlice/thunk';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { useStoreUserInfo } from '@hooks/useStoreUserInfo';
+
 import { useInput } from '@hooks/useInput';
 import { useToggle } from '@hooks/useToggle';
 import { validateName } from '@utils/validation';
+import { storeUserInfo } from '@utils/storeUserInfo';
 
 const NameInfo = ({ userInfo }: { userInfo: any }) => {
-  const storeUserInfo = useStoreUserInfo();
   const dispatch = useAppDispatch();
   const userData = useAppSelector(state => state.user.userData, shallowEqual);
+  const doNotLogout = useAppSelector(state => state.user.userData.doNotLogout);
   const [nameEdit, toggleNameEdit] = useToggle(false);
 
   const {
@@ -28,8 +28,7 @@ const NameInfo = ({ userInfo }: { userInfo: any }) => {
 
     if (!nameIsValid) return;
 
-    const resultAction = await dispatch(updateUserNameThunk({ name }));
-    const { userUpdated } = unwrapResult(resultAction);
+    const { userUpdated } = await dispatch(updateUserNameThunk({ name, doNotLogout })).unwrap();
     storeUserInfo(userData.doNotLogout, userUpdated);
   };
 

@@ -6,6 +6,7 @@ interface UserAddressInfo {
 
 interface UserName {
   name: string;
+  doNotLogout: boolean;
 }
 
 interface UserPhone {
