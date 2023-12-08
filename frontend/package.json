@@ -8,6 +8,10 @@
     "last 2 versions",
     "safari >= 7"
   ],
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
   "dependencies": {
     "@babel/runtime-corejs3": "^7.22.6",
     "@reduxjs/toolkit": "^1.9.5",

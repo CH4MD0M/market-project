@@ -13,7 +13,7 @@ module.exports = merge(common, {
   cache: {
     type: 'filesystem',
   },
-  devtool: 'hidden-source-map',
+  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
@@ -55,27 +55,31 @@ module.exports = merge(common, {
         },
       }),
     ],
+
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
-        common: {
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'app_node_modules',
+          name: 'vendors',
           chunks: 'initial',
-          minSize: 0,
           priority: 20,
-          reuseExistingChunk: true,
         },
-        default: {
-          minChunks: 2,
+        appModules: {
+          test: /[\\/]src[\\/]/,
+          name: 'app-modules',
+          chunks: 'initial',
+          priority: 15,
+        },
+        asyncVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'async',
+          reuseExistingChunk: true,
           priority: 10,
-          reuseExistingChunk: true,
-        },
-        defaultVendors: false,
-        reactPackage: {
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
-          name: 'react',
-          chunks: 'all',
-          priority: 30,
+          name(module) {
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+            return `async-${packageName.replace('@', '')}`;
+          },
         },
       },
     },
