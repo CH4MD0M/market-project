@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
-import ImageZoom from 'js-image-zoom';
-import { Col, Container, Row, ListGroup, Form, Button, Image } from 'react-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
 import { addToCart } from '@redux/modules/cartSlice';
 import { getSingleProduct } from '@utils/api';
-import numberWithCommas from '@utils/numberWithCommas';
+import addCommasToNumber from '@utils/addCommasToNumber';
 
 import LoadingPage from '@pages/LoadingPage';
-import CartMessage from './components/CartMessage';
-import ProductReview from './components/ProductReview';
-
-const options = {
-  scale: 2,
-  offset: { vertical: 0, horizontal: 0 },
-};
+import CartMessage from './ProductDetailPage/components/CartMessage';
+import ProductReview from './ProductDetailPage/components/ProductReview';
+import CenterWrapper from '@components/atoms/CenterWrapper';
+import Button from '@components/atoms/Button';
+import ProductDetailImage from '@/components/ProductDetailImage';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -29,7 +25,7 @@ const ProductDetailPage = () => {
 
   // Add to cart handler
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, quantity }));
+    dispatch(addToCart({ ...product!, quantity }));
     setCartMessageShow(true);
   };
 
@@ -38,17 +34,8 @@ const ProductDetailPage = () => {
     setQuantity(Number(e.target.value));
   };
 
-  // Image zoom
   useEffect(() => {
-    if (product?.images) {
-      product?.images.map(
-        (_, id) => new ImageZoom(document.getElementById(`imageId${id + 1}`), options),
-      );
-    }
-  });
-
-  useEffect(() => {
-    getSingleProduct(id).then(({ data }) => {
+    getSingleProduct(id!).then(({ data }) => {
       setProduct(data);
       setIsProductLoading(false);
     });
@@ -57,25 +44,48 @@ const ProductDetailPage = () => {
   if (isProductLoading) return <LoadingPage />;
 
   return (
-    <Container>
-      <CartMessage cartMessageShow={cartMessageShow} setCartMessageShow={setCartMessageShow} />
-      <Row className="mt-5">
-        {/* 상품 이미지 */}
-        <Col style={{ zIndex: 1 }} md={2}>
-          {product?.images.map((image, id) => (
-            <div key={id}>
-              <div key={id} id={`imageId${id + 1}`}>
-                <Image fluid src={image?.path ?? null} />
-              </div>
-              <br />
+    <CenterWrapper size="lg">
+      <section className="flex justify-between flex-wrap mt-[50px] tablet:flex-col tablet:justify-center tablet:flex-1 mobile:px-10">
+        <ProductDetailImage imageList={product!.images} />
+        <div className="w-[500px] tablet:w-full tablet:mt-[30px] mobile:w-full mobile:mt-[30px]">
+          <div>
+            <h1 className="text-[22px]">{product?.name}</h1>
+            <span className="text-[30px] font-bold">{addCommasToNumber(product!.price)}원</span>
+            <div className="flex items-center">
+              <Rating
+                readonly
+                size={20}
+                initialValue={product?.rating}
+                SVGstyle={{ display: 'inline' }}
+                fillColor="#4565cc"
+              />
+              <span className="text-[18px] text-[#4565cc] ml-1">
+                ({product?.reviewsNumber || 0})
+              </span>
             </div>
-          ))}
-        </Col>
-        <Col md={10}>
-          <Row>
-            {/* 상품이름, 가격, 설명, 별점 */}
-            <Col md={8}>
-              <ListGroup variant="flush">
+          </div>
+          <div className="mt-[30px]">
+            <div>수량</div>
+            <div className="grid grid-cols-[repeat(2,1fr)] gap-1">
+              <Button variant="primary">장바구니</Button>
+              <Button variant="primary">바로구매</Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 상품 설명 */}
+      <section></section>
+
+      {/* 리뷰 */}
+      <section></section>
+      <div className="container">
+        <div className="mt-5">
+          <div>
+            <div>
+              {/* 상품이름, 가격, 설명, 별점 */}
+              <div>
+                {/* <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h1>{product?.name}</h1>
                 </ListGroup.Item>
@@ -87,12 +97,12 @@ const ProductDetailPage = () => {
                   <span className="fw-bold">{product?.price}</span>
                 </ListGroup.Item>
                 <ListGroup.Item>{product?.description}</ListGroup.Item>
-              </ListGroup>
-            </Col>
+              </ListGroup> */}
+              </div>
 
-            {/* 상품 상태, 상품 수량 */}
-            <Col md={4}>
-              <ListGroup>
+              {/* 상품 상태, 상품 수량 */}
+              <div>
+                {/* <ListGroup>
                 <ListGroup.Item>재고 상태: {`${product?.count}개 남음` || '품절'}</ListGroup.Item>
                 <ListGroup.Item>
                   가격: <span className="fw-bold">{numberWithCommas(product?.price)}</span>
@@ -122,15 +132,15 @@ const ProductDetailPage = () => {
                     장바구니
                   </Button>
                 </ListGroup.Item>
-              </ListGroup>
-            </Col>
-          </Row>
+              </ListGroup> */}
+              </div>
+            </div>
 
-          {/* 리뷰 */}
-          <ProductReview product={product} />
-        </Col>
-      </Row>
-    </Container>
+            {/* 리뷰 */}
+          </div>
+        </div>
+      </div>
+    </CenterWrapper>
   );
 };
 

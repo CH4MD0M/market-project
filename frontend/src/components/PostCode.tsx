@@ -1,10 +1,11 @@
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
-import { Button } from 'react-bootstrap';
 
 import { useAppDispatch } from '@hooks/reduxHooks';
 import { setAddress } from '@redux/modules/userSlice';
 
-const Postcode = () => {
+import Button from '@components/atoms/Button';
+
+const PostCode = () => {
   const dispatch = useAppDispatch();
   const open = useDaumPostcodePopup();
 
@@ -21,18 +22,18 @@ const Postcode = () => {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-
     dispatch(setAddress({ newAddress: fullAddress, newZipCode: data.zonecode }));
   };
+
   const handleClick = () => {
     open({ onComplete: handleComplete });
   };
 
   return (
-    <Button className="text-nowrap ms-2" variant="primary" size="sm" onClick={handleClick}>
+    <Button variant="default" size="lg" onClick={handleClick}>
       주소찾기
     </Button>
   );
 };
 
-export default Postcode;
+export default PostCode;

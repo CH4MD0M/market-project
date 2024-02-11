@@ -19,7 +19,7 @@ const EditProduct = () => {
   useEffect(() => {
     const getProductData = async () => {
       try {
-        const response = await getSingleProduct(id);
+        const response = await getSingleProduct(id!);
         const { attrs, category } = response.data;
         dispatch(setProductData(response.data));
         dispatch(setSelectedCategory(category));

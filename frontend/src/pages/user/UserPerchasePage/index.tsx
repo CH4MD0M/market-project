@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
 import { removeFromCart } from '@redux/modules/cartSlice';
 import { selectItemsCount, selectCartSubtotal } from '@redux/modules/cartSlice/selector';
 import { getSingleUser, postOrder, updateOrder } from '@utils/api';
-import numberWithCommas from '@utils/numberWithCommas';
+import numberWithCommas from '@utils/addCommasToNumber';
 
 import LoadingPage from '@pages/LoadingPage';
 import CartPreview from '@components/CartPreview';
@@ -66,7 +65,7 @@ const UserPerchasePage = () => {
   };
 
   return (
-    <Container>
+    <div className="container">
       {isLoading ? (
         <LoadingPage />
       ) : (
@@ -74,7 +73,7 @@ const UserPerchasePage = () => {
           <h1>주문/결제</h1>
           <section className="mt-4 d-flex justify-content-between">
             <div className="w-75 me-5">
-              <ListGroup variant="flush">
+              {/* <ListGroup variant="flush">
                 <ListGroupItem className="mb-5">
                   <h4>배송지</h4>
                   <section className="mt-2 mb-2">
@@ -138,7 +137,7 @@ const UserPerchasePage = () => {
                 <ListGroupItem className="d-flex justify-content-center mt-2">
                   <span>배송비 무료</span>
                 </ListGroupItem>
-              </ListGroup>
+              </ListGroup> */}
             </div>
             <div className="w-25 border p-3 d-flex flex-column justify-content-start">
               <h3>결제 금액</h3>
@@ -161,20 +160,20 @@ const UserPerchasePage = () => {
                 </dd>
               </div>
               <div className="d-flex">
-                <Button
+                <button
                   className="flex-grow-1"
                   disabled={userInfoMissing || !cartSubtotal}
                   onClick={orderHandler}
                   type="button"
                 >
                   주문하기
-                </Button>
+                </button>
               </div>
             </div>
           </section>
         </>
       )}
-    </Container>
+    </div>
   );
 };
 

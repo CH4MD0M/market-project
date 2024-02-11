@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { editUser, getSingleUser } from '@utils/api';
@@ -27,7 +26,7 @@ const EditUser = () => {
     };
 
     if (e.currentTarget.checkValidity()) {
-      const response = await editUser(id, formInputs);
+      const response = await editUser(id!, formInputs);
       if (response.status === 200) navigate('/admin/users');
     }
 
@@ -35,7 +34,7 @@ const EditUser = () => {
   };
 
   useEffect(() => {
-    getSingleUser(id).then(data => {
+    getSingleUser(id!).then(data => {
       const { email, name, isAdmin } = data;
       setUserInfoData({ email, name, isAdmin });
       setIsAdminState(isAdmin);
@@ -43,8 +42,8 @@ const EditUser = () => {
   }, [id]);
 
   return (
-    <Container>
-      <Row className="justify-content-md-center mt-5">
+    <div className="container">
+      {/* <Row className="justify-content-md-center mt-5">
         <Col md={1}>
           <Link to="/admin/users" className="btn btn-info my-3">
             뒤로가기
@@ -78,8 +77,8 @@ const EditUser = () => {
             </Button>
           </Form>
         </Col>
-      </Row>
-    </Container>
+      </Row> */}
+    </div>
   );
 };
 

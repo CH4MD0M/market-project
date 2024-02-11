@@ -1,6 +1,6 @@
-import { Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
+import addCommasToNumber from '@utils/addCommasToNumber';
 
-import numberWithCommas from '@utils/numberWithCommas';
+// Components
 import ReviewButton from '@pages/user/UserOrderDetailsPage/components/ReviewButton';
 
 interface OrderProductPreviewProps {
@@ -8,10 +8,10 @@ interface OrderProductPreviewProps {
   orderData?: OrderDetailsData;
 }
 
-const OrderProductPreview = ({ item, orderData = null }: OrderProductPreviewProps) => {
+const OrderProductPreview = ({ item, orderData }: OrderProductPreviewProps) => {
   return (
-    <ListGroup.Item className="mb-5">
-      <Row className="align-items-center">
+    <div className="mb-5">
+      {/* <Row className="align-items-center">
         <Col sm={2}>
           <Image crossOrigin="anonymous" src={item?.image.path ?? null} fluid />
         </Col>
@@ -27,8 +27,8 @@ const OrderProductPreview = ({ item, orderData = null }: OrderProductPreviewProp
             <ReviewButton productId={item?._id} disabled={orderData && !item?.isReviewed} />
           )}
         </Col>
-      </Row>
-    </ListGroup.Item>
+      </Row> */}
+    </div>
   );
 };
 
