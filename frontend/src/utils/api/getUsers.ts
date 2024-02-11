@@ -1,4 +1,4 @@
-import { API_URL } from '@utils/constants/API_URL';
+import { API_URL } from '@utils/constants';
 import { instance } from './instance';
 
 const getSingleUser = async (userId: string) => {

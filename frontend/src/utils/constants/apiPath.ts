@@ -55,7 +55,7 @@ export const API_URL = {
     GET_ORDER_DATA: (date: string) => `/api/orders/analysis/${date}`,
   },
 
-  BANNER: {
-    GET_BANNERS: '/api/banners',
+  SLIDE: {
+    GET_SLIDE_IMAGES: '/api/banners',
   },
 };
