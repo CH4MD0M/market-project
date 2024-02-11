@@ -17,7 +17,12 @@ export const loginCheck = createAsyncThunk('auth/loginCheck', async (_, { dispat
 
 // signup
 export const signup = createAsyncThunk('auth/signup', async (formData: SignupFormData) => {
-  const response = await postSignUp(formData);
+  const response = await postSignUp({
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+  });
+
   return response;
 });
 

@@ -10,15 +10,15 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   mode: 'production',
+  devtool: 'cheap-module-source-map',
   cache: {
     type: 'filesystem',
   },
-  devtool: 'cheap-module-source-map',
   module: {
     rules: [
       {
-        test: /\.s?css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
     ],
   },

@@ -1,12 +1,12 @@
-const User = require('../models/UserModel');
+const User = require("../models/UserModel");
 
-const { hashPassword, comparePasswords } = require('../utils/hashPassword');
-const generateAuthToken = require('../utils/generateAuthToken');
+const { hashPassword, comparePasswords } = require("../utils/hashPassword");
+const generateAuthToken = require("../utils/generateAuthToken");
 
 // Get all users
 const getAllUsers = async (req, res, next) => {
   try {
-    const users = await User.find({}).select('-password');
+    const users = await User.find({}).select("-password");
     return res.json(users);
   } catch (err) {
     next(err);
@@ -18,13 +18,13 @@ const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     if (!(name && email && password)) {
-      return res.status(400).send('All inputs are required');
+      return res.status(400).send("All inputs are required");
     }
 
     // check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).send('user exists');
+      return res.status(400).send("user exists");
     } else {
       const hashedPassword = hashPassword(password);
       const user = await User.create({
@@ -32,7 +32,15 @@ const registerUser = async (req, res, next) => {
         email: email.toLowerCase(),
         password: hashedPassword,
       });
-      res.status(201);
+      res.status(201).json({
+        success: "user created",
+        userCreated: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        },
+      });
     }
   } catch (err) {
     next(err);
@@ -44,19 +52,19 @@ const loginUser = async (req, res, next) => {
   try {
     const { email, password, doNotLogout } = req.body;
     if (!(email && password)) {
-      return res.status(400).send('All inputs are required');
+      return res.status(400).send("All inputs are required");
     }
 
     const user = await User.findOne({ email }).orFail();
 
     // user가 존재하지 않을 경우를 처리합니다.
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).send("User not found");
     }
 
     // 비밀번호가 일치하지 않을 경우를 처리합니다.
     if (!comparePasswords(password, user.password)) {
-      return res.status(401).send('Incorrect password');
+      return res.status(401).send("Incorrect password");
     }
 
     const accessToken = generateAuthToken(
@@ -102,7 +110,7 @@ const updateUserPassword = async (req, res, next) => {
     await user.save();
 
     res.json({
-      success: 'user updated',
+      success: "user updated",
       userUpdated: {
         _id: user._id,
         name: user.name,
@@ -160,7 +168,7 @@ const updateUserAddress = async (req, res, next) => {
     await user.save();
 
     res.json({
-      success: 'user updated',
+      success: "user updated",
       userUpdated: {
         _id: user._id,
         address: user.address,
@@ -180,7 +188,7 @@ const updateUserPhone = async (req, res, next) => {
     await user.save();
 
     res.json({
-      success: 'user updated',
+      success: "user updated",
       userUpdated: {
         _id: user._id,
         phoneNumber: user.phoneNumber,
@@ -204,7 +212,7 @@ const getUserProfile = async (req, res, next) => {
 const getSingleUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
-      .select('name email isAdmin')
+      .select("name email isAdmin")
       .orFail();
     return res.send(user);
   } catch (err) {
@@ -222,7 +230,7 @@ const updateUser = async (req, res, next) => {
 
     await user.save();
 
-    res.send('user updated');
+    res.send("user updated");
   } catch (err) {
     next(err);
   }
@@ -232,7 +240,7 @@ const deleteUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).orFail();
     await user.remove();
-    res.send('user removed');
+    res.send("user removed");
   } catch (err) {
     next(err);
   }

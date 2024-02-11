@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import debounce from 'lodash/debounce';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
@@ -54,7 +53,7 @@ const ProductForm = ({ productId, errorMessage }: ProductFormProps) => {
     e.preventDefault();
 
     // Prevent updating product if category is changed by user forcefully
-    if (isEditMode && selectedCategory !== productData.category) return;
+    if (isEditMode && selectedCategory !== productData?.category) return;
 
     setValidated(true);
 
@@ -71,7 +70,7 @@ const ProductForm = ({ productId, errorMessage }: ProductFormProps) => {
         if (imageFilesToDelete.length > 0) {
           await Promise.all(
             imageFilesToDelete.map(image =>
-              deleteProductImage(image.path, productId, image.publicId),
+              deleteProductImage(image.path, productId!, image.publicId),
             ),
           );
         }
@@ -84,7 +83,7 @@ const ProductForm = ({ productId, errorMessage }: ProductFormProps) => {
         };
 
         const response = isEditMode
-          ? await updateProduct(productId, requestBody)
+          ? await updateProduct(productId!, requestBody)
           : await createProduct(requestBody);
 
         if (response.status === 200) navigate('/admin/products');
@@ -103,18 +102,18 @@ const ProductForm = ({ productId, errorMessage }: ProductFormProps) => {
   }, []);
 
   return (
-    <Container>
-      <Row className="justify-content-md-center mt-5">
-        <Col md={1}>
+    <div className="container">
+      <div className="justify-content-md-center mt-5">
+        <div>
           <Link to="/admin/products" className="btn btn-info my-3">
             뒤로가기
           </Link>
-        </Col>
-        <Col md={6}>
+        </div>
+        <div>
           <h1>상품 수정</h1>
-          <Form
+          <form
             noValidate
-            validated={validated}
+            // validated={validated}
             onSubmit={handleSubmit}
             onKeyDown={e => e.key === 'Enter' && e.preventDefault()}
           >
@@ -168,14 +167,12 @@ const ProductForm = ({ productId, errorMessage }: ProductFormProps) => {
             {/* 이미지 */}
             <ImageForm />
 
-            <Button variant="primary" type="submit">
-              {isEditMode ? '상품 업데이트' : '상품 등록'}
-            </Button>
+            <button type="submit">{isEditMode ? '상품 업데이트' : '상품 등록'}</button>
             {errorMessage && <p className="text-danger mt-3">{errorMessage}</p>}
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { getAllUsers, deleteUser } from '@api/index';
 
 const UserLists = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<UserData[]>([]);
   const [userDeleted, setUserDeleted] = useState(false);
 
   // User 삭제
@@ -38,7 +37,7 @@ const UserLists = () => {
   return (
     <>
       <h1>사용자 목록</h1>
-      <Table striped bordered hover responsive>
+      <table>
         <thead>
           <tr>
             <th>#</th>
@@ -62,20 +61,20 @@ const UserLists = () => {
                 )}
               </td>
               <td>
-                <LinkContainer to={`/admin/edit-user/${user._id}`}>
-                  <Button className="btn-sm">
+                <Link to={`/admin/edit-user/${user._id}`}>
+                  <button className="btn-sm">
                     <i className="bi bi-pencil-square" />
-                  </Button>
-                </LinkContainer>
+                  </button>
+                </Link>
                 {' / '}
-                <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(user._id)}>
+                <button className="btn-sm" onClick={() => deleteHandler(user._id)}>
                   <i className="bi bi-x-circle" />
-                </Button>
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
     </>
   );
 };

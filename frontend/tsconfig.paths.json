@@ -4,6 +4,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@api/*": ["src/utils/api/*"],
+      "@assets/*": ["src/assets/*"],
       "@components/*": ["src/components/*"],
       "@constants/*": ["src/utils/constants/*"],
       "@hooks/*": ["src/hooks/*"],
@@ -11,6 +12,7 @@
       "@pages/*": ["src/pages/*"],
       "@redux/*": ["src/redux/*"],
       "@routes/*": ["src/routes/*"],
+      "@schemas/*": ["src/schemas/*"],
       "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"]
     }

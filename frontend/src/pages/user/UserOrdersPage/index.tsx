@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Col } from 'react-bootstrap';
 
 import { getOrdersForUser } from '@utils/api';
 
-import UserLayout from '@layout/UserLayout';
+// import UserLayout from '@layout/UserLayout';
 import LoadingPage from '@pages/LoadingPage';
 import OrderPreview from './components/OrderPreview';
 
@@ -27,11 +26,11 @@ const UserOrdersPage = () => {
   }, []);
 
   return (
-    <UserLayout>
+    <>
       {isLoading ? (
         <LoadingPage />
       ) : (
-        <Col md={12}>
+        <div>
           <h1>주문 내역</h1>
           <div>
             {orders.length ? (
@@ -40,9 +39,9 @@ const UserOrdersPage = () => {
               <p>주문 내역이 없습니다.</p>
             )}
           </div>
-        </Col>
+        </div>
       )}
-    </UserLayout>
+    </>
   );
 };
 

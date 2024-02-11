@@ -42,9 +42,11 @@ const productSlice = createSlice({
 
     // Delete Server Image Preview before upload
     deleteServerPreviewImage: (state, action) => {
-      state.productData.images = state.productData!.images.filter(
-        image => image._id !== action.payload,
-      );
+      if (state.productData) {
+        state.productData.images = state.productData!.images.filter(
+          image => image._id !== action.payload,
+        );
+      }
     },
 
     setEditMode: (state, action) => {

@@ -1,40 +1,37 @@
-import { Alert, Button, Form } from 'react-bootstrap';
-
 import { updateUserPasswordThunk } from '@redux/modules/userSlice/thunk';
 import { useAppDispatch } from '@hooks/reduxHooks';
-import { useInput } from '@hooks/useInput';
-import { validatePassword } from '@utils/validation';
+// import { useInput } from '@hooks/useInput';
 
 const PasswordInfo = () => {
   const dispatch = useAppDispatch();
 
-  const {
-    value: password,
-    isValid: passwordIsValid,
-    hasError: passwordHasError,
-    valueChangeHandler: onChangePassword,
-    inputBlurHandler: onBlurPassword,
-  } = useInput(validatePassword);
+  // const {
+  //   value: password,
+  //   isValid: passwordIsValid,
+  //   hasError: passwordHasError,
+  //   valueChangeHandler: onChangePassword,
+  //   inputBlurHandler: onBlurPassword,
+  // } = useInput('d');
 
-  const {
-    value: passwordCheck,
-    isValid: passwordCheckIsValid,
-    hasError: passwordCheckHasError,
-    valueChangeHandler: onChangePasswordCheck,
-    inputBlurHandler: onBlurPasswordCheck,
-  } = useInput(value => value === password);
+  // const {
+  //   value: passwordCheck,
+  //   isValid: passwordCheckIsValid,
+  //   hasError: passwordCheckHasError,
+  //   valueChangeHandler: onChangePasswordCheck,
+  //   inputBlurHandler: onBlurPasswordCheck,
+  // } = useInput(value => value === password);
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(updateUserPasswordThunk({ password }));
-  };
+  // const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   dispatch(updateUserPasswordThunk({ password }));
+  // };
 
   return (
     <div className="pt-3 pb-3 mb-2 d-flex align-items-center">
       <div className="me-3" style={{ width: '100px' }}>
         비밀번호
       </div>
-      <Form className="flex-fill" onSubmit={submitHandler}>
+      {/* <Form className="flex-fill" onSubmit={submitHandler}>
         <Form.Group className="mb-3 flex-" controlId="Password">
           <Form.Label>새 비밀번호</Form.Label>
           <Form.Control
@@ -71,7 +68,7 @@ const PasswordInfo = () => {
         <Button type="submit" disabled={!(passwordIsValid && passwordCheckIsValid)} size="sm">
           비밀번호 변경
         </Button>
-      </Form>
+      </Form> */}
     </div>
   );
 };

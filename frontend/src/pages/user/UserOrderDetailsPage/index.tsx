@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
 
 import { getOrderDetails } from '@utils/api';
 
@@ -17,7 +16,7 @@ const UserOrderDetailsPage = () => {
     const fetchOrder = async () => {
       setIsLoading(true);
       try {
-        const order = await getOrderDetails(id);
+        const order = await getOrderDetails(id!);
         setOrderData(order);
         setUserInfo(order.user);
       } catch (error) {
@@ -30,7 +29,7 @@ const UserOrderDetailsPage = () => {
   }, []);
 
   return (
-    <Container>
+    <div className="container">
       {isLoading ? (
         <LoadingPage />
       ) : (
@@ -97,7 +96,7 @@ const UserOrderDetailsPage = () => {
           </section>
         </>
       )}
-    </Container>
+    </div>
   );
 };
 

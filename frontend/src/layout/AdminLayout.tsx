@@ -1,9 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import AdminLinks from '@components/AdminLinks';
-
-// CSS
-import * as S from './style';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,20 +25,18 @@ const AdminLayout = ({ children }: LayoutProps) => {
   }, [viewportWidth]);
 
   return isScreenSmall ? (
-    <Container>
-      <S.AlertWrapper>
-        <p>화면 크기를 키워 주세요.</p>
-      </S.AlertWrapper>
-    </Container>
+    <div>
+      <p>화면 크기를 키워 주세요.</p>
+    </div>
   ) : (
-    <Container>
-      <Row className="m-5">
+    <div>
+      {/* <Row className="m-5">
         <Col md={2}>
           <AdminLinks />
         </Col>
         <Col md={10}>{children}</Col>
-      </Row>
-    </Container>
+      </Row> */}
+    </div>
   );
 };
 

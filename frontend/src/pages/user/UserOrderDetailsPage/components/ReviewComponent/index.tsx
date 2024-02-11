@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { postReview } from '@utils/api';
 
-// CSS
-import * as S from './style';
+import { postReview } from '@utils/api';
 
 interface ReviewComponentProps {
   productId: string;
@@ -27,7 +24,7 @@ const ReviewComponent = ({ productId, setModalOpen }: ReviewComponentProps) => {
     };
     try {
       const response = await postReview(productId, formInputs);
-      console.log(response);
+
       if (response.status === 200) {
         setModalOpen(false);
       }
@@ -38,9 +35,9 @@ const ReviewComponent = ({ productId, setModalOpen }: ReviewComponentProps) => {
 
   useEffect(() => {
     const handler = () => {
-      if (!modalRef.current?.contains(event.target as Node)) {
-        setModalOpen(false);
-      }
+      // if (!modalRef.current?.contains(event.target as Node)) {
+      //   setModalOpen(false);
+      // }
     };
 
     document.addEventListener('mousedown', handler);
@@ -50,10 +47,13 @@ const ReviewComponent = ({ productId, setModalOpen }: ReviewComponentProps) => {
   }, []);
 
   return (
-    <S.ModalContainer ref={modalRef}>
-      <Form onSubmit={sendReviewHandler} className="d-flex align-items-center">
+    <div
+      ref={modalRef}
+      className="absolute bg-white w-3/5 h-[300px] border -translate-x-2/4 -translate-y-2/4 z-[999] p-12 rounded-[5px] border-solid border-black left-2/4 top-2/4"
+    >
+      <form onSubmit={sendReviewHandler} className="d-flex align-items-center">
         <div className="w-100 me-5">
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>리뷰 작성</Form.Label>
             <Form.Control name="comment" required as="textarea" rows={3} />
           </Form.Group>
@@ -64,9 +64,9 @@ const ReviewComponent = ({ productId, setModalOpen }: ReviewComponentProps) => {
             <option value="3">⭐️⭐️⭐️</option>
             <option value="2">⭐️⭐️</option>
             <option value="1">⭐️</option>
-          </Form.Select>
+          </Form.Select> */}
         </div>
-        <Button
+        <button
           type="submit"
           className="w-25"
           style={{
@@ -77,9 +77,9 @@ const ReviewComponent = ({ productId, setModalOpen }: ReviewComponentProps) => {
           }}
         >
           리뷰 등록
-        </Button>
-      </Form>
-    </S.ModalContainer>
+        </button>
+      </form>
+    </div>
   );
 };
 

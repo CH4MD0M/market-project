@@ -1,4 +1,3 @@
-import { Col, ListGroup, Row } from 'react-bootstrap';
 import { Rating } from 'react-simple-star-rating';
 
 interface ProductReviewProps {
@@ -7,10 +6,10 @@ interface ProductReviewProps {
 
 const ProductReview = ({ product }: ProductReviewProps) => {
   return (
-    <Row className="mt-5">
-      <Col className="mt-5">
+    <div className="mt-5">
+      <div className="mt-5">
         <h4>상품 리뷰</h4>
-        <ListGroup variant="flush">
+        {/* <ListGroup variant="flush">
           {product?.reviews.length === 0 && <p>리뷰가 없습니다.</p>}
           {product?.reviews.map((review, idx) => (
             <ListGroup.Item key={idx}>
@@ -21,9 +20,9 @@ const ProductReview = ({ product }: ProductReviewProps) => {
               {review.comment}
             </ListGroup.Item>
           ))}
-        </ListGroup>
-      </Col>
-    </Row>
+        </ListGroup> */}
+      </div>
+    </div>
   );
 };
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { CloseButton, Form } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setCategoryAttributes } from '@redux/modules/productSlice';
@@ -10,7 +9,7 @@ const CategoryForm = () => {
   const dispatch = useAppDispatch();
   const productData = useAppSelector(state => state.product.productData);
   const isEditMode = useAppSelector(state => state.product.isEditMode);
-  const categoriesDataList = useAppSelector(state => state.category.categoriesDataList);
+  const categoryDataList = useAppSelector(state => state.category.categoryDataList);
   const selectedCategory = useAppSelector(state => state.category.selectedCategory);
 
   const [newCategoryInput, setNewCategoryInput] = useState<string>('');
@@ -38,16 +37,16 @@ const CategoryForm = () => {
 
   // When category is selected or added, set attributes of that category
   useEffect(() => {
-    const selectedCategoryData = categoriesDataList.find(
+    const selectedCategoryData = categoryDataList.find(
       category => category.name === selectedCategory,
     );
     dispatch(setCategoryAttributes(selectedCategoryData?.attrs || []));
-  }, [selectedCategory, dispatch, categoriesDataList]);
+  }, [selectedCategory, dispatch, categoryDataList]);
 
   return (
     <>
       {/* 카테고리 선택 */}
-      <Form.Group className="mb-3" controlId="formBasicCategory">
+      {/* <Form.Group className="mb-3" controlId="formBasicCategory">
         <Form.Label>
           카테고리
           {!isEditMode && (
@@ -66,7 +65,7 @@ const CategoryForm = () => {
           onChange={categoryOnchangeHandler}
         >
           <option value="">카테고리 선택</option>
-          {categoriesDataList?.map((category, idx) => {
+          {categoryDataList?.map((category, idx) => {
             return productData?.category === category.name ? (
               <option selected key={idx} value={category.name}>
                 {category.name}
@@ -78,10 +77,10 @@ const CategoryForm = () => {
             );
           })}
         </Form.Select>
-      </Form.Group>
+      </Form.Group> */}
 
       {/* 새 카테고리 추가 */}
-      {!isEditMode && (
+      {/* {!isEditMode && (
         <Form.Group className="mb-3" controlId="formBasicNewCategory">
           <Form.Label>새 카테고리 추가</Form.Label>
           <Form.Control
@@ -92,7 +91,7 @@ const CategoryForm = () => {
             type="text"
           />
         </Form.Group>
-      )}
+      )} */}
     </>
   );
 };

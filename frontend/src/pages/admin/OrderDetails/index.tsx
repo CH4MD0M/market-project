@@ -1,24 +1,23 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { Row, Col, ListGroup, Alert, Button, Container } from 'react-bootstrap';
 
 import { getOrderDetails, markAsDelivered } from '@utils/api';
 import OrderProductPreview from '@components/OrderProductPreview';
 
 const UserInformation = ({ userInfo }: any) => (
-  <Col md={6}>
+  <div>
     <h2>주문자 정보</h2>
     <b>이름</b>: {userInfo.name}
     <br />
     <b>Address</b>: {userInfo.address} {userInfo.zipCode}
     <br />
     <b>Phone</b>: {userInfo.phoneNumber}
-  </Col>
+  </div>
 );
 
 const OrderStatus = ({ isDelivered, isPaid }: any) => (
-  <Row>
-    <Col>
+  <div>
+    {/* <Col>
       <Alert className="mt-3" variant={isDelivered ? 'success' : 'danger'}>
         {isDelivered ? '배송 완료' : '배송 준비중'}
       </Alert>
@@ -27,24 +26,24 @@ const OrderStatus = ({ isDelivered, isPaid }: any) => (
       <Alert className="mt-3" variant={isPaid ? 'success' : 'danger'}>
         {isPaid ? '결제됨' : '결제 대기중'}
       </Alert>
-    </Col>
-  </Row>
+    </Col> */}
+  </div>
 );
 
 const OrderItems = ({ cartItems }: { cartItems: CartProduct[] }) => (
   <>
     <h2>주문 상품</h2>
-    <ListGroup variant="flush">
+    <div>
       {cartItems.map((item: CartProduct, idx: number) => (
         <OrderProductPreview key={idx} item={item} />
       ))}
-    </ListGroup>
+    </div>
   </>
 );
 
 const OrderSummary = ({ cartSubtotal, buttonDisabled, orderButtonMessage, deliverHandle }: any) => (
-  <ListGroup>
-    <ListGroup.Item>
+  <div>
+    {/* <ListGroup.Item>
       <h3>주문 내역</h3>
     </ListGroup.Item>
     <ListGroup.Item>
@@ -71,8 +70,8 @@ const OrderSummary = ({ cartSubtotal, buttonDisabled, orderButtonMessage, delive
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div id="paypal-container-element"></div>
       </div>
-    </ListGroup.Item>
-  </ListGroup>
+    </ListGroup.Item> */}
+  </div>
 );
 
 const OrderDetails = () => {
@@ -87,9 +86,9 @@ const OrderDetails = () => {
   const [orderButtonMessage, setOrderButtonMessage] = useState('배달 처리하기');
   const [cartItems, setCartItems] = useState([]);
 
-  // 배송 처리
+  // deliverHandle
   const deliverHandle = () => {
-    markAsDelivered(id)
+    markAsDelivered(id!)
       .then(res => {
         if (res) setIsDelivered(true);
       })
@@ -100,12 +99,13 @@ const OrderDetails = () => {
 
   const fetchOrder = useCallback(async () => {
     try {
-      const order = await getOrderDetails(id);
-      setUserInfo(order.user);
+      const order = await getOrderDetails(id!);
 
-      order.isPaid ? setIsPaid(order.paidAt) : setIsPaid(false);
-      order.isDelivered ? setIsDelivered(order.deliveredAt) : setIsDelivered(false);
+      setUserInfo(order.user);
+      setIsPaid(order.isPaid);
+      setIsDelivered(order.isDelivered);
       setCartSubtotal(order.orderTotal.cartSubtotal);
+
       if (order.isDelivered) {
         setOrderButtonMessage('배송 완료');
         setButtonDisabled(true);
@@ -114,7 +114,7 @@ const OrderDetails = () => {
 
       setIsLoading(false);
     } catch (error) {
-      console.log('배송 정보를 불러오는데 실패했습니다.');
+      console.log('주문 정보를 불러오는데 실패했습니다.');
     }
   }, []);
 
@@ -123,9 +123,8 @@ const OrderDetails = () => {
   }, [isDelivered, id]);
 
   return (
-    <Container>
-      <Row className="mt-4">
-        <h1>내 주문</h1>
+    <div className="container">
+      {/* <Row className="mt-4">
         {isLoading ? (
           <h1>Loading...</h1>
         ) : (
@@ -149,8 +148,8 @@ const OrderDetails = () => {
             </Col>
           </>
         )}
-      </Row>
-    </Container>
+      </Row> */}
+    </div>
   );
 };
 

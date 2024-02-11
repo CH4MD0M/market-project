@@ -21,12 +21,13 @@ interface AttrsData {
 }
 
 // Image
-interface UploadImageData {
-  path: string;
-  publicId: string;
+interface ImageData {
   _id?: string;
+  publicId: string;
+  path: string;
 }
-type UploadImageDataArray = UploadImageData[];
+type UploadImageDataArray = ImageData[];
+type ProductImageList = ImageData[];
 
 // Review
 interface ReviewData {
@@ -43,7 +44,13 @@ interface ReviewData {
 
 // Product Form Input
 type formInputType = 'name' | 'count' | 'price' | 'description';
-
 type ProductFormInputType = {
   [key in formInputType]: string;
 };
+
+// ///////////////////////////////////
+interface CategoryAttr {
+  _id?: string;
+  key: string;
+  value: string[];
+}

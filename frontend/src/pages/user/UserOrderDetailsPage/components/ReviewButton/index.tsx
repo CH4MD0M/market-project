@@ -1,11 +1,7 @@
 import { useState } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import ReviewComponent from '../ReviewComponent';
-
-// CSS
-import * as S from './style';
 
 interface ReviewButtonProps {
   productId: string;
@@ -20,27 +16,23 @@ const ReviewButton = ({ productId, disabled }: ReviewButtonProps) => {
   };
 
   return (
-    <S.ButtonWrapper>
-      <Button
+    <div className="flex flex-col items-start justify-center">
+      <button
         className="mb-2"
         type="button"
-        size="sm"
         disabled={!disabled}
-        variant="info"
         style={{ color: 'white' }}
         onClick={openModalHandler}
       >
         리뷰 작성하기
-      </Button>
+      </button>
 
       {modalOpen && <ReviewComponent productId={productId} setModalOpen={setModalOpen} />}
 
-      <LinkContainer to="/user/service">
-        <Button type="button" size="sm" variant="outline-info">
-          문의하기
-        </Button>
-      </LinkContainer>
-    </S.ButtonWrapper>
+      <Link to="/user/service">
+        <button type="button">문의하기</button>
+      </Link>
+    </div>
   );
 };
 

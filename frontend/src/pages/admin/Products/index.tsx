@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { getProductsForAdmin, deleteProduct } from '@utils/api';
 
 import AdminLayout from '@layout/AdminLayout';
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [productDeleted, setProductDeleted] = useState(false);
 
   const deleteHandler = async (productId: string) => {
@@ -39,13 +38,11 @@ const ProductsPage = () => {
     <AdminLayout>
       <h1>
         상품 관리
-        <LinkContainer to="/admin/create-new-product">
-          <Button variant="primary" size="lg">
-            상품 추가
-          </Button>
-        </LinkContainer>
+        <Link to="/admin/create-new-product">
+          <button>상품 추가</button>
+        </Link>
       </h1>
-      <Table striped bordered hover responsive>
+      <table>
         <thead>
           <tr>
             <th>상품 번호</th>
@@ -63,20 +60,20 @@ const ProductsPage = () => {
               <td>{item.price}</td>
               <td>{item.category}</td>
               <td>
-                <LinkContainer to={`/admin/edit-product/${item._id}`}>
-                  <Button className="btn-sm">
+                <Link to={`/admin/edit-product/${item._id}`}>
+                  <button className="btn-sm">
                     <i className="bi bi-pencil-square"></i>
-                  </Button>
-                </LinkContainer>
+                  </button>
+                </Link>
                 {' / '}
-                <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(item._id)}>
+                <button className="btn-sm" onClick={() => deleteHandler(item._id)}>
                   <i className="bi bi-x-circle"></i>
-                </Button>
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
     </AdminLayout>
   );
 };

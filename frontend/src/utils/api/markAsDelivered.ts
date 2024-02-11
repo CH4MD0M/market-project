@@ -1,4 +1,4 @@
-import { API_URL } from '@utils/constants/API_URL';
+import { API_URL } from '@utils/constants';
 import { instance } from './instance';
 
 export const markAsDelivered = async (orderId: string) =>
