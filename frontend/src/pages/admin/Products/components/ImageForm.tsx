@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Col, Form, Image, Row } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import {
@@ -71,34 +70,34 @@ const ImageForm = () => {
 
   return (
     <>
-      <Form.Group controlId="formFileMultiple" className="mb-3 mt-3">
-        <Form.Label>상품 이미지</Form.Label>
-        <Row>
+      <form className="mb-3 mt-3">
+        <label>상품 이미지</label>
+        <div>
           {isEditMode &&
             productImages?.map((image: any, idx: number) => (
-              <Col key={idx} style={{ position: 'relative' }} xs={3}>
-                <Image crossOrigin="anonymous" src={image?.path} fluid />
+              <div key={idx} style={{ position: 'relative' }}>
+                <img crossOrigin="anonymous" src={image?.path} />
                 <i
                   style={onHover}
                   onClick={() => deleteImageHandler(image.path, image.publicId, image._id)}
                   className="bi bi-x text-danger"
                 ></i>
-              </Col>
+              </div>
             ))}
 
           {previewImages?.map((imageData, idx) => (
-            <Col key={idx} style={{ position: 'relative' }} xs={3}>
-              <Image crossOrigin="anonymous" src={imageData} fluid />
+            <div key={idx} style={{ position: 'relative' }}>
+              <img crossOrigin="anonymous" src={imageData} />
               <i
                 style={onHover}
                 onClick={() => deleteLocalImageHandler(idx)}
                 className="bi bi-x text-danger"
               ></i>
-            </Col>
+            </div>
           ))}
-        </Row>
-        <Form.Control name="images" type="file" multiple onChange={imageOnchangeHandler} />
-      </Form.Group>
+        </div>
+        {/* <Form.Control name="images" type="file" multiple onChange={imageOnchangeHandler} /> */}
+      </form>
       {/* {errorMessages && <p className="text-danger">{errorMessages}</p>} */}
     </>
   );

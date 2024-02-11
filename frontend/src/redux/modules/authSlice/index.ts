@@ -6,7 +6,7 @@ import { login, loginCheck, logout, signup } from './thunk';
 const initialState: AuthState = {
   loading: false,
   error: false,
-  isLogin: false,
+  isLogin: localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo') ? true : false,
 };
 
 const authSlice = createSlice({

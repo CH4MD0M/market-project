@@ -1,10 +1,7 @@
-import { Nav, Navbar } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-
 const UserLinks = () => {
   return (
-    <Navbar bg="light" variant="light">
-      <Nav className="flex-column">
+    <div>
+      {/* <Nav className="flex-column">
         <LinkContainer to="/user/my-orders">
           <Nav.Link>주문목록/배송조회</Nav.Link>
         </LinkContainer>
@@ -14,8 +11,8 @@ const UserLinks = () => {
         <LinkContainer to="/user/edit-profile">
           <Nav.Link>개인정보수정</Nav.Link>
         </LinkContainer>
-      </Nav>
-    </Navbar>
+      </Nav> */}
+    </div>
   );
 };
 

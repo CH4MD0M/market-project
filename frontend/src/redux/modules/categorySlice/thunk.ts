@@ -11,7 +11,7 @@ const getAllCategoriesThunk = createAsyncThunk('category/getAllCategories', asyn
 const addNewCategoryThunk = createAsyncThunk<any, string, { state: RootState }>(
   'category/addNewCategory',
   async (category, { getState }) => {
-    const prevCategories = getState().category.categoriesDataList;
+    const prevCategories = getState().category.categoryDataList;
     const { data } = await addNewCategory(category);
 
     if (data.categoryCreated) {
@@ -23,7 +23,7 @@ const addNewCategoryThunk = createAsyncThunk<any, string, { state: RootState }>(
 const deleteCategoryThunk = createAsyncThunk<any, string, { state: RootState }>(
   'category/deleteCategory',
   async (category, { getState }) => {
-    const prevCategories = getState().category.categoriesDataList;
+    const prevCategories = getState().category.categoryDataList;
     const filteredCategories = prevCategories.filter((cat: any) => cat.name !== category);
     const { data } = await deleteCategory(category);
 

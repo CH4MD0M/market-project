@@ -1,8 +1,6 @@
-import { Button, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
-
 import { useAppDispatch } from '@hooks/reduxHooks';
 import { removeFromCart, updateCart } from '@redux/modules/cartSlice';
-import numberWithCommas from '@utils/numberWithCommas';
+import addCommasToNumber from '@utils/addCommasToNumber';
 
 interface CartPreviewProps {
   item: CartProduct;
@@ -20,8 +18,8 @@ const CartPreview = ({ item }: CartPreviewProps) => {
   };
 
   return (
-    <ListGroup.Item>
-      <Row>
+    <div>
+      {/* <Row>
         <Col md={2}>
           <Image crossOrigin="anonymous" src={item?.image.path ?? null} fluid />
         </Col>
@@ -44,8 +42,8 @@ const CartPreview = ({ item }: CartPreviewProps) => {
             <i className="bi bi-trash" />
           </Button>
         </Col>
-      </Row>
-    </ListGroup.Item>
+      </Row> */}
+    </div>
   );
 };
 

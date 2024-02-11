@@ -5,10 +5,10 @@ import {
   getAllCategoriesThunk,
   saveAttributeThunk,
 } from './thunk';
-import { CatState } from './types';
+import { CategoryState } from './types';
 
-const initialState: CatState = {
-  categoriesDataList: [],
+const initialState: CategoryState = {
+  categoryDataList: [],
   selectedCategory: '',
   categoryLoading: false,
 };
@@ -31,26 +31,26 @@ const categorySlice = createSlice({
     });
     builder.addCase(getAllCategoriesThunk.fulfilled, (state, action) => {
       state.categoryLoading = false;
-      state.categoriesDataList = action.payload;
+      state.categoryDataList = action.payload;
     });
 
     // Save New Attribute
     builder.addCase(saveAttributeThunk.fulfilled, (state, action) => {
       // updatedCategory => after adding new attribute
       const { updatedCategories } = action.payload;
-      state.categoriesDataList = updatedCategories;
+      state.categoryDataList = updatedCategories;
     });
 
     builder.addCase(addNewCategoryThunk.fulfilled, (state, action) => {
       // updatedCategory => after adding new category
       const updatedCategory = action.payload;
-      state.categoriesDataList = updatedCategory;
+      state.categoryDataList = updatedCategory;
     });
 
     builder.addCase(deleteCategoryThunk.fulfilled, (state, action) => {
       // updatedCategory => after deleting category
       const updatedCategory = action.payload;
-      state.categoriesDataList = updatedCategory;
+      state.categoryDataList = updatedCategory;
       state.selectedCategory = '';
     });
   },

@@ -1,5 +1,4 @@
 import { ElementType } from 'react';
-import { Form } from 'react-bootstrap';
 
 interface FormInputProps {
   name: string;
@@ -21,8 +20,8 @@ const FormInput = ({
   handleInputChange,
 }: FormInputProps) => {
   return (
-    <Form.Group className="mb-3" controlId={controlId}>
-      <Form.Label>{label}</Form.Label>
+    <div className="mb-3">
+      {/* <Form.Label>{label}</Form.Label>
       <Form.Control
         name={name}
         required
@@ -30,8 +29,8 @@ const FormInput = ({
         as={as || undefined}
         defaultValue={defaultValue || ''}
         onChange={handleInputChange}
-      />
-    </Form.Group>
+      /> */}
+    </div>
   );
 };
 

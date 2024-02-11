@@ -15,7 +15,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // 장바구니 추가
+    // Add to cart
     addToCart: (state, action: PayloadAction<AddToCartPayload>) => {
       const { _id, name, price, count, images, quantity } = action.payload;
       const productBeingAddedToCart = {
@@ -38,13 +38,13 @@ const cartSlice = createSlice({
       }
     },
 
-    // 장바구니 삭제
+    // Delete from cart
     removeFromCart(state, action: PayloadAction<RemoveFromCartPayload>) {
       const { _id } = action.payload;
       state.cartItems = state.cartItems.filter(item => item._id !== _id);
     },
 
-    // 장바구니 상품 수량 변경
+    // Change quantity of product in cart
     updateCart(state, action) {
       const { _id, quantity } = action.payload;
       const productBeingAddedToCart = state.cartItems.find(item => item._id === _id);

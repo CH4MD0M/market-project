@@ -1,12 +1,6 @@
-import { Alert, Button, Form } from 'react-bootstrap';
-
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { updateUserAddressThunk } from '@redux/modules/userSlice/thunk';
-import { useInput } from '@hooks/useInput';
 import { useToggle } from '@hooks/useToggle';
-import { validateAddress } from '@utils/validation';
-
-import Postcode from '@components/PostCode';
 
 const AddressInfo = ({ userInfo }: { userInfo: any }) => {
   const [addressEdit, toggleAddressEdit] = useToggle(false);
@@ -14,25 +8,25 @@ const AddressInfo = ({ userInfo }: { userInfo: any }) => {
 
   const userAddress = useAppSelector(state => state.user.userAddress);
 
-  const {
-    value: detailAddress,
-    isValid: detailAddressIsValid,
-    hasError: detailAddressHasError,
-    valueChangeHandler: onChangeDetailAddress,
-    inputBlurHandler: onBlurDetailAddress,
-  } = useInput(validateAddress);
+  // const {
+  //   value: detailAddress,
+  //   isValid: detailAddressIsValid,
+  //   hasError: detailAddressHasError,
+  //   valueChangeHandler: onChangeDetailAddress,
+  //   inputBlurHandler: onBlurDetailAddress,
+  // } = useInput(validateAddress);
 
-  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    if (!detailAddressIsValid) return;
-    dispatch(
-      updateUserAddressThunk({
-        address: `${userAddress.address}, ${detailAddress}`,
-        zipCode: userAddress.zipCode,
-      }),
-    );
-  };
+  //   if (!detailAddressIsValid) return;
+  //   dispatch(
+  //     updateUserAddressThunk({
+  //       address: `${userAddress.address}, ${detailAddress}`,
+  //       zipCode: userAddress.zipCode,
+  //     }),
+  //   );
+  // };
 
   return (
     <div className="pt-3 pb-3 mb-2 d-flex align-items-center">
@@ -45,18 +39,13 @@ const AddressInfo = ({ userInfo }: { userInfo: any }) => {
           <p className="m-0">
             <strong>{userInfo.address || '주소를 등록해주세요'}</strong>
           </p>
-          <Button
-            onClick={toggleAddressEdit}
-            variant="outline-primary"
-            size="sm"
-            style={{ wordBreak: 'keep-all' }}
-          >
+          <button onClick={toggleAddressEdit} style={{ wordBreak: 'keep-all' }}>
             {addressEdit ? ' 주소 변경 취소' : '주소 변경'}
-          </Button>
+          </button>
         </div>
         {addressEdit && (
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId="formBasicZip">
+          <form>
+            {/* <Form.Group controlId="formBasicZip">
               <div className="d-flex mb-2">
                 <Form.Control
                   className="flex-grow-1"
@@ -98,8 +87,8 @@ const AddressInfo = ({ userInfo }: { userInfo: any }) => {
             </Alert>
             <Button type="submit" disabled={!detailAddressIsValid} size="sm">
               변경하기
-            </Button>
-          </Form>
+            </Button> */}
+          </form>
         )}
       </div>
     </div>

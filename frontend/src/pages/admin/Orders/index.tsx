@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import AdminLayout from '@layout/AdminLayout';
 import { getOrdersForAdmin } from '@utils/api';
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<AdminOrderData[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -20,7 +19,7 @@ const Orders = () => {
   return (
     <AdminLayout>
       <h1>주문 현황 관리</h1>
-      <Table striped bordered hover>
+      <table>
         <thead>
           <tr>
             <th>주문번호</th>
@@ -35,7 +34,7 @@ const Orders = () => {
           {orders.map((order, idx) => (
             <tr key={idx}>
               <td>{idx + 1}</td>
-              <td>{order.user?.name}</td>
+              <td>{order.user.name}</td>
               <td>{order.createdAt.substring(0, 10)}</td>
               <td>{order.orderTotal.cartSubtotal}</td>
               <td>
@@ -51,7 +50,7 @@ const Orders = () => {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
     </AdminLayout>
   );
 };

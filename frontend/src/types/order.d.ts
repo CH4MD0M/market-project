@@ -23,3 +23,7 @@ interface OrderUserData {
   phoneNumber: string;
   zipCode: string;
 }
+
+interface AdminOrderData extends OrderDetailsData {
+  user: OrderUserData;
+}

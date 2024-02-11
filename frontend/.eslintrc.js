@@ -33,5 +33,5 @@ module.exports = {
       version: 'detect',
     },
   },
-  ignorePatterns: ['node_modules/', 'build/', 'dist/', 'webpack.*.js'],
+  ignorePatterns: ['node_modules/', 'build/', 'dist/', 'webpack.*.js', '*.config.js'],
 };

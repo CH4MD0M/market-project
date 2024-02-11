@@ -1,5 +1,4 @@
 import { Fragment, useState } from 'react';
-import { CloseButton, Col, Form, Row, Table } from 'react-bootstrap';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setCategoryAttributes, setSelectedAttributes } from '@redux/modules/productSlice';
@@ -13,7 +12,7 @@ const AttrsForm = () => {
 
   const [selectedAttrKey, setSelectedAttrKey] = useState('');
   const [selectedAttrVal, setSelectedAttrVal] = useState('');
-  const [valuesForSelectedAttrKey, setValuesForSelectedAttrKey] = useState([]);
+  const [valuesForSelectedAttrKey, setValuesForSelectedAttrKey] = useState<string[]>([]);
   const [newAttrKey, setNewAttrKey] = useState('');
   const [newAttrValue, setNewAttrValue] = useState('');
 
@@ -104,11 +103,11 @@ const AttrsForm = () => {
   };
 
   return (
-    <>
-      {selectedCategory && (
-        <>
-          {/* 속성 선택 */}
-          <Row className="mb-2 mt-5">
+    <div>
+      {/* {selectedCategory && ( */}
+      <>
+        {/* 속성 선택 */}
+        {/* <Row className="mb-2 mt-5">
             <span className="fs-5 mb-2">속성 선택</span>
             <Col md={6}>
               <Form.Group className="mb-3" controlId="formBasicAttributes">
@@ -144,10 +143,10 @@ const AttrsForm = () => {
                 </Form.Select>
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
 
-          {/* 새 속성 추가 */}
-          <Row className="mb-5 mt-3">
+        {/* 새 속성 추가 */}
+        {/* <Row className="mb-5 mt-3">
             <span className="fs-5 mb-2">속성 추가</span>
             <Col md={6}>
               <Form.Group className="mb-3" controlId="formBasicNewAttribute">
@@ -174,15 +173,15 @@ const AttrsForm = () => {
                 />
               </Form.Group>
             </Col>
-          </Row>
-        </>
-      )}
+          </Row> */}
+      </>
+      {/* )} */}
 
       {/* 속성 테이블(선택한 속성) */}
       {selectedAttributes?.length > 0 && (
-        <Row className="mb-5 mt-5">
+        <div className="mb-5 mt-5">
           <span className="fs-5 mb-2">속성 테이블</span>
-          <Table hover>
+          <table>
             <thead>
               <tr>
                 <th>속성</th>
@@ -196,15 +195,15 @@ const AttrsForm = () => {
                   <td>{item.key}</td>
                   <td>{item.value}</td>
                   <td>
-                    <CloseButton onClick={() => deleteAttribute(item.key)} />
+                    <button onClick={() => deleteAttribute(item.key)} />
                   </td>
                 </tr>
               ))}
             </tbody>
-          </Table>
-        </Row>
+          </table>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

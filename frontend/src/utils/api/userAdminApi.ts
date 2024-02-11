@@ -1,4 +1,4 @@
-import { API_URL } from '@utils/constants/API_URL';
+import { API_URL } from '@utils/constants';
 import { instance } from '@api/instance';
 
 const editUser = (userId: string, formData: EditUserFormData) => {
