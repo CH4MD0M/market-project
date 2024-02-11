@@ -29,7 +29,7 @@ const userSlice = createSlice({
       state.isUpdate = false;
     },
     resetUserState: () => {
-      return { ...initialState, userData: null };
+      return initialState;
     },
   },
   extraReducers: builder => {
