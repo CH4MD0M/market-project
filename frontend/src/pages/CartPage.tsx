@@ -1,41 +1,60 @@
 import { useEffect } from 'react';
-import { Alert, Button, Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { resetFilter } from '@redux/modules/filterSlice';
 import { selectCartSubtotal } from '@redux/modules/cartSlice/selector';
-import numberWithCommas from '@utils/numberWithCommas';
+
+// Components
 import CartPreview from '@components/CartPreview';
+import CenterWrapper from '@components/atoms/CenterWrapper';
+import Button from '@components/atoms/Button';
+
+// Assets
+import EmptyImage from '@assets/imgs/empty-cart.png';
+import { useResetFilter } from '@/hooks/useResetFilter';
+
+// Empty Cart
+const EmptyCart = () => {
+  return (
+    <div className="p-2 flex flex-col items-center">
+      <img src={EmptyImage} alt="Empty Cart" className="w-[350px]" />
+
+      <div>
+        <Button variant={'primary'} className="mt-[30px]">
+          <Link to="/products">상품 담으러 가기</Link>
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const CartPage = () => {
+  useResetFilter();
   const dispatch = useAppDispatch();
-  const cartItems = useAppSelector(state => state.cart.cartItems);
   const cartSubtotal = useAppSelector(selectCartSubtotal);
 
-  useEffect(() => {
-    dispatch(resetFilter());
-  }, []);
+  const cartItems = useAppSelector(state => state.cart.cartItems);
+  const cartItemExist = !!cartItems?.length;
 
   return (
-    <Container>
+    <CenterWrapper size={cartItemExist ? 'lg' : 'md'}>
       {cartItems?.length === 0 ? (
-        <>
-          <Alert className="mt-5" variant="info">
-            장바구니가 비어있습니다.
-          </Alert>
-          <div className="mt-5 d-flex justify-content-center">
-            <LinkContainer to="/products">
-              <Button type="button" size="lg" variant="outline-info">
-                상품 담으러 가기
-              </Button>
-            </LinkContainer>
-          </div>
-        </>
+        <EmptyCart />
       ) : (
-        <>
-          <h1>장바구니</h1>
-          <Row className="mt-4 justify-content-between">
+        <div className="grid grid-rows-[1fr_25%]">
+          <div></div>
+          <div></div>
+        </div>
+      )}
+    </CenterWrapper>
+  );
+};
+
+export default CartPage;
+
+{
+  /* <Row className="mt-4 justify-content-between">
             <Col md={8} className="border">
               <ListGroup variant="flush">
                 {cartItems?.map((item: CartProduct, idx: number) => (
@@ -79,11 +98,5 @@ const CartPage = () => {
                 </LinkContainer>
               </div>
             </Col>
-          </Row>
-        </>
-      )}
-    </Container>
-  );
-};
-
-export default CartPage;
+          </Row> */
+}

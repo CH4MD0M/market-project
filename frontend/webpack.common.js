@@ -25,6 +25,15 @@ module.exports = {
           cacheCompression: false,
         },
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        loader: 'url-loader',
+        options: {
+          limit: 8192,
+          name: 'assets/images/[name].[hash:8].[ext]',
+        },
+      },
+      { test: /\.svg$/, use: ['@svgr/webpack', 'url-loader'] },
     ],
   },
   plugins: [
