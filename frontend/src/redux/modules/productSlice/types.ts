@@ -1,5 +1,5 @@
 export interface ProductState {
-  productData: Product;
+  productData: Product | null;
   categoryAttributes: CategoryAttributes[];
   selectedAttributes: Omit<CategoryAttributes, '_id'>[];
   stagedImageFiles: File[];

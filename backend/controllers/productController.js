@@ -1,6 +1,6 @@
-const Product = require('../models/ProductModel');
-const recordsPerPage = require('../config/pagination');
-const cloudinary = require('cloudinary').v2;
+const Product = require("../models/ProductModel");
+const recordsPerPage = require("../config/pagination");
+const cloudinary = require("cloudinary").v2;
 
 const getProducts = async (req, res, next) => {
   try {
@@ -9,31 +9,30 @@ const getProducts = async (req, res, next) => {
 
     // Get Products by Price (filtering page)
     let priceQueryCondition = {};
-    if (req.query.price) {
+    if (req.query.minPrice || req.query.maxPrice) {
       queryCondition = true;
-      priceQueryCondition = { price: { $lte: Number(req.query.price) } };
+      priceQueryCondition.price = {};
+
+      if (req.query.minPrice)
+        priceQueryCondition.price.$gte = Number(req.query.minPrice);
+
+      if (req.query.maxPrice)
+        priceQueryCondition.price.$lte = Number(req.query.maxPrice);
     }
+
     // Get Products by Rating (filtering page)
     let ratingQueryCondition = {};
     if (req.query.rating) {
       queryCondition = true;
-      ratingQueryCondition = { rating: { $in: req.query.rating.split(',') } };
-    }
-    // Get Products by Category (search bar)
-    let categoryQueryCondition = {};
-    const categoryName = req.params.categoryName || '';
-    if (categoryName) {
-      queryCondition = true;
-      let a = categoryName.replace(/,/g, '/');
-      let regEx = new RegExp('^' + a);
-      categoryQueryCondition = { category: regEx };
+      ratingQueryCondition = { rating: { $gte: Number(req.query.rating) } };
     }
 
     // Get Products by Category (filtering page)
+    let categoryQueryCondition = {};
     if (req.query.category) {
       queryCondition = true;
-      let a = req.query.category.split(',').map(item => {
-        if (item) return new RegExp('^' + item);
+      let a = req.query.category.split(",").map((item) => {
+        if (item) return new RegExp("^" + item);
       });
       categoryQueryCondition = {
         category: { $in: a },
@@ -43,9 +42,9 @@ const getProducts = async (req, res, next) => {
     // Get Products by Attributes (filtering page)
     let attrsQueryCondition = [];
     if (req.query.attrs) {
-      attrsQueryCondition = req.query.attrs.split(',').reduce((acc, item) => {
+      attrsQueryCondition = req.query.attrs.split(",").reduce((acc, item) => {
         if (item) {
-          let a = item.split('-');
+          let a = item.split("-");
           let values = [...a];
           values.shift(); // removes first item
           let a1 = {
@@ -63,22 +62,13 @@ const getProducts = async (req, res, next) => {
 
     // Sort by name, price etc.
     let sort = {};
-    const sortOption = req.query.sort || '';
+    const sortOption = req.query.sort || "";
     if (sortOption) {
-      let sortOpt = sortOption.split('_');
+      let sortOpt = sortOption.split("_");
       sort = { [sortOpt[0]]: Number(sortOpt[1]) };
     }
 
-    // Get Products through Search Box
-    const searchQuery = req.params.searchQuery || '';
-    let searchQueryCondition = {};
     let select = {};
-    if (searchQuery) {
-      queryCondition = true;
-      searchQueryCondition = { $text: { $search: searchQuery } };
-      select = { score: { $meta: 'textScore' } };
-      sort = { score: { $meta: 'textScore' } };
-    }
 
     if (queryCondition) {
       query = {
@@ -86,7 +76,6 @@ const getProducts = async (req, res, next) => {
           priceQueryCondition,
           ratingQueryCondition,
           categoryQueryCondition,
-          searchQueryCondition,
           ...attrsQueryCondition,
         ],
       };
@@ -113,28 +102,9 @@ const getProducts = async (req, res, next) => {
 const getProductById = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id)
-      .populate('reviews')
+      .populate("reviews")
       .orFail();
     res.json(product);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// Get Bestsellers
-const getBestsellers = async (req, res, next) => {
-  try {
-    const products = await Product.aggregate([
-      { $sort: { category: 1, sales: -1 } },
-      {
-        $group: { _id: '$category', doc_with_max_sales: { $first: '$$ROOT' } },
-      },
-      { $replaceWith: '$doc_with_max_sales' },
-      { $match: { sales: { $gt: 0 } } },
-      { $project: { _id: 1, name: 1, images: 1, category: 1, description: 1 } },
-      { $limit: 3 },
-    ]);
-    res.json(products);
   } catch (err) {
     next(err);
   }
@@ -146,7 +116,7 @@ const adminGetProducts = async (req, res, next) => {
   try {
     const products = await Product.find({})
       .sort({ category: 1 })
-      .select('name price category images');
+      .select("name price category images");
     return res.json(products);
   } catch (err) {
     next(err);
@@ -240,13 +210,13 @@ const adminUpdateProduct = async (req, res, next) => {
 const adminUploadProductImage = async (req, res, next) => {
   try {
     let product = await Product.findById(req.query.productId).orFail(
-      new Error('Product not found')
+      new Error("Product not found")
     );
     product.images.push(...req.body.imageData);
     await product.save();
-    res.status(200).json({ message: 'Product image updated successfully.' });
+    res.status(200).json({ message: "Product image updated successfully." });
   } catch (err) {
-    if (err.message === 'Product not found') {
+    if (err.message === "Product not found") {
       res.status(404).json({ error: err.message });
     } else {
       res.status(500).json({ error: err.message });
@@ -287,7 +257,6 @@ const deleteCloudinaryImage = async (req, res, next) => {
 module.exports = {
   getProducts,
   getProductById,
-  getBestsellers,
   adminGetProducts,
   adminDeleteProduct,
   adminCreateProduct,
