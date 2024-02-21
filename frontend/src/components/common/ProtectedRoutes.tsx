@@ -10,12 +10,14 @@ type ProtectedRoutesProps = {
   requireAdmin?: boolean;
   requireAuth?: boolean;
   blockLogin?: boolean;
+  children?: React.ReactNode;
 };
 
 const ProtectedRoutes = ({
   requireAdmin = false,
   requireAuth = false,
   blockLogin = false,
+  children,
 }: ProtectedRoutesProps) => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +39,7 @@ const ProtectedRoutes = ({
   if (requireAuth && !isLogin) return <Navigate to="/login" />;
   if (requireAdmin && !userData?.isAdmin) return <Navigate to="/" />;
 
-  return <Outlet />;
+  return children ? <>{children}</> : <Outlet />;
 };
 
 export default ProtectedRoutes;

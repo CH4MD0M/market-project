@@ -17,14 +17,14 @@ const LoginPage = lazy(() => import(/* webpackChunkName: "login" */ '@pages/Logi
 const RegisterPage = lazy(() => import(/* webpackChunkName: "register" */ '@pages/RegisterPage'));
 
 // userProtectedRoutes
+const PurchasePage = lazy(
+  () => import(/* webpackChunkName: "userPurchase" */ '@/pages/user/PurchasePage'),
+);
 const EditProfilePage = lazy(
   () => import(/* webpackChunkName: "userEditProfile" */ '@pages/user/EditProfilePage'),
 );
-const UserPerchasePage = lazy(
-  () => import(/* webpackChunkName: "userPerchase" */ '@pages/user/UserPerchasePage'),
-);
 const UserOrdersPage = lazy(
-  () => import(/* webpackChunkName: "userOrders" */ '@pages/user/UserOrdersPage'),
+  () => import(/* webpackChunkName: "userOrders" */ '@/pages/user/UserOrdersPage'),
 );
 const UserOrderDetailPage = lazy(
   () => import(/* webpackChunkName: "userOrderDetails" */ '@pages/user/UserOrderDetailsPage'),
@@ -60,6 +60,7 @@ export const router = createBrowserRouter([
       { path: 'products/category/:categoryName', element: <ProductListPage /> },
       { path: 'products/category/:categoryName/:pageNumParam', element: <ProductListPage /> },
       { path: 'product-details/:id', element: <ProductDetailPage /> },
+      { path: 'purchase', element: <PurchasePage /> },
       { path: 'cart', element: <CartPage /> },
 
       // blockLoginRoutes
@@ -76,22 +77,29 @@ export const router = createBrowserRouter([
   // userProtectedRoutes
   {
     path: 'user/',
-    element: <ProtectedRoutes requireAuth />,
+    element: (
+      <ProtectedRoutes requireAuth>
+        <GlobalLayout />
+      </ProtectedRoutes>
+    ),
     children: [
       { index: true, element: <UserOrdersPage /> },
       { path: 'my-orders', element: <UserOrdersPage /> },
       { path: 'my-orders/:orderId', element: <UserOrderDetailPage /> },
       { path: 'edit-profile', element: <EditProfilePage /> },
-      { path: 'my-purchases', element: <UserPerchasePage /> },
     ],
   },
 
   // adminProtectedRoutes
   {
     path: 'admin/',
-    element: <ProtectedRoutes requireAuth requireAdmin />,
+    element: (
+      <ProtectedRoutes requireAuth requireAdmin>
+        <GlobalLayout />
+      </ProtectedRoutes>
+    ),
     children: [
-      { index: true, path: 'orders', element: <AdminOrders /> },
+      { index: true, element: <AdminOrders /> },
       { path: 'orders/:id', element: <AdminOrderDetails /> },
       { path: 'products', element: <AdminProducts /> },
       { path: 'products/create', element: <AdminCreateProduct /> },
