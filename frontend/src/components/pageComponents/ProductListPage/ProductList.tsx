@@ -7,7 +7,7 @@ import { useAppSelector } from '@hooks/reduxHooks';
 import { getAllProducts } from '@utils/api';
 
 import LoadingPage from '@pages/LoadingPage';
-import ProductPreview from '@components/ProductPreview';
+import ProductItemPreview from '@components/pageComponents/ProductListPage/ProductItemPreview';
 
 interface ProductListProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -90,7 +90,7 @@ const ProductList = ({ setCurrentPage, setMaxPage }: ProductListProps) => {
   return (
     <div>
       {products.length ? (
-        products.map(product => <ProductPreview key={product._id} product={product} />)
+        products.map(product => <ProductItemPreview key={product._id} product={product} />)
       ) : (
         <h1 className="text-[30px] text-center my-[100px]">해당하는 상품이 없습니다 🥲</h1>
       )}

@@ -6,10 +6,10 @@ import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setCategoryFilter } from '@redux/modules/filterSlice';
 
 // Components
-import PriceFilter from '@components/FilterMenu/PriceFilter';
-import RatingFilter from '@components/FilterMenu/RatingFilter';
-import CategoryFilter from '@components/FilterMenu/CategoryFilter';
-import AttributesFilter from '@components/FilterMenu/AttributesFilter';
+import PriceFilter from '@components/pageComponents/ProductListPage/FilterMenu/PriceFilter';
+import RatingFilter from '@components/pageComponents/ProductListPage/FilterMenu/RatingFilter';
+import CategoryFilter from '@components/pageComponents/ProductListPage/FilterMenu/CategoryFilter';
+import AttributesFilter from '@components/pageComponents/ProductListPage/FilterMenu/AttributesFilter';
 
 const FilterMenu = () => {
   const { categoryName } = useParams();

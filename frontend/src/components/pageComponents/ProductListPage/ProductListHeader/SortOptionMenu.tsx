@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setSortOption } from '@redux/modules/filterSlice';
 import { useDropdown } from '@hooks/useDropdown';
 import useAnimation from '@hooks/useAnimation';
-import { sortRadioOptions } from '@utils/constants/radioOption';
+import { sortRadioOptions } from '@constants/radioOption';
 
 // Components
 import DropdownMenu from '@components/atoms/DropdownMenu';
