@@ -7,13 +7,13 @@ const ButtonVariants = cva(
   `
   flex justify-center items-center rounded-xl 
   disabled:pointer-events-none disabled:opacity-50
-  text-base font-bold hover:opacity-70 transition-all
+  text-base font-bold transition-all
   duration-200
   `,
   {
     variants: {
       variant: {
-        default: ' text-[#282a2e]',
+        default: 'text-[#282a2e] border-[1px]',
         pagination:
           'text-stone-700 bg-white border border-stone-300 rounded-md hover:bg-stone-800 hover:text-white',
         primary: 'bg-[#4565cc] text-white',
@@ -25,7 +25,7 @@ const ButtonVariants = cva(
         full: ' flex items-center justify-center w-full py-2 px-3',
       },
       hovercolor: {
-        default: '',
+        default: 'hover:bg-[#4565cc]/30 hover:text-[#4565cc]',
         active: 'hover:bg-gradient-to-r hover:from-[#4568dc] hover:to-[#b06ab3] ',
       },
       activecolor: {

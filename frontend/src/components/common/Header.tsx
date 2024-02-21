@@ -27,13 +27,15 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to={'/cart'} className="relative flex">
+          <Link to={'/cart'} className="flex">
             {itemsCount ? (
               <>
-                <ShoppingBagIcon className="w-6 h-6" />
-                <span className="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
-                  {itemsCount}
-                </span>
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-full p-2.5 relative">
+                  <ShoppingBagIcon className="w-6 h-6" />
+                  <span className="absolute right-2 top-2 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
+                    {itemsCount}
+                  </span>
+                </div>
               </>
             ) : (
               <HoverCard

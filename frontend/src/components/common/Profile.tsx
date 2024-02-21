@@ -15,7 +15,7 @@ import Avatar from '@components/atoms/Avatar';
 const BeforeLogin = () => {
   return (
     <>
-      <Button hovercolor={'default'} className="hover:text-[#4565cc] hover:bg-[#4565cc]/10">
+      <Button hovercolor={'default'} className="hover:text-[#4565cc] hover:bg-[#4565cc]/30">
         <Link to="/login">로그인</Link>
       </Button>
       <Button variant={'primary'}>
