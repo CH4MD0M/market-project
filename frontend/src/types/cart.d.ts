@@ -7,3 +7,5 @@ interface CartProduct {
   quantity: number;
   isReviewed?: boolean;
 }
+
+type OrderProduct = CartProduct;

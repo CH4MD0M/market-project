@@ -1,9 +1,8 @@
 import { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 
-// Components
-import LoadingPage from './pages/LoadingPage';
-import { router } from './routes/route';
+import { router } from '@routes/route';
+import LoadingPage from '@pages/LoadingPage';
 
 const App = () => {
   return (

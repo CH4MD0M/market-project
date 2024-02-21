@@ -1,5 +1,5 @@
 import { instance } from './instance';
-import { API_URL } from '@utils/constants';
+import { API_URL } from '@constants/.';
 import proceedFilters from '@utils/proceedFilters';
 
 const getAllProducts = async (

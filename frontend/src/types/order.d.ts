@@ -1,9 +1,8 @@
 interface OrderData {
   orderTotal: {
-    itemsCount: number;
     cartSubtotal: number;
   };
-  cartItems: CartProduct[];
+  cartItems: OrderProduct[];
 }
 
 interface OrderDetailsData extends OrderData {

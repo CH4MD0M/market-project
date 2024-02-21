@@ -4,7 +4,7 @@ import { getOrdersForUser } from '@utils/api';
 
 // import UserLayout from '@layout/UserLayout';
 import LoadingPage from '@pages/LoadingPage';
-import OrderPreview from './components/OrderPreview';
+import OrderPreview from './UserOrdersPage/components/OrderPreview';
 
 const UserOrdersPage = () => {
   const [orders, setOrders] = useState([]);

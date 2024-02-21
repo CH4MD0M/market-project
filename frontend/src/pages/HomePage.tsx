@@ -5,9 +5,9 @@ import { getAllCategoriesThunk } from '@redux/modules/categorySlice/thunk';
 import { useResetFilter } from '@hooks/useResetFilter';
 
 // Components
-import CategoryCard from '@/components/CategoryCard';
 import CenterWrapper from '@components/atoms/CenterWrapper';
-import ImageSlide from '@components/ImageSlide';
+import CategoryCard from '@components/pageComponents/HomePage/CategoryCard';
+import ImageSlide from '@components/pageComponents/HomePage/ImageSlide';
 
 const HomePage = () => {
   useResetFilter();

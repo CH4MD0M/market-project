@@ -16,7 +16,7 @@ const OrderPreview = ({ order }: OrderPreviewProps) => {
           <span>{createdAt.substring(0, 10)}</span>
         </div>
 
-        <Link to={`/user/order-details/${_id}`}>
+        <Link to={`/user/my-orders/${_id}`}>
           상세보기 <i className="bi bi-arrow-right-short" />
         </Link>
       </div>
