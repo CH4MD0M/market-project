@@ -7,11 +7,11 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import addCommasToNumber from '@utils/addCommasToNumber';
 import HoverCard from '@components/atoms/HoverCard';
 
-interface ProductPreviewProps {
+interface ProductItemPreviewProps {
   product: Product;
 }
 
-const ProductPreview = ({ product }: ProductPreviewProps) => {
+const ProductItemPreview = ({ product }: ProductItemPreviewProps) => {
   const { images, name, description, price, rating, reviewsNumber, _id: productId } = product;
 
   return (
@@ -50,4 +50,4 @@ const ProductPreview = ({ product }: ProductPreviewProps) => {
   );
 };
 
-export default memo(ProductPreview);
+export default memo(ProductItemPreview);

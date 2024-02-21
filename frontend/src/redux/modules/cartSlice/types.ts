@@ -14,5 +14,5 @@ export interface AddToCartPayload {
 }
 
 export interface RemoveFromCartPayload {
-  _id: string;
+  productId: string;
 }

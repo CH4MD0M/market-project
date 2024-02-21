@@ -7,7 +7,7 @@ import LoadingPage from '@pages/LoadingPage';
 import OrderProductPreview from '@components/OrderProductPreview';
 
 const UserOrderDetailsPage = () => {
-  const { id } = useParams();
+  const { orderId } = useParams();
   const [orderData, setOrderData] = useState<OrderDetailsData>();
   const [userInfo, setUserInfo] = useState<OrderUserData>();
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +16,7 @@ const UserOrderDetailsPage = () => {
     const fetchOrder = async () => {
       setIsLoading(true);
       try {
-        const order = await getOrderDetails(id!);
+        const order = await getOrderDetails(orderId!);
         setOrderData(order);
         setUserInfo(order.user);
       } catch (error) {

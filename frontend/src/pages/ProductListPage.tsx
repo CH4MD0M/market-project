@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 // Components
 import ScrollToTop from '@components/common/ScrollToTop';
 import CenterWrapper from '@components/atoms/CenterWrapper';
-import FilterMenu from '@components/FilterMenu';
-import ProductListHeader from '@components/ProductListHeader';
-import ProductList from '@components/ProductList';
-import Pagination from '@components/Pagination';
+import FilterMenu from '@components/pageComponents/ProductListPage/FilterMenu';
+import ProductListHeader from '@components/pageComponents/ProductListPage/ProductListHeader';
+import ProductList from '@components/pageComponents/ProductListPage/ProductList';
+import Pagination from '@components/pageComponents/ProductListPage/Pagination';
 
 const ProductListPage = () => {
   const { categoryName } = useParams();

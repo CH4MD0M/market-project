@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { API_URL } from '@utils/constants';
+import { API_URL } from '@constants/.';
 import { instance } from './instance';
 
 // UPLOAD PRODUCT IMAGE

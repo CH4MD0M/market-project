@@ -29,13 +29,9 @@ const AdminLayout = ({ children }: LayoutProps) => {
       <p>화면 크기를 키워 주세요.</p>
     </div>
   ) : (
-    <div>
-      {/* <Row className="m-5">
-        <Col md={2}>
-          <AdminLinks />
-        </Col>
-        <Col md={10}>{children}</Col>
-      </Row> */}
+    <div className="grid grid-cols-[25%_1fr]">
+      <div>관리자 메뉴</div>
+      <div>{children}</div>
     </div>
   );
 };
