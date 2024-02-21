@@ -1,4 +1,4 @@
-import { API_URL } from '../constants';
+import { API_URL } from '@constants/.';
 import { instance } from './instance';
 
 const postOrder = async (formData: OrderData) => {
