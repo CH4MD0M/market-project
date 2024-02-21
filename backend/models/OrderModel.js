@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const User = require('./UserModel');
+const mongoose = require("mongoose");
+const User = require("./UserModel");
 
 const orderSchema = mongoose.Schema(
   {
@@ -9,7 +9,6 @@ const orderSchema = mongoose.Schema(
       ref: User,
     },
     orderTotal: {
-      itemsCount: { type: Number, required: true },
       cartSubtotal: { type: Number, required: true },
     },
     cartItems: [
@@ -49,10 +48,10 @@ const orderSchema = mongoose.Schema(
   }
 );
 
-const Order = mongoose.model('Order', orderSchema);
-Order.watch().on('change', data => {
-  if (data.operationType === 'insert') {
-    io.emit('newOrder', data.fullDocument);
+const Order = mongoose.model("Order", orderSchema);
+Order.watch().on("change", (data) => {
+  if (data.operationType === "insert") {
+    io.emit("newOrder", data.fullDocument);
   }
 });
 module.exports = Order;
