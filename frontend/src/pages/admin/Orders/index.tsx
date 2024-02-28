@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import AdminLayout from '@layout/AdminLayout';
 import { getOrdersForAdmin } from '@utils/api';
 
 const Orders = () => {
@@ -17,7 +16,7 @@ const Orders = () => {
   }, []);
 
   return (
-    <AdminLayout>
+    <div>
       <h1>주문 현황 관리</h1>
       <table>
         <thead>
@@ -36,7 +35,7 @@ const Orders = () => {
               <td>{idx + 1}</td>
               <td>{order.user.name}</td>
               <td>{order.createdAt.substring(0, 10)}</td>
-              <td>{order.orderTotal.cartSubtotal}</td>
+              <td>{order.orderTotal}</td>
               <td>
                 {order.isDelivered ? (
                   <i className="bi bi-check-lg text-success"></i>
@@ -51,7 +50,7 @@ const Orders = () => {
           ))}
         </tbody>
       </table>
-    </AdminLayout>
+    </div>
   );
 };
 

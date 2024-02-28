@@ -36,7 +36,7 @@ const ProtectedRoutes = ({
 
   if (isLoading) return <LoadingPage />;
   if (isLogin && blockLogin) return <Navigate to="/" />;
-  if (requireAuth && !isLogin) return <Navigate to="/login" />;
+  if (requireAuth && !isLogin) return <Navigate to="/login" replace />;
   if (requireAdmin && !userData?.isAdmin) return <Navigate to="/" />;
 
   return children ? <>{children}</> : <Outlet />;

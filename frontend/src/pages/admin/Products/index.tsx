@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { getProductsForAdmin, deleteProduct } from '@utils/api';
 
-import AdminLayout from '@layout/AdminLayout';
-
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [productDeleted, setProductDeleted] = useState(false);
@@ -35,7 +33,7 @@ const ProductsPage = () => {
   }, [productDeleted]);
 
   return (
-    <AdminLayout>
+    <>
       <h1>
         상품 관리
         <Link to="/admin/create-new-product">
@@ -74,7 +72,7 @@ const ProductsPage = () => {
           ))}
         </tbody>
       </table>
-    </AdminLayout>
+    </>
   );
 };
 
