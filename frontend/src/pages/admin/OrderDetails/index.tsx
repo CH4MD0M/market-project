@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getOrderDetails, markAsDelivered } from '@utils/api';
-import OrderProductPreview from '@components/OrderProductPreview';
 
 const UserInformation = ({ userInfo }: any) => (
   <div>
@@ -34,9 +33,9 @@ const OrderItems = ({ cartItems }: { cartItems: CartProduct[] }) => (
   <>
     <h2>주문 상품</h2>
     <div>
-      {cartItems.map((item: CartProduct, idx: number) => (
+      {/* {cartItems.map((item: CartProduct, idx: number) => (
         <OrderProductPreview key={idx} item={item} />
-      ))}
+      ))} */}
     </div>
   </>
 );
@@ -104,7 +103,7 @@ const OrderDetails = () => {
       setUserInfo(order.user);
       setIsPaid(order.isPaid);
       setIsDelivered(order.isDelivered);
-      setCartSubtotal(order.orderTotal.cartSubtotal);
+      setCartSubtotal(order.orderTotal);
 
       if (order.isDelivered) {
         setOrderButtonMessage('배송 완료');

@@ -9,9 +9,10 @@ const orderSchema = mongoose.Schema(
       ref: User,
     },
     orderTotal: {
-      cartSubtotal: { type: Number, required: true },
+      type: Number,
+      required: true,
     },
-    cartItems: [
+    orderItems: [
       {
         name: { type: String, required: true },
         price: { type: Number, required: true },

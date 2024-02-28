@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { UserState } from './types';
-import { updateUserNameThunk } from './thunk';
+import { updateUserAddressThunk, updateUserNameThunk, updateUserPhoneThunk } from './thunk';
 import { isFulfilledAction, isPendingAction } from './util';
 import { StorageType, getValue } from '@utils/storageUtils';
 
 const initialState: UserState = {
   userData: getValue(StorageType.LOCAL, 'userInfo') || getValue(StorageType.SESSION, 'userInfo'),
-  userAddress: {},
+  userProfileInfo: {},
   loading: false,
   error: false,
   isUpdate: false,
@@ -20,10 +20,8 @@ const userSlice = createSlice({
     setUserInfo: (state, action) => {
       state.userData = action.payload;
     },
-    setAddress: (state, action) => {
-      const { newAddress, newZipCode } = action.payload;
-      state.userAddress.address = newAddress;
-      state.userAddress.zipCode = newZipCode;
+    setUserProfileInfo: (state, action) => {
+      state.userProfileInfo = action.payload;
     },
     resetUpdateSatatus: state => {
       state.isUpdate = false;
@@ -34,9 +32,17 @@ const userSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(updateUserNameThunk.fulfilled, (state, action) => {
-      state.isUpdate = true;
       const { userUpdated } = action.payload;
       state.userData = userUpdated;
+    });
+    builder.addCase(updateUserPhoneThunk.fulfilled, (state, action) => {
+      const { userUpdated } = action.payload;
+      state.userProfileInfo.phoneNumber = userUpdated.phoneNumber;
+    });
+    builder.addCase(updateUserAddressThunk.fulfilled, (state, action) => {
+      const { userUpdated } = action.payload;
+      state.userProfileInfo.address = userUpdated.address;
+      state.userProfileInfo.zipCode = userUpdated.zipCode;
     });
     builder.addMatcher(isPendingAction, state => {
       state.loading = true;
@@ -48,5 +54,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, setAddress, resetUpdateSatatus, resetUserState } = userSlice.actions;
+export const { setUserInfo, setUserProfileInfo, resetUpdateSatatus, resetUserState } =
+  userSlice.actions;
 export default userSlice.reducer;

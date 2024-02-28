@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { useAppDispatch } from '@hooks/reduxHooks';
+import { setUserProfileInfo } from '@redux/modules/userSlice';
 import { getSingleUser } from '@utils/api';
 
 export const useFetchUserInfo = (userId: string) => {
-  const [userInfo, setUserInfo] = useState<UserAddressInfo>();
+  const dispatch = useAppDispatch();
   const [userInfoMissing, setUserInfoMissing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,7 +16,7 @@ export const useFetchUserInfo = (userId: string) => {
         const { address, phoneNumber, zipCode } = await getSingleUser(userId);
 
         if (!address || !zipCode || !phoneNumber) setUserInfoMissing(true);
-        else setUserInfo({ address, zipCode, phoneNumber });
+        else dispatch(setUserProfileInfo({ address, zipCode, phoneNumber }));
       } catch (error) {
         console.log(error);
       }
@@ -25,5 +27,5 @@ export const useFetchUserInfo = (userId: string) => {
     fetchUserInfo();
   }, [userId]);
 
-  return { userInfo, userInfoMissing, isLoading };
+  return { userInfoMissing, isLoading };
 };

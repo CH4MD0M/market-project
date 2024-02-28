@@ -1,11 +1,12 @@
 import { shallowEqual } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
 import { useAppSelector, useAppDispatch } from '@hooks/reduxHooks';
 import { logout } from '@redux/modules/authSlice/thunk';
 import { useDropdown } from '@hooks/useDropdown';
 import useAnimation from '@hooks/useAnimation';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { adminMenus, userMenus } from '@constants/.';
 
 // Components
 import Button from '@components/atoms/Button';
@@ -37,6 +38,7 @@ const AfterLogin = ({ isAdmin, userName }: AfterLoginProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const dropdownMenus = isAdmin ? adminMenus : userMenus;
   const logoutHandler = async () => {
     const { payload } = await dispatch(logout());
     if (payload) navigate('/login', { replace: true });
@@ -61,8 +63,23 @@ const AfterLogin = ({ isAdmin, userName }: AfterLoginProps) => {
         />
         {shouldRenderProfile && (
           <DropdownMenu onTransitionEnd={handleTransitionEnd} triggerAnimation={triggerAnimation}>
-            <div className="list-none">
-              <li onClick={logoutHandler}>로그아웃</li>
+            <div className="list-none py-2">
+              {dropdownMenus.map(menu => (
+                <li
+                  className="px-4 py-1 hover:bg-[#4565cc]/30 cursor-pointer"
+                  key={menu.path}
+                  onClick={() => navigate(menu.path)}
+                >
+                  {menu.name}
+                </li>
+              ))}
+
+              <li
+                className="px-4 py-1 hover:bg-[#4565cc]/30 cursor-pointer"
+                onClick={logoutHandler}
+              >
+                로그아웃
+              </li>
             </div>
           </DropdownMenu>
         )}

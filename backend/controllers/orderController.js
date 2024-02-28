@@ -1,11 +1,11 @@
-const Order = require('../models/OrderModel');
-const Product = require('../models/ProductModel');
-const ObjectId = require('mongodb').ObjectId;
+const Order = require("../models/OrderModel");
+const Product = require("../models/ProductModel");
+const ObjectId = require("mongodb").ObjectId;
 
 const getUserOrders = async (req, res, next) => {
   try {
     const orders = await Order.find({ user: ObjectId(req.user._id) }).sort({
-      createdAt: 'desc',
+      createdAt: "desc",
     });
     res.send(orders);
   } catch (err) {
@@ -16,7 +16,7 @@ const getUserOrders = async (req, res, next) => {
 const getOrderDetails = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id)
-      .populate('user', '-password -isAdmin -_id -__v -createdAt -updatedAt')
+      .populate("user", "-password -isAdmin -_id -__v -createdAt -updatedAt")
       .orFail();
     res.send(order);
   } catch (err) {
@@ -26,15 +26,15 @@ const getOrderDetails = async (req, res, next) => {
 
 const createOrder = async (req, res, next) => {
   try {
-    const { cartItems, orderTotal } = req.body;
-    if (!cartItems || !orderTotal) {
-      return res.status(400).send('All inputs are required');
+    const { orderItems, orderTotal } = req.body;
+    if (!orderItems || !orderTotal) {
+      return res.status(400).send("All inputs are required");
     }
 
-    let ids = cartItems.map(item => item.productID);
-    let qty = cartItems.map(item => Number(item.quantity));
+    let ids = orderItems.map((item) => item.productID);
+    let qty = orderItems.map((item) => Number(item.quantity));
 
-    await Product.find({ _id: { $in: ids } }).then(products => {
+    await Product.find({ _id: { $in: ids } }).then((products) => {
       products.forEach(function (product, idx) {
         product.sales += qty[idx];
         product.save();
@@ -44,7 +44,7 @@ const createOrder = async (req, res, next) => {
     const order = new Order({
       user: ObjectId(req.user._id),
       orderTotal: orderTotal,
-      cartItems: cartItems,
+      orderItems: orderItems,
     });
     const createdOrder = await order.save();
     res.status(201).send(createdOrder);
@@ -80,7 +80,7 @@ const updateOrderToDelivered = async (req, res, next) => {
 
 const getAdminOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({}).populate('user', '-password');
+    const orders = await Order.find({}).populate("user", "-password");
 
     res.send(orders);
   } catch (err) {
@@ -100,7 +100,7 @@ const getOrderForAnalysis = async (req, res, next) => {
         $gte: start,
         $lte: end,
       },
-    }).sort({ createdAt: 'asc' });
+    }).sort({ createdAt: "asc" });
     res.send(order);
   } catch (err) {
     next(err);

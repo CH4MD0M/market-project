@@ -12,7 +12,7 @@ import LoadingPage from '@pages/LoadingPage';
 
 import CenterWrapper from '@components/atoms/CenterWrapper';
 import Button from '@components/atoms/Button';
-import CartModal from '@/components/Modal/CartModal';
+import CartModal from '@components/Modal/CartModal';
 import ProductDetailImage from '@components/pageComponents/ProductDetailPage/ProductDetailImage';
 import ProductReview from '@components/pageComponents/ProductDetailPage/ProductReview';
 import QuantityInput from '@components/pageComponents/CartOrderPage/QuantityInput';
@@ -94,7 +94,7 @@ const ProductDetailPage = () => {
                 장바구니
               </Button>
               <Link
-                to="/purchase"
+                to="/user/purchase"
                 state={{ productId: id, isDirectPurchase: true, quantity: quantity }}
               >
                 <Button variant="primary" size="full" className="bg-[#b06ab3]">

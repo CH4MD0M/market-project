@@ -2,14 +2,18 @@ import { AsyncThunk } from '@reduxjs/toolkit';
 
 export interface UserState {
   userData: UserData;
-  userAddress: UserAddressInfo;
+  userProfileInfo: UserProfileInfo;
   loading: boolean;
   error: boolean;
   isUpdate: boolean;
+}
+interface UserProfileInfo {
+  address?: string;
+  zipCode?: string;
+  phoneNumber?: string;
 }
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
 
 export type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
 export type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;
-// type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;

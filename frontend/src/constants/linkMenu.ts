@@ -1,20 +1,32 @@
-const menus = [
-  {
-    name: '마이페이지',
-    path: '/user',
-  },
+export interface LinkMenu {
+  name: string;
+  path: string;
+}
+
+const userMenus: LinkMenu[] = [
   {
     name: '나의 쇼핑',
     path: '/user/my-orders',
   },
+  {
+    name: '프로필 수정',
+    path: '/user/edit-profile',
+  },
 ];
 
-// const userMenus = [];
+const adminMenus: LinkMenu[] = [
+  {
+    name: '주문 관리',
+    path: '/admin/orders',
+  },
+  {
+    name: '상품 관리',
+    path: '/admin/products',
+  },
+  {
+    name: '사용자 관리',
+    path: '/admin/users',
+  },
+];
 
-// const adminMenus = [];
-
-export {
-  menus,
-  //  userMenus,
-  //  adminMenus
-};
+export { userMenus, adminMenus };

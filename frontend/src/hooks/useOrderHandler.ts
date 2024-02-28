@@ -24,10 +24,8 @@ export const useOrderHandler = () => {
   // Order handler
   const orderHandler = async (isDirectPurchase: boolean = false) => {
     const orderData: OrderData = {
-      orderTotal: {
-        cartSubtotal: orderTotal,
-      },
-      cartItems: orderItemList,
+      orderTotal,
+      orderItems: orderItemList,
     };
 
     try {

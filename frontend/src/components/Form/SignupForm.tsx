@@ -1,5 +1,5 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MoonLoader } from 'react-spinners';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
@@ -8,8 +8,8 @@ import { signupSchema, SignupSchemaType } from '@schemas/signupSchema';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { signup } from '@redux/modules/authSlice/thunk';
 
-import Input from '../atoms/Input';
-import Button from '../atoms/Button';
+import Button from '@components/atoms/Button';
+import Input from '@components/atoms/Input';
 
 const SignupForm = () => {
   const navigate = useNavigate();
