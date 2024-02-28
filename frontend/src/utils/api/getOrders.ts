@@ -3,14 +3,12 @@ import { instance } from './instance';
 
 const getOrdersForAdmin = async () => {
   const response = await instance.get(API_URL.ORDER.ADMIN_GET_ORDERS);
-  const data = await response;
-  return data;
+  return response;
 };
 
 const getOrdersForUser = async () => {
   const response = await instance.get(API_URL.ORDER.USER_GET_ORDERS);
-  const data = await response;
-  return data;
+  return response;
 };
 
 const getOrderDetails = async (orderId: string) => {

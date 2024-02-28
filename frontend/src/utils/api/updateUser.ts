@@ -6,7 +6,7 @@ const updateUserName = async (formData: UpdateUserNameFormData) => {
   return data;
 };
 
-const updateUserAddress = async (formData: UserAddressInfo) => {
+const updateUserAddress = async (formData: UpdateUserAddressFormData) => {
   const { data } = await instance.put(API_URL.USER.UPDATE_USER_ADDRESS, formData);
   return data;
 };

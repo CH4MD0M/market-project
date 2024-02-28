@@ -35,7 +35,7 @@ const UserLists = () => {
   }, [userDeleted]);
 
   return (
-    <>
+    <div>
       <h1>사용자 목록</h1>
       <table>
         <thead>
@@ -75,7 +75,7 @@ const UserLists = () => {
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

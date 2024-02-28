@@ -1,11 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  getSingleUser,
-  updateUserAddress,
-  updateUserName,
-  updateUserPassword,
-  updateUserPhone,
-} from '@utils/api';
+import { updateUserAddress, updateUserName, updateUserPassword, updateUserPhone } from '@utils/api';
 
 const updateUserNameThunk = createAsyncThunk(
   'user/updateUserName',
@@ -39,15 +33,9 @@ const updateUserPasswordThunk = createAsyncThunk(
   },
 );
 
-const getUserAddress = createAsyncThunk('user/getUserAddress', async (userId: string) => {
-  const response = getSingleUser(userId);
-  return response;
-});
-
 export {
   updateUserNameThunk,
   updateUserAddressThunk,
   updateUserPhoneThunk,
   updateUserPasswordThunk,
-  getUserAddress,
 };

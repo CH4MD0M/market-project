@@ -61,7 +61,7 @@ const CartItemList = () => {
               <h4 className="fw-bold">{addCommasToNumber(cartSubtotal)}원</h4>
             </dd>
           </div>
-          <Link to="/purchase">
+          <Link to="/user/purchase">
             <Button disabled={!cartSubtotal} variant="primary" size="full">
               결제하기
             </Button>

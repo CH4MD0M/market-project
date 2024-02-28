@@ -1,12 +1,7 @@
-import AdminLayout from '@layout/AdminLayout';
 import UserLists from './UserLists';
 
 const UsersPage = () => {
-  return (
-    <AdminLayout>
-      <UserLists />
-    </AdminLayout>
-  );
+  return <UserLists />;
 };
 
 export default UsersPage;

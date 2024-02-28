@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { getOrdersForUser } from '@utils/api';
 
-// import UserLayout from '@layout/UserLayout';
 import LoadingPage from '@pages/LoadingPage';
-import OrderPreview from './UserOrdersPage/components/OrderPreview';
+import Heading from '@components/atoms/Heading';
+import OrderDetailsPreview from '@components/pageComponents/UserPage/OrderDetailsPreview';
 
 const UserOrdersPage = () => {
-  const [orders, setOrders] = useState([]);
+  const [orderDataList, setOrderDataList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const UserOrdersPage = () => {
     const fetchOrders = async () => {
       try {
         const { data } = await getOrdersForUser();
-        setOrders(data);
+        setOrderDataList(data);
       } catch (error) {
         console.log(error);
       }
@@ -31,10 +31,14 @@ const UserOrdersPage = () => {
         <LoadingPage />
       ) : (
         <div>
-          <h1>주문 내역</h1>
+          <Heading size="lg" className="my-[40px]">
+            주문 내역
+          </Heading>
           <div>
-            {orders.length ? (
-              orders.map((order, idx) => <OrderPreview key={idx} order={order} />)
+            {orderDataList.length ? (
+              orderDataList.map((order, idx) => (
+                <OrderDetailsPreview key={idx} orderDetailsData={order} />
+              ))
             ) : (
               <p>주문 내역이 없습니다.</p>
             )}

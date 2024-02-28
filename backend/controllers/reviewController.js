@@ -1,11 +1,11 @@
-const Review = require('../models/ReviewModel');
-const Product = require('../models/ProductModel');
-const Order = require('../models/OrderModel');
+const Review = require("../models/ReviewModel");
+const Product = require("../models/ProductModel");
+const Order = require("../models/OrderModel");
 
 const {
   checkReviewExists,
   recalculateProductRating,
-} = require('../utils/review-util');
+} = require("../utils/review-util");
 
 // Write review
 const writeReview = async (req, res, next) => {
@@ -17,11 +17,11 @@ const writeReview = async (req, res, next) => {
     const { comment, rating } = req.body;
     // validate request
     if (!(comment && rating)) {
-      return res.status(400).send('All inputs are required');
+      return res.status(400).send("All inputs are required");
     }
 
     // Product Collection에 저장해야 하기 때문에 리뷰 id를 수동으로 생성함.
-    const ObjectId = require('mongodb').ObjectId;
+    const ObjectId = require("mongodb").ObjectId;
     let reviewId = ObjectId();
 
     session.startTransaction();
@@ -41,7 +41,7 @@ const writeReview = async (req, res, next) => {
     );
 
     const product = await Product.findById(req.params.productId)
-      .populate('reviews')
+      .populate("reviews")
       .session(session);
 
     // 이미 리뷰를 작성했는지 확인
@@ -49,16 +49,18 @@ const writeReview = async (req, res, next) => {
     if (alreadyReviewed) {
       await session.abortTransaction();
       session.endSession();
-      return res.status(400).send('product already reviewed');
+      return res.status(400).send("product already reviewed");
     }
 
     const userOrder = await Order.findOne({
       user: req.user._id,
-      'cartItems.name': product.name,
+      "orderItems.name": product.name,
     }).session(session);
 
     if (userOrder) {
-      const item = userOrder.cartItems.find(item => item.name === product.name);
+      const item = userOrder.orderItems.find(
+        (item) => item.name === product.name
+      );
       item.isReviewed = true;
       await userOrder.save();
     }
@@ -72,7 +74,7 @@ const writeReview = async (req, res, next) => {
     } else {
       let ratingCalc =
         prc
-          .map(item => Number(item.rating))
+          .map((item) => Number(item.rating))
           .reduce((sum, item) => sum + item, 0) / product.reviews.length;
       product.rating = Math.round(ratingCalc);
       product.reviewsNumber = product.reviews.length;
@@ -82,7 +84,7 @@ const writeReview = async (req, res, next) => {
 
     await session.commitTransaction();
     session.endSession();
-    res.send('review created');
+    res.send("review created");
   } catch (err) {
     await session.abortTransaction();
     next(err);

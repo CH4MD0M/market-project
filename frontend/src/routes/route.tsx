@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
+import GlobalLayout from '@layout/GlobalLayout';
 import ProtectedRoutes from '@components/common/ProtectedRoutes';
-import GlobalLayout from '@layout/Layout';
 
 // publicRoutes
 const HomePage = lazy(() => import(/* webpackChunkName: "home" */ '@pages/HomePage'));
@@ -18,13 +18,13 @@ const RegisterPage = lazy(() => import(/* webpackChunkName: "register" */ '@page
 
 // userProtectedRoutes
 const PurchasePage = lazy(
-  () => import(/* webpackChunkName: "userPurchase" */ '@/pages/user/PurchasePage'),
+  () => import(/* webpackChunkName: "userPurchase" */ '@pages/user/PurchasePage'),
 );
 const EditProfilePage = lazy(
-  () => import(/* webpackChunkName: "userEditProfile" */ '@pages/user/EditProfilePage'),
+  () => import(/* webpackChunkName: "userEditProfile" */ '@pages/user/UserEditProfilePage'),
 );
 const UserOrdersPage = lazy(
-  () => import(/* webpackChunkName: "userOrders" */ '@/pages/user/UserOrdersPage'),
+  () => import(/* webpackChunkName: "userOrders" */ '@pages/user/UserOrdersPage'),
 );
 const UserOrderDetailPage = lazy(
   () => import(/* webpackChunkName: "userOrderDetails" */ '@pages/user/UserOrderDetailsPage'),
@@ -60,7 +60,6 @@ export const router = createBrowserRouter([
       { path: 'products/category/:categoryName', element: <ProductListPage /> },
       { path: 'products/category/:categoryName/:pageNumParam', element: <ProductListPage /> },
       { path: 'product-details/:id', element: <ProductDetailPage /> },
-      { path: 'purchase', element: <PurchasePage /> },
       { path: 'cart', element: <CartPage /> },
 
       // blockLoginRoutes
@@ -79,11 +78,12 @@ export const router = createBrowserRouter([
     path: 'user/',
     element: (
       <ProtectedRoutes requireAuth>
-        <GlobalLayout />
+        <GlobalLayout requireAuth />
       </ProtectedRoutes>
     ),
     children: [
       { index: true, element: <UserOrdersPage /> },
+      { path: 'purchase', element: <PurchasePage /> },
       { path: 'my-orders', element: <UserOrdersPage /> },
       { path: 'my-orders/:orderId', element: <UserOrderDetailPage /> },
       { path: 'edit-profile', element: <EditProfilePage /> },
@@ -95,11 +95,12 @@ export const router = createBrowserRouter([
     path: 'admin/',
     element: (
       <ProtectedRoutes requireAuth requireAdmin>
-        <GlobalLayout />
+        <GlobalLayout requireAuth requireAdmin />
       </ProtectedRoutes>
     ),
     children: [
       { index: true, element: <AdminOrders /> },
+      { path: 'orders', element: <AdminOrders /> },
       { path: 'orders/:id', element: <AdminOrderDetails /> },
       { path: 'products', element: <AdminProducts /> },
       { path: 'products/create', element: <AdminCreateProduct /> },
