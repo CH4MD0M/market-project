@@ -1,12 +1,10 @@
 import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-import { useAppDispatch } from '@hooks/reduxHooks';
-import { setAddress } from '@redux/modules/userSlice';
-
-import Button from '@components/atoms/Button';
-
-const PostCode = () => {
-  const dispatch = useAppDispatch();
+interface PostCodeProps {
+  setNewAddress: React.Dispatch<React.SetStateAction<{ fullAddress: string; newZipCode: string }>>;
+}
+const PostCode = ({ setNewAddress }: PostCodeProps) => {
   const open = useDaumPostcodePopup();
 
   const handleComplete = (data: Address) => {
@@ -22,7 +20,7 @@ const PostCode = () => {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
-    dispatch(setAddress({ newAddress: fullAddress, newZipCode: data.zonecode }));
+    setNewAddress({ fullAddress: fullAddress, newZipCode: data.zonecode });
   };
 
   const handleClick = () => {
@@ -30,9 +28,9 @@ const PostCode = () => {
   };
 
   return (
-    <Button variant="default" size="lg" onClick={handleClick}>
-      주소찾기
-    </Button>
+    <div onClick={handleClick} className="flex justify-center items-center cursor-pointer">
+      <MagnifyingGlassIcon className="w-5 h-5 text-[#4565cc]" />
+    </div>
   );
 };
 

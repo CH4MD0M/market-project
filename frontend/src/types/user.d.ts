@@ -1,9 +1,3 @@
-interface UserAddressInfo {
-  address?: string;
-  zipCode?: string;
-  phoneNumber?: string;
-}
-
 interface UserName {
   name: string;
   doNotLogout: boolean;
