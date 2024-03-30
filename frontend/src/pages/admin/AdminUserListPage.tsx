@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CheckIcon, PencilSquareIcon, TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 import { getAllUsers, deleteUser } from '@api/index';
 
-const UserLists = () => {
+import Heading from '@components/atoms/Heading';
+
+const AdminUserListPage = () => {
   const [users, setUsers] = useState<UserData[]>([]);
   const [userDeleted, setUserDeleted] = useState(false);
 
@@ -36,8 +39,11 @@ const UserLists = () => {
 
   return (
     <div>
-      <h1>사용자 목록</h1>
-      <table>
+      <Heading size="lg" className="my-[40px]">
+        사용자 목록
+      </Heading>
+
+      <table className="w-full border-t-2 border-t-[#969696] border-solid border-collapse">
         <thead>
           <tr>
             <th>#</th>
@@ -49,26 +55,29 @@ const UserLists = () => {
         </thead>
         <tbody>
           {users.map((user, idx) => (
-            <tr key={idx}>
+            <tr
+              key={idx}
+              className="[&_td]:md:px-[30px] [&_td]:py-3.5 [&_td]:text-center border-b-[1px] border-b-[#969696] border-solid"
+            >
               <td>{idx + 1}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>
                 {user.isAdmin ? (
-                  <i className="bi bi-check-lg text-success"></i>
+                  <CheckIcon className="w-6 h-6 text-green-500" />
                 ) : (
-                  <i className="bi bi-x-lg text-danger"></i>
+                  <XMarkIcon className="w-6 h-6 text-red-500" />
                 )}
               </td>
               <td>
                 <Link to={`/admin/edit-user/${user._id}`}>
-                  <button className="btn-sm">
-                    <i className="bi bi-pencil-square" />
+                  <button>
+                    <PencilSquareIcon className="w-5 h-5" />
                   </button>
                 </Link>
                 {' / '}
-                <button className="btn-sm" onClick={() => deleteHandler(user._id)}>
-                  <i className="bi bi-x-circle" />
+                <button onClick={() => deleteHandler(user._id)}>
+                  <TrashIcon className="w-5 h-5" />
                 </button>
               </td>
             </tr>
@@ -79,4 +88,4 @@ const UserLists = () => {
   );
 };
 
-export default UserLists;
+export default AdminUserListPage;
