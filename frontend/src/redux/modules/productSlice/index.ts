@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProductState } from './types';
+import { getSingleProductThunk } from './thunk';
 
 const initialState: ProductState = {
   productData: null,
@@ -14,6 +15,7 @@ const initialState: ProductState = {
     price: '',
     description: '',
   },
+  errorMessage: '',
 };
 
 const productSlice = createSlice({
@@ -65,6 +67,18 @@ const productSlice = createSlice({
     resetProductState: () => {
       return initialState;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(getSingleProductThunk.fulfilled, (state, action) => {
+      const { attrs } = action.payload;
+      state.productData = action.payload;
+      state.selectedAttributes = attrs;
+    });
+    builder.addCase(getSingleProductThunk.rejected, (state, action) => {
+      if (action.error) {
+        state.errorMessage = action.error.message;
+      }
+    });
   },
 });
 
