@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { loginCheck } from '@redux/modules/authSlice/thunk';
-
+import { useAppSelector } from '@hooks/reduxHooks';
 import LoadingPage from '@pages/LoadingPage';
 
 type ProtectedRoutesProps = {
@@ -19,22 +16,11 @@ const ProtectedRoutes = ({
   blockLogin = false,
   children,
 }: ProtectedRoutesProps) => {
-  const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(true);
-
+  const authCheckLoading = useAppSelector(state => state.auth.authCheckLoading);
   const userData = useAppSelector(state => state.user.userData);
   const isLogin = useAppSelector(state => state.auth.isLogin);
 
-  useEffect(() => {
-    const checkLogin = async () => {
-      await dispatch(loginCheck());
-      setIsLoading(false);
-    };
-
-    checkLogin();
-  }, [dispatch]);
-
-  if (isLoading) return <LoadingPage />;
+  if (authCheckLoading) return <LoadingPage />;
   if (isLogin && blockLogin) return <Navigate to="/" />;
   if (requireAuth && !isLogin) return <Navigate to="/login" replace />;
   if (requireAdmin && !userData?.isAdmin) return <Navigate to="/" />;
