@@ -3,7 +3,7 @@ import { shallowEqual } from 'react-redux';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { resetUpdateSatatus } from '@redux/modules/userSlice';
-import { useFetchUserInfo } from '@/hooks/useFetchUserInfo';
+import { useFetchUserInfo } from '@hooks/useFetchUserInfo';
 
 // Components
 import Alert from '@components/atoms/Alert';
