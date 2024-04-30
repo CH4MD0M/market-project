@@ -1,15 +1,13 @@
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback } from 'react';
+import isEqual from 'lodash/isEqual';
 
+import { useFetchCategoryInfo } from '@hooks/useFetchCategoryInfo';
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setAttrsFilter } from '@redux/modules/filterSlice';
-import { getAllCategoriesThunk } from '@redux/modules/categorySlice/thunk';
-
-import isEqual from 'lodash/isEqual';
 
 const AttributesFilter = () => {
   const dispatch = useAppDispatch();
 
-  const categoryDataList = useAppSelector(state => state.category.categoryDataList, isEqual);
   const attrsData = useAppSelector(state => state.filter.attrsData);
   const attrsFilter = useAppSelector(state => state.filter.attrsFilter, isEqual);
 
@@ -46,9 +44,7 @@ const AttributesFilter = () => {
   );
 
   // get Categories Data if NOT exist
-  useEffect(() => {
-    if (categoryDataList.length === 0) dispatch(getAllCategoriesThunk());
-  }, [dispatch, categoryDataList.length]);
+  useFetchCategoryInfo();
 
   return (
     <div>

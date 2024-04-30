@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 import { getProductsForAdmin, deleteProduct } from '@utils/api';
+
+import Heading from '@components/atoms/Heading';
+import Button from '@components/atoms/Button';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -33,14 +37,18 @@ const ProductsPage = () => {
   }, [productDeleted]);
 
   return (
-    <>
-      <h1>
-        상품 관리
+    <div>
+      <div className="flex justify-between items-center">
+        <Heading size="lg" className="my-[40px]">
+          상품 관리
+        </Heading>
         <Link to="/admin/create-new-product">
-          <button>상품 추가</button>
+          <Button variant="primary" className="mb-2">
+            상품 추가
+          </Button>
         </Link>
-      </h1>
-      <table>
+      </div>
+      <table className="w-full border-t-2 border-t-[#969696] border-solid border-collapse">
         <thead>
           <tr>
             <th>상품 번호</th>
@@ -52,27 +60,30 @@ const ProductsPage = () => {
         </thead>
         <tbody>
           {products.map((item, idx) => (
-            <tr key={idx}>
+            <tr
+              key={idx}
+              className="[&_td]:py-3.5 [&_td]:text-center border-b-[1px] border-b-[#969696] border-solid"
+            >
               <td>{idx + 1}</td>
               <td>{item.name}</td>
               <td>{item.price}</td>
               <td>{item.category}</td>
               <td>
                 <Link to={`/admin/edit-product/${item._id}`}>
-                  <button className="btn-sm">
-                    <i className="bi bi-pencil-square"></i>
+                  <button>
+                    <PencilSquareIcon className="w-5 h-5" />
                   </button>
                 </Link>
                 {' / '}
-                <button className="btn-sm" onClick={() => deleteHandler(item._id)}>
-                  <i className="bi bi-x-circle"></i>
+                <button onClick={() => deleteHandler(item._id)}>
+                  <TrashIcon className="w-5 h-5" />
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

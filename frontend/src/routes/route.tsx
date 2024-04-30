@@ -7,10 +7,10 @@ import ProtectedRoutes from '@components/common/ProtectedRoutes';
 // publicRoutes
 const HomePage = lazy(() => import(/* webpackChunkName: "home" */ '@pages/HomePage'));
 const ProductListPage = lazy(
-  () => import(/* webpackChunkName: "productList" */ '@/pages/ProductListPage'),
+  () => import(/* webpackChunkName: "productList" */ '@pages/ProductListPage'),
 );
 const ProductDetailPage = lazy(
-  () => import(/* webpackChunkName: "productDetail" */ '@/pages/ProductDetailPage'),
+  () => import(/* webpackChunkName: "productDetail" */ '@pages/ProductDetailPage'),
 );
 const CartPage = lazy(() => import(/* webpackChunkName: "cart" */ '@pages/CartPage'));
 const LoginPage = lazy(() => import(/* webpackChunkName: "login" */ '@pages/LoginPage'));
@@ -32,22 +32,26 @@ const UserOrderDetailPage = lazy(
 
 // adminProtectedRoutes
 const AdminCreateProduct = lazy(
-  () => import(/* webpackChunkName: "adminCreateProduct" */ '@pages/admin/CreateProduct'),
+  () => import(/* webpackChunkName: "adminCreateProduct" */ '@pages/admin/AdminCreateProductPage'),
 );
 const AdminEditProduct = lazy(
-  () => import(/* webpackChunkName: "adminEditProduct" */ '@pages/admin/EditProduct'),
+  () => import(/* webpackChunkName: "adminEditProduct" */ '@pages/admin/AdminEditProductPage'),
 );
 const AdminEditUser = lazy(
-  () => import(/* webpackChunkName: "adminEditUser" */ '@pages/admin/EditUser'),
+  () => import(/* webpackChunkName: "adminEditUser" */ '@pages/admin/AdminEditUserPage'),
 );
 const AdminOrderDetails = lazy(
-  () => import(/* webpackChunkName: "adminOrderDetails" */ '@pages/admin/OrderDetails'),
+  () => import(/* webpackChunkName: "adminOrderDetails" */ '@pages/admin/AdminOrderDetailsPage'),
 );
-const AdminOrders = lazy(() => import(/* webpackChunkName: "adminOrders" */ '@pages/admin/Orders'));
+const AdminOrders = lazy(
+  () => import(/* webpackChunkName: "adminOrders" */ '@pages/admin/AdminOrdersPage'),
+);
 const AdminProducts = lazy(
-  () => import(/* webpackChunkName: "adminProduct" */ '@pages/admin/Products'),
+  () => import(/* webpackChunkName: "adminProduct" */ '@pages/admin/AdminProductPage'),
 );
-const AdminUsers = lazy(() => import(/* webpackChunkName: "adminUsers" */ '@pages/admin/Users'));
+const AdminUsers = lazy(
+  () => import(/* webpackChunkName: "adminUsers" */ '@pages/admin/AdminUserListPage'),
+);
 
 export const router = createBrowserRouter([
   {
@@ -103,10 +107,10 @@ export const router = createBrowserRouter([
       { path: 'orders', element: <AdminOrders /> },
       { path: 'orders/:id', element: <AdminOrderDetails /> },
       { path: 'products', element: <AdminProducts /> },
-      { path: 'products/create', element: <AdminCreateProduct /> },
-      { path: 'products/:id/edit', element: <AdminEditProduct /> },
+      { path: 'create-new-product', element: <AdminCreateProduct /> },
+      { path: 'edit-product/:id', element: <AdminEditProduct /> },
       { path: 'users', element: <AdminUsers /> },
-      { path: 'users/:id/edit', element: <AdminEditUser /> },
+      { path: 'edit-user/:id', element: <AdminEditUser /> },
     ],
   },
 ]);

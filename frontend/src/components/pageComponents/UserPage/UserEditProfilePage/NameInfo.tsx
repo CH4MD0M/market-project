@@ -11,10 +11,6 @@ import { storeUserInfo } from '@utils/storeUserInfo';
 
 import Button from '@components/atoms/Button';
 
-interface NameInfoInput {
-  name: string;
-}
-
 interface NameInfoProps {
   userName: string;
 }
@@ -30,7 +26,7 @@ const NameInfo = ({ userName }: NameInfoProps) => {
     reset,
     handleSubmit,
     formState: { errors, isDirty, isValid },
-  } = useForm<NameInfoInput>({
+  } = useForm<UserNameSchemaType>({
     mode: 'onBlur',
     resolver: zodResolver(userNameSchema),
   });

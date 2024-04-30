@@ -27,6 +27,7 @@ const AddressInfo = ({ userAddress, userZipCode }: AddressInfoProps) => {
         zipCode: newAddress.newZipCode,
       }),
     );
+    detailAddress.current!.value = '';
   };
 
   return (

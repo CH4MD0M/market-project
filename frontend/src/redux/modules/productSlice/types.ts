@@ -6,6 +6,7 @@ export interface ProductState {
   imageFilesToDelete: UploadImageDataArray;
   isEditMode: boolean;
   productFormInputs: ProductFormInputType;
+  errorMessage?: string;
 }
 
 // Attributes
