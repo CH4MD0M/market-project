@@ -17,7 +17,7 @@
 
 #### Frontend
 
-[![My Skills](https://skillicons.dev/icons?i=babel,webpack,ts,react,redux,bootstrap&theme=dark)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=babel,webpack,ts,react,redux,tailwind&theme=dark)](https://skillicons.dev)
 
 #### Backend
 
@@ -60,7 +60,11 @@
 - 장바구니에 담은 상품을 확인하고 수량 변경 및 삭제가 가능합니다.
 - 결제 시, 배송지 정보가 등록 되어있지 않으면 배송지 정보를 입력하도록 유도합니다.
 
-![장바구니 및 결제 페이지](/images/cart_purchase.gif)
+**장바구니 페이지**
+![장바구니 페이지](/images/cartpage.gif)
+
+**결제 페이지**
+![결제 페이지](/images/purchasepage.gif)
 
 <br/>
 
@@ -78,7 +82,7 @@
 - 변경 가능한 정보는 비밀번호, 이름, 주소, 전화번호입니다.
 - 사용자 정보가 변경되면 쿠키를 재발급하여 변경된 정보를 적용합니다.
 
-![프로필 수정](/images/profile.gif)
+![프로필 수정](/images/edit_profile.gif)
 
 <br/>
 
@@ -87,7 +91,11 @@
 - 관리자 로그인 후 상품을 등록, 수정, 삭제할 수 있습니다.
 - 등록할 상품 이미지는 cloudinary를 사용하여 업로드하였습니다.
 
-![관리자 상품 관리 페이지](/images/admin_product.gif)
+**상품 등록**
+![관리자 상품 등록](/images/create_product.gif)
+
+**상품 수정**
+![관리자 상품 수정](/images/edit_product.gif)
 
 <br/><br/>
 
