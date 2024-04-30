@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { getOrderDetails } from '@utils/api';
 
@@ -40,10 +40,10 @@ const UserOrderDetailsPage = () => {
           </Heading>
 
           <span className="block text-[18px] font-semibold mb-[30px]">
-            {moment(orderData?.createdAt).format('YYYY.MM.DD')} 주문
+            {dayjs(orderData?.createdAt).format('YYYY.MM.DD')} 주문
           </span>
 
-          <div>
+          <div className="mb-10">
             {orderData?.orderItems.map(item => (
               <OrderProductPreview orderProductData={item} key={item._id} />
             ))}

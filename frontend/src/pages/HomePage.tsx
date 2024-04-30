@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
-
-import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
-import { getAllCategoriesThunk } from '@redux/modules/categorySlice/thunk';
+import { useAppSelector } from '@hooks/reduxHooks';
 import { useResetFilter } from '@hooks/useResetFilter';
+import { useFetchCategoryInfo } from '@hooks/useFetchCategoryInfo';
 
 // Components
 import CenterWrapper from '@components/atoms/CenterWrapper';
@@ -10,13 +8,10 @@ import CategoryCard from '@components/pageComponents/HomePage/CategoryCard';
 import ImageSlide from '@components/pageComponents/HomePage/ImageSlide';
 
 const HomePage = () => {
-  useResetFilter();
-  const dispatch = useAppDispatch();
   const categoryDataList = useAppSelector(state => state.category.categoryDataList);
 
-  useEffect(() => {
-    if (categoryDataList.length === 0) dispatch(getAllCategoriesThunk());
-  }, [dispatch, categoryDataList.length]);
+  useResetFilter();
+  useFetchCategoryInfo();
 
   return (
     <>

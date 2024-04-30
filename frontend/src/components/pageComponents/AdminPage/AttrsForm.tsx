@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import { setCategoryAttributes, setSelectedAttributes } from '@redux/modules/productSlice';
@@ -103,85 +104,75 @@ const AttrsForm = () => {
   };
 
   return (
-    <div>
-      {/* {selectedCategory && ( */}
+    <div className="mt-[30px] p-3 border border-gray-300 rounded-md">
       <>
         {/* 속성 선택 */}
-        {/* <Row className="mb-2 mt-5">
-            <span className="fs-5 mb-2">속성 선택</span>
-            <Col md={6}>
-              <Form.Group className="mb-3" controlId="formBasicAttributes">
-                <Form.Select
-                  name="attrKey"
-                  aria-label="Default select example"
-                  value={selectedAttrKey}
-                  onChange={handleAttrKeyChange}
-                >
-                  <option>속성 선택</option>
-                  {categoryAttributes.map((item, idx) => (
-                    <Fragment key={idx}>
-                      <option value={item.key}>{item.key}</option>
-                    </Fragment>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group className="mb-3" controlId="formBasicAttributes">
-                <Form.Select
-                  name="attrVal"
-                  aria-label="Default select example"
-                  value={selectedAttrVal}
-                  onChange={handleAttrValSelected}
-                >
-                  <option>속성 값 선택</option>
-                  {valuesForSelectedAttrKey.map((item: any, idx: number) => (
-                    <Fragment key={idx}>
-                      <option value={item}>{item}</option>
-                    </Fragment>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Col>
-          </Row> */}
+        <div>
+          <span className="block min-w-[120px] font-semibold text-[20px]">속성 선택</span>
+          <select
+            className="h-8 w-[300px] border border-gray-300 rounded-md px-2 mr-[15px]"
+            name="attrKey"
+            value={selectedAttrKey}
+            onChange={handleAttrKeyChange}
+          >
+            <option>속성 선택</option>
+            {categoryAttributes.map((item, idx) => (
+              <Fragment key={idx}>
+                <option value={item.key}>{item.key}</option>
+              </Fragment>
+            ))}
+          </select>
+
+          <select
+            className="h-8 w-[300px] border border-gray-300 rounded-md px-2 mr-[15px]"
+            name="attrVal"
+            value={selectedAttrVal}
+            onChange={handleAttrValSelected}
+          >
+            <option>속성 값 선택</option>
+            {valuesForSelectedAttrKey.map((item: any, idx: number) => (
+              <option key={idx} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* 새 속성 추가 */}
-        {/* <Row className="mb-5 mt-3">
-            <span className="fs-5 mb-2">속성 추가</span>
-            <Col md={6}>
-              <Form.Group className="mb-3" controlId="formBasicNewAttribute">
-                <Form.Control
-                  name="newAttrKey"
-                  type="text"
-                  placeholder="새로 추가할 속성을 입력하세요"
-                  value={newAttrKey}
-                  required={!!newAttrKey}
-                  onChange={handleNewAttrChange(setNewAttrKey)}
-                />
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group className="mb-3" controlId="formBasicNewAttributeValue">
-                <Form.Control
-                  name="newAttrValue"
-                  type="text"
-                  placeholder="새로 추가할 속성 값을 입력하세요"
-                  value={newAttrValue}
-                  required={!!newAttrValue}
-                  onChange={handleNewAttrChange(setNewAttrValue)}
-                  onKeyUp={addNewAttribute}
-                />
-              </Form.Group>
-            </Col>
-          </Row> */}
+        <div className="mt-[20px]">
+          <span className="block min-w-[120px] font-semibold text-[20px]">속성 추가</span>
+          <div className="flex items-center">
+            <input
+              className="min-w-[160px] px-2 border border-gray-300 rounded-md h-8 w-[300px] mr-2"
+              name="newAttrKey"
+              type="text"
+              disabled={!selectedCategory}
+              placeholder="새로 추가할 속성을 입력하세요"
+              value={newAttrKey}
+              required={!!newAttrKey}
+              onChange={handleNewAttrChange(setNewAttrKey)}
+            />
+
+            <input
+              className="min-w-[160px] px-2 border border-gray-300 rounded-md h-8 w-[300px]"
+              name="newAttrValue"
+              type="text"
+              disabled={!selectedCategory}
+              placeholder="새로 추가할 속성 값을 입력하세요"
+              value={newAttrValue}
+              required={!!newAttrValue}
+              onChange={handleNewAttrChange(setNewAttrValue)}
+              onKeyUp={addNewAttribute}
+            />
+          </div>
+        </div>
       </>
-      {/* )} */}
 
       {/* 속성 테이블(선택한 속성) */}
       {selectedAttributes?.length > 0 && (
-        <div className="mb-5 mt-5">
-          <span className="fs-5 mb-2">속성 테이블</span>
-          <table>
+        <div className="mt-[20px]">
+          <span className="block min-w-[160px] font-semibold text-[18px]">속성 테이블</span>
+          <table className="w-full border-t-2 border-t-[#969696] border-solid border-collapse">
             <thead>
               <tr>
                 <th>속성</th>
@@ -191,11 +182,16 @@ const AttrsForm = () => {
             </thead>
             <tbody>
               {selectedAttributes?.map((item, idx) => (
-                <tr key={idx}>
+                <tr
+                  key={idx}
+                  className="[&_td]:md:px-[30px] [&_td]:py-3.5 [&_td]:text-center border-b-[1px] border-b-[#969696] border-solid"
+                >
                   <td>{item.key}</td>
                   <td>{item.value}</td>
                   <td>
-                    <button onClick={() => deleteAttribute(item.key)} />
+                    <button onClick={() => deleteAttribute(item.key)}>
+                      <XMarkIcon className="w-6 h-6 text-red-500" />
+                    </button>
                   </td>
                 </tr>
               ))}

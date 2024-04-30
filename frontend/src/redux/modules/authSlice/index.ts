@@ -5,6 +5,7 @@ import { login, loginCheck, logout, signup } from './thunk';
 
 const initialState: AuthState = {
   loading: false,
+  authCheckLoading: true,
   error: false,
   isLogin: localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo') ? true : false,
 };
@@ -12,7 +13,11 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setAuthCheckLoading: (state, action) => {
+      state.authCheckLoading = action.payload;
+    },
+  },
   extraReducers: builder => {
     // login
     builder.addCase(login.pending, state => {
@@ -28,16 +33,13 @@ const authSlice = createSlice({
     });
 
     // loginCheck
-    builder.addCase(loginCheck.pending, state => {
-      state.loading = true;
-    });
     builder.addCase(loginCheck.fulfilled, state => {
       state.isLogin = true;
-      state.loading = false;
+      state.authCheckLoading = false;
     });
     builder.addCase(loginCheck.rejected, state => {
       state.isLogin = false;
-      state.loading = false;
+      state.authCheckLoading = false;
     });
 
     // logout
@@ -60,3 +62,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const { setAuthCheckLoading } = authSlice.actions;

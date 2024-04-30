@@ -3,62 +3,63 @@ import { useParams } from 'react-router-dom';
 
 import { getOrderDetails, markAsDelivered } from '@utils/api';
 
+import Alert from '@components/atoms/Alert';
+import Button from '@components/atoms/Button';
+import OrderProductPreview from '@components/pageComponents/UserPage/OrderProductPreview';
+
 const UserInformation = ({ userInfo }: any) => (
   <div>
     <h2>주문자 정보</h2>
     <b>이름</b>: {userInfo.name}
     <br />
-    <b>Address</b>: {userInfo.address} {userInfo.zipCode}
+    <b>주소</b>: {userInfo.address} {userInfo.zipCode}
     <br />
-    <b>Phone</b>: {userInfo.phoneNumber}
+    <b>연락처</b>: {userInfo.phoneNumber}
   </div>
 );
 
 const OrderStatus = ({ isDelivered, isPaid }: any) => (
-  <div>
-    {/* <Col>
-      <Alert className="mt-3" variant={isDelivered ? 'success' : 'danger'}>
-        {isDelivered ? '배송 완료' : '배송 준비중'}
-      </Alert>
-    </Col>
-    <Col>
-      <Alert className="mt-3" variant={isPaid ? 'success' : 'danger'}>
-        {isPaid ? '결제됨' : '결제 대기중'}
-      </Alert>
-    </Col> */}
+  <div className="flex">
+    <Alert className="mt-3" variant={isDelivered ? 'success' : 'warning'}>
+      {isDelivered ? '배송 완료' : '배송 준비중'}
+    </Alert>
+
+    <Alert className="mt-3" variant={isDelivered ? 'success' : 'warning'}>
+      {isPaid ? '결제됨' : '결제 대기중'}
+    </Alert>
   </div>
 );
 
-const OrderItems = ({ cartItems }: { cartItems: CartProduct[] }) => (
+const OrderItems = ({ cartItems }: { cartItems: OrderProduct[] }) => (
   <>
     <h2>주문 상품</h2>
     <div>
-      {/* {cartItems.map((item: CartProduct, idx: number) => (
-        <OrderProductPreview key={idx} item={item} />
-      ))} */}
+      {cartItems?.map((item: CartProduct, idx: number) => (
+        <OrderProductPreview key={idx} orderProductData={item} />
+      ))}
     </div>
   </>
 );
 
 const OrderSummary = ({ cartSubtotal, buttonDisabled, orderButtonMessage, deliverHandle }: any) => (
-  <div>
-    {/* <ListGroup.Item>
+  <ul>
+    <li>
       <h3>주문 내역</h3>
-    </ListGroup.Item>
-    <ListGroup.Item>
+    </li>
+    <li>
       상품 가격: <span className="fw-bold">{cartSubtotal}</span>
-    </ListGroup.Item>
-    <ListGroup.Item>
+    </li>
+    <li>
       배송비: <span className="fw-bold">포함됨</span>
-    </ListGroup.Item>
-    <ListGroup.Item className="text-danger">
+    </li>
+    <li className="text-danger">
       합계: <span className="fw-bold">{cartSubtotal}</span>
-    </ListGroup.Item>
-    <ListGroup.Item>
+    </li>
+    <li>
       <div className="d-grid gap-2">
         <Button
           size="lg"
-          variant="danger"
+          hovercolor="default"
           type="button"
           disabled={buttonDisabled}
           onClick={deliverHandle}
@@ -69,8 +70,8 @@ const OrderSummary = ({ cartSubtotal, buttonDisabled, orderButtonMessage, delive
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div id="paypal-container-element"></div>
       </div>
-    </ListGroup.Item> */}
-  </div>
+    </li>
+  </ul>
 );
 
 const OrderDetails = () => {
@@ -99,6 +100,7 @@ const OrderDetails = () => {
   const fetchOrder = useCallback(async () => {
     try {
       const order = await getOrderDetails(id!);
+      console.log(order);
 
       setUserInfo(order.user);
       setIsPaid(order.isPaid);
@@ -109,7 +111,7 @@ const OrderDetails = () => {
         setOrderButtonMessage('배송 완료');
         setButtonDisabled(true);
       }
-      setCartItems(order.cartItems);
+      setCartItems(order.orderItems);
 
       setIsLoading(false);
     } catch (error) {
@@ -122,32 +124,25 @@ const OrderDetails = () => {
   }, [isDelivered, id]);
 
   return (
-    <div className="container">
-      {/* <Row className="mt-4">
-        {isLoading ? (
-          <h1>Loading...</h1>
-        ) : (
-          <>
-            <Col md={8}>
-              <br />
-              <Row>
-                <UserInformation userInfo={userInfo} />
-              </Row>
-              <OrderStatus isDelivered={isDelivered} isPaid={isPaid} />
-              <hr />
-              <OrderItems cartItems={cartItems} />
-            </Col>
-            <Col md={4}>
-              <OrderSummary
-                cartSubtotal={cartSubtotal}
-                buttonDisabled={buttonDisabled}
-                orderButtonMessage={orderButtonMessage}
-                deliverHandle={deliverHandle}
-              />
-            </Col>
-          </>
-        )}
-      </Row> */}
+    <div>
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <>
+          <UserInformation userInfo={userInfo} />
+
+          <OrderStatus isDelivered={isDelivered} isPaid={isPaid} />
+
+          <OrderItems cartItems={cartItems} />
+
+          <OrderSummary
+            cartSubtotal={cartSubtotal}
+            buttonDisabled={buttonDisabled}
+            orderButtonMessage={orderButtonMessage}
+            deliverHandle={deliverHandle}
+          />
+        </>
+      )}
     </div>
   );
 };

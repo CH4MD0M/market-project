@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import OrderProductPreview from './OrderProductPreview';
 
@@ -15,7 +15,7 @@ const OrderDetailsPreview = ({ orderDetailsData }: OrderPreviewProps) => {
       <div className="flex justify-between mb-3">
         <div>
           <span className="text-[18px] font-semibold">
-            {moment(createdAt).format('YYYY.MM.DD')} 주문
+            {dayjs(createdAt).format('YYYY.MM.DD')} 주문
           </span>
         </div>
 

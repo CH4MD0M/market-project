@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { shallowEqual } from 'react-redux';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import { useAppDispatch, useAppSelector } from '@hooks/reduxHooks';
 import {
@@ -6,15 +8,6 @@ import {
   setImageFilesToDelete,
   setStagedImageFiles,
 } from '@redux/modules/productSlice';
-import { shallowEqual } from 'react-redux';
-
-const onHover: React.CSSProperties = {
-  cursor: 'pointer',
-  position: 'absolute',
-  left: '5px',
-  top: '-10px',
-  transform: 'scale(2.7)',
-};
 
 const ImageForm = () => {
   const dispatch = useAppDispatch();
@@ -69,37 +62,32 @@ const ImageForm = () => {
   };
 
   return (
-    <>
-      <form className="mb-3 mt-3">
-        <label>상품 이미지</label>
-        <div>
-          {isEditMode &&
-            productImages?.map((image: any, idx: number) => (
-              <div key={idx} style={{ position: 'relative' }}>
-                <img crossOrigin="anonymous" src={image?.path} />
-                <i
-                  style={onHover}
-                  onClick={() => deleteImageHandler(image.path, image.publicId, image._id)}
-                  className="bi bi-x text-danger"
-                ></i>
-              </div>
-            ))}
-
-          {previewImages?.map((imageData, idx) => (
-            <div key={idx} style={{ position: 'relative' }}>
-              <img crossOrigin="anonymous" src={imageData} />
-              <i
-                style={onHover}
-                onClick={() => deleteLocalImageHandler(idx)}
-                className="bi bi-x text-danger"
-              ></i>
+    <div className="mt-[30px] p-3 border border-gray-300 rounded-md">
+      <span className="block min-w-[120px] font-semibold text-[20px]">상품 이미지</span>
+      <div className="flex items-center gap-4 my-[10px]">
+        {isEditMode &&
+          productImages?.map((image: any, idx: number) => (
+            <div key={idx} className="relative">
+              <img crossOrigin="anonymous" className="w-[120px]" src={image?.path} />
+              <XMarkIcon
+                onClick={() => deleteImageHandler(image.path, image.publicId, image._id)}
+                className="w-5 h-5 cursor-pointer absolute right-0 -top-2.5"
+              ></XMarkIcon>
             </div>
           ))}
-        </div>
-        {/* <Form.Control name="images" type="file" multiple onChange={imageOnchangeHandler} /> */}
-      </form>
-      {/* {errorMessages && <p className="text-danger">{errorMessages}</p>} */}
-    </>
+
+        {previewImages?.map((imageData, idx) => (
+          <div key={idx} className="relative">
+            <img crossOrigin="anonymous" className="w-[150px] h-[150px]" src={imageData} />
+            <XMarkIcon
+              className="w-5 h-5 cursor-pointer absolute right-0 -top-2.5"
+              onClick={() => deleteLocalImageHandler(idx)}
+            />
+          </div>
+        ))}
+      </div>
+      <input name="images" type="file" multiple onChange={imageOnchangeHandler} />
+    </div>
   );
 };
 
