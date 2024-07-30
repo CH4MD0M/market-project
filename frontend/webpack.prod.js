@@ -1,10 +1,9 @@
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { EsbuildPlugin } = require('esbuild-loader');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const common = require('./webpack.common.js');
 
@@ -26,33 +25,22 @@ module.exports = merge(common, {
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ['**/*', path.resolve(process.cwd(), 'build/**/*')],
     }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'disabled',
-    }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
+      chunkFilename: '[id].[contenthash].css',
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
     }),
   ],
   optimization: {
     usedExports: true,
     minimize: true,
     minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            drop_console: true,
-          },
-        },
-      }),
-      new CssMinimizerPlugin({
-        minimizerOptions: {
-          preset: [
-            'default',
-            {
-              discardComments: { removeAll: true },
-            },
-          ],
-        },
+      new EsbuildPlugin({
+        target: 'es2015',
+        css: true,
+        minify: true,
       }),
     ],
 
