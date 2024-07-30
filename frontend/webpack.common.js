@@ -19,10 +19,10 @@ module.exports = {
       {
         test: /\.tsx?$/i,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: 'esbuild-loader',
         options: {
-          cacheDirectory: true,
-          cacheCompression: false,
+          target: 'es2015',
+          jsx: 'automatic',
         },
       },
       {
